@@ -7,3 +7,8 @@ Extrae y organiza hipervínculos por niveles a partir de una URL de origen resul
 
 [Artículo wikipedia aquí](https://en.wikipedia.org/wiki/Web_crawler)
 
+##Uso:
+
+>'## Es necesario tener el servicio mongod activo
+> $ node /app/server.js
+> '##Comienza a recibir peticiones a través de http://localhost:3000
