@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 //var Nodo = require('../app/node.js');
-
 // create a schema
 var nodoSchema = new Schema({
 	datos: String,
