@@ -11,7 +11,7 @@ var app             = express();
 // Express Configuration
 // -----------------------------------------------------
 // Sets the connection to MongoDB
-mongoose.connect("mongodb://localhost:8888/crawler");
+mongoose.connect("mongodb://localhost/crawler");
 mongoose.connection.on('error',function(){
 	console.log("Error al conectar con MongoDB...")
 });
