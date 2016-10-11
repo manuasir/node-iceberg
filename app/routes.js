@@ -2,7 +2,6 @@ var mongoose        = require('mongoose');
 var Nodo            = require('../models/model.js');
 var path = require('path');
 var arania = require('./crawler');
-// Opens App Routes
 module.exports = function(app) {
 
     // GET Routes
@@ -10,8 +9,6 @@ module.exports = function(app) {
     // Retrieve records for all users in the db
 
     app.get('/model/:cadena', function(req, res){
-       // console.log("requiriendo model");
-        // Uses Mongoose schema to run the search (empty conditions)
         var cadena = req.body.cadena;
         console.log("buscando: "+req.params.cadena);
         var url = 'http://'+req.params.cadena+"/";
@@ -22,15 +19,13 @@ module.exports = function(app) {
                 console.log("error");
                 res.send(err);
             }else{
-                console.log("encontrados datos,devolviendo");
-            // If no errors are found, it responds with a JSON of all users    
-            res.json(model);
+                console.log("encontrados datos,devolviendo");    
+                res.json(model);
             }
         });
     });
     // POST Routes
     // --------------------------------------------------------
-   // Provides method for saving new users in the db
 
 
 };
