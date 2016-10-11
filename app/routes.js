@@ -2,8 +2,11 @@ var mongoose        = require('mongoose');
 var Nodo            = require('../models/model.js');
 var path = require('path');
 var arania = require('./crawler');
+
+
 // Opens App Routes
 module.exports = function(app) {
+
 
     // GET Routes
     // --------------------------------------------------------
@@ -21,6 +24,22 @@ module.exports = function(app) {
             if(err){
                 console.log("error");
                 res.send(err);
+
+                var arania = new Crawler("http://www.w3schools.com/",2);
+                function iniciar(callback){
+                arania.arrancar(arania.getPrimeraUrl(),arania.getArbol(),-1)
+                .then(function(){
+                    console.log("Saliendo del proceso");
+
+                    arania.recorrerArbol(function(){
+                        console.log("Terminado de guardar MongoDB");
+                        return callback();
+                    });
+                    
+                })
+                }
+                
+
             }else{
                 console.log("encontrados datos,devolviendo");
             // If no errors are found, it responds with a JSON of all users    

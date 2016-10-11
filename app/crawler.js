@@ -1,6 +1,4 @@
 var Promise = require('bluebird');
-var MongoDB = Promise.promisifyAll(require("mongodb"));
-var MongoClient = Promise.promisifyAll(MongoDB.MongoClient);
 var cheerio = Promise.promisifyAll(require('cheerio'));
 //var http = require('http');
 var request = Promise.promisifyAll(require("request"));
@@ -10,7 +8,7 @@ var vueltas = 0;
 var topeNivel=0;
 var url_raiz=0;
 var url_array = [];
-var Async = Promise.promisifyAll(require('Async'));
+var Async = Promise.promisifyAll(require('async'));
 var startwith = require('string.prototype.startswith');
 var Arbol = require('./tree');
 var url_array_global = [];
