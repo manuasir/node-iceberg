@@ -141,7 +141,7 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel){
 	console.log("TOPE NIVEL : "+this.topeNivel);
 	return new Promise(function(resolve,reject){
 		nivel = nivel + 1;	
-		if(nivel == 2) {
+		if(nivel == 1) {
 			console.log("fin por niveles");
 			resolve();	
 		}
