@@ -11,10 +11,7 @@ var app             = express();
 // Express Configuration
 // -----------------------------------------------------
 // Sets the connection to MongoDB
-mongoose.connect("mongodb://localhost/crawler");
-mongoose.connection.on('error',function(){
-	console.log("Error al conectar con MongoDB...")
-});
+mongoose.createConnection("mongodb://localhost/crawler");
 
 // Logging and Parsing
 app.use(express.static(__dirname + '/../public'));                 // sets the static files location to public
