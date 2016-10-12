@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+     "start": "node app/server.js"
+  },
+  "devDependencies": {
+    "docco": "^0.7.0",
+    "grunt": "^0.4.5",
+    "grunt-docco": "^0.4.0"
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -23,6 +29,20 @@
     "string.prototype.startswith": "^0.2.0",
     "util": "*"
   },
-  "author": "",
-  "license": "ISC"
+  "description": "NodeJS Web Crawler",
+  "main": "Gruntfile.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuasir/ProyectoIV.git"
+  },
+  "author": "Manuel Jiménez Bernal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manuasir/ProyectoIV/issues"
+  },
+  "homepage": "https://github.com/manuasir/ProyectoIV"
 }
