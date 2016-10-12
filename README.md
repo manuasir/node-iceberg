@@ -7,6 +7,15 @@ Extrae y organiza hipervínculos por niveles a partir de una URL de origen resul
 
 [Artículo wikipedia aquí](https://en.wikipedia.org/wiki/Web_crawler)
 
+##Planteamiento
+
+Se trata construir una estructura de datos de tipo árbol en la que se van a organizar las URL extraídas.
+El backend corriendo bajo Node.JS se encarga de gestionar este almacenamiento construyendo objetos JSON que respeten la estructura de árbol inicial, y la almacene en una base de datos documental MongoDB.
+También se gestionan las peticiones mediante la implementación de una REST API sobre Express, el cual proporcionará los datos al cliente AngularJS, que muestra la información en la interfaz web.
+
+Se debe elegir el nivel de profundidad hasta el cual se va a explorar el árbol, aumentando exponencialmente los recursos requeridos para ejecutar la aplicación.
+
+
 ##Uso:
 
 >'## Es necesario tener el servicio mongod activo
