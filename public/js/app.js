@@ -9,7 +9,7 @@ var app = angular.module('myApp', ['jsonFormatter'])
 			
 			$scope.espera="esperando..."
 			if(cadena!=""){
-		    $http.get('/model/'+$("#campotexto").val())
+		    $http.get('/model/'+cadena)
 		        .success(function(data) {
 		            //console.log("dattos...");
 		           
@@ -18,9 +18,11 @@ var app = angular.module('myApp', ['jsonFormatter'])
 		           		$scope.todos = data;
 		           		$scope.espera="Datos mostrados";
 		           	}
-		           	else
-		           		$scope.todos=[];
+		           	else{
 		           		$scope.espera="Sin resultados";
+		           		$scope.todos=[];
+		           		
+		           	}
 		            //console.log(data);
 		        })
 		        .error(function(data) {

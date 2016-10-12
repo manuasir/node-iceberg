@@ -1,47 +1,65 @@
 var mongoose        = require('mongoose');
 var Nodo            = require('../models/model.js');
 var path = require('path');
-var arania = require('./crawler');
+var Crawler = require('./crawler');
+
+
 module.exports = function(app) {
 
-    // GET Routes
+    // GET Rutas
     // --------------------------------------------------------
-    // Retrieve records for all users in the db
+    // Se trae los resultados del MongoDB
+    function isEmptyObject(obj) {
+      return !Object.keys(obj).length;
+    }
 
     app.get('/model/:cadena', function(req, res){
         var cadena = req.body.cadena;
-        console.log("buscando: "+req.params.cadena);
+        
         var url = 'http://'+req.params.cadena+"/";
+        console.log("buscando: "+url);
         console.log(url);
         var query = Nodo.find({ datos: url});
         query.exec(function(err, model){
             if(err){
-                console.log("error");
-                res.send(err);
-            }else{
-                console.log("encontrados datos,devolviendo");    
-                res.json(model);
+                req.json(err);      
+            }
+            else{
+                if(!isEmptyObject(model)){
+                    console.log("NO VACIO");
+                    res.json(model);
+                }
+                else{
+                    console.log("NO HAY DATOS, BUSCANDO...");    
+
+                    var arania = new Crawler(url);
+
+                    function iniciar(callback){
+                        arania.arrancar(arania.getPrimeraUrl(),arania.getArbol(),-1,1)
+                        .then(function(){
+                            console.log("Saliendo del proceso");
+                            arania.recorrerArbol(function(){
+                                console.log("Terminado de guardar MongoDB");
+                                return callback();
+                            });
+                            
+                        })
+                    }
+
+                    iniciar(function(){
+                        query.exec(function(err, model){
+                            if(!err)
+                                res.json(model);
+                        });
+                    });
+
+                    
+                }
             }
         });
     });
 
-    app.get('/docs', function(req, res){
-        var cadena = req.body.cadena;
-        console.log("buscando: "+req.params.cadena);
-        var url = 'http://'+req.params.cadena+"/";
-        console.log(url);
-        var query = Nodo.find({ datos: url});
-        query.exec(function(err, model){
-            if(err){
-                console.log("error");
-                res.send(err);
-            }else{
-                console.log("encontrados datos,devolviendo");    
-                res.json(model);
-            }
-        });
-    });
-    // POST Routes
+    // POST Rutas
     // --------------------------------------------------------
 
 

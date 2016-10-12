@@ -105,7 +105,7 @@ Crawler.prototype.getDocumentData = function (url) {
 				resolve(body);
 			}
 			else{
-				console.log(err);
+				//console.log(err);
 				reject(err);
 			}
 		});
