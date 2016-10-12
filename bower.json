@@ -1,0 +1,22 @@
+{
+  "name": "mean-crawler",
+  "description": "",
+  "main": "app/server.js",
+  "authors": [
+    "Manuel <manu.asi2@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/manuasir/ProyectoIV",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#^1.5.8",
+    "json-formatter": "^0.6.0",
+    "bootstrap": "^3.3.7"
+  }
+}
