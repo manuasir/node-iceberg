@@ -12,13 +12,12 @@ var util = require('util');
 var jsonfile = require('jsonfile');
 var treeWrapper = require('json-tree-wrap');
 
-function Crawler(url,niv) {
+function Crawler(url) {
   // always initialize all instance properties
   
   this.arbol = new Arbol(url);
   this.cola = [];
   this.url_raiz= url;
-  this.topeNivel= niv;
   console.log("NUEVA ARAÑA CON URL Y NIVEL "+url+" "+this.topeNivel);
   // this.db=Crawler.prototype.conectarMongo();
 }
@@ -81,7 +80,7 @@ Crawler.prototype.formatearUrl = function(urlraiz,links){
 				if(!eq){	
 					
 					url = urlraiz+uri;	
-					console.log("THIS.URL RAIZ ------->"+ url);
+					//console.log("THIS.URL RAIZ ------->"+ url);
 				}
 				else
 					url = uri;
@@ -129,26 +128,26 @@ Crawler.prototype.recorrerArbol = function (callback) {
  //   });
 };
 
-Crawler.prototype.arrancar = function (nodo,arbol,nivel) {
+Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel) {
 
 	return new Promise(function (resolve, reject) {
-		console.log('arrancando url');
+		console.log('arrancando url' + nivel +topenivel);
 		var contador = 0;
-		Crawler.prototype.procesarUrls(nodo,arbol,nivel)
+		Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel)
 		.then(function(){
     	 //salida(data);
-    	 console.log("FIN!!!!!!!!!!!!!!!!!!!!!!");
+    	 console.log("FIN!!");
     	 resolve();
     	})
 
 	});
 };
 
-Crawler.prototype.procesarUrls = function(nodo,arbol,nivel){
-	console.log("TOPE NIVEL : "+this.getTopeNivel());
+Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel){
+	console.log("TOPE NIVEL : "+topenivel);
 	return new Promise(function(resolve,reject){
 		nivel = nivel + 1;	
-		if(nivel == 1) {
+		if(nivel == topenivel) {
 			console.log("fin por niveles");
 			resolve();	
 		}
@@ -177,7 +176,7 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel){
 							Async.forEach(hijos,function(item){
 								console.log("siguiente"+ item.getDatos());
 								
-								Crawler.prototype.procesarUrls(item,arbol,nivel)
+								Crawler.prototype.procesarUrls(item,arbol,nivel,topenivel)
 								.then(function(){
 									contador++;
 									if(contador == hijos.length)
