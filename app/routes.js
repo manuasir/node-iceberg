@@ -24,6 +24,23 @@ module.exports = function(app) {
             }
         });
     });
+
+    app.get('/docs', function(req, res){
+        var cadena = req.body.cadena;
+        console.log("buscando: "+req.params.cadena);
+        var url = 'http://'+req.params.cadena+"/";
+        console.log(url);
+        var query = Nodo.find({ datos: url});
+        query.exec(function(err, model){
+            if(err){
+                console.log("error");
+                res.send(err);
+            }else{
+                console.log("encontrados datos,devolviendo");    
+                res.json(model);
+            }
+        });
+    });
     // POST Routes
     // --------------------------------------------------------
 

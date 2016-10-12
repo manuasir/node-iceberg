@@ -1,12 +1,9 @@
 var Promise = require('bluebird');
 var cheerio = Promise.promisifyAll(require('cheerio'));
-//var http = require('http');
 var request = Promise.promisifyAll(require("request"));
 var fs = Promise.promisifyAll(require("fs"));
 var vueltas = 0;
-//var url_raiz = 'http://www.w3schools.com/';
 var topeNivel=0;
-var url_raiz=0;
 var url_array = [];
 var Async = Promise.promisifyAll(require('async'));
 var startwith = require('string.prototype.startswith');
@@ -16,7 +13,6 @@ var util = require('util');
 var jsonfile = require('jsonfile');
 var treeWrapper = require('json-tree-wrap');
 
-
 function Crawler(url,niv) {
   // always initialize all instance properties
   console.log("NUEVA ARAÑA CON URL Y NIVEL "+url+" "+niv);
@@ -24,6 +20,7 @@ function Crawler(url,niv) {
   this.cola = [];
   this.url_raiz=url;
   this.topeNivel=niv;
+  console.log("NEW CRAWLER CON URL "+this.url_raiz);
   // this.db=Crawler.prototype.conectarMongo();
 }
 
@@ -65,8 +62,8 @@ Crawler.prototype.getPrimeraUrl = function(){
 	return this.arbol.getRaiz();
 };
 
-Crawler.prototype.addHijosToNodo = function(links,arbol){
-	var url_raiz=this.url;
+Crawler.prototype.formatearUrl = function(links,arbol){
+
 	return new Promise(function (resolve, reject) {
 		var nodostemp = [];
 		links.each(function(index,item){
@@ -75,8 +72,8 @@ Crawler.prototype.addHijosToNodo = function(links,arbol){
 			if( uri && uri != '' ){
 				var eq = (true, uri.startsWith('h'));
 				if(!eq){	
-					console.log("URL RAIZ ------->"+url_raiz)
-					url = url_raiz+uri;	
+					console.log("THIS.URL RAIZ ------->"+this.url_raiz)
+					url = this.url_raiz+uri;	
 				}
 				else
 					url = uri;
@@ -92,7 +89,7 @@ Crawler.prototype.getDocumentData = function (url) {
     // console.log('Processing url');
     return new Promise(function (resolve, reject) {
 	//console.log("realizando request a "+url);
-	request(url, function(err, resp, body){
+		request(url, function(err, resp, body){
 		if(!err){
 				//console.log("devolviendo body");
 				resolve(body);
@@ -102,7 +99,7 @@ Crawler.prototype.getDocumentData = function (url) {
 				reject(err);
 			}
 		});
-});
+	});
 };
 
 Crawler.prototype.recorrerArbol = function (callback) {
@@ -119,7 +116,6 @@ Crawler.prototype.recorrerArbol = function (callback) {
 
  //resolve();
  //   });
-
 };
 
 Crawler.prototype.arrancar = function (nodo,arbol,nivel) {
@@ -161,7 +157,7 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel){
 				}
 				else{
 					console.log(links.length);
-					Crawler.prototype.addHijosToNodo(links,arbol)
+					Crawler.prototype.formatearUrl(links,arbol)
 					.then(function(hijos){
 
 						arbol.addHijosToNodo(nodo,hijos)
