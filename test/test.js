@@ -3,17 +3,6 @@ var assert = require("assert"),
     nodo = require(__dirname+"/../app/node.js"),
     crawler = require(__dirname+"/../app/crawler.js");
 
-describe('Nodo', function(){
-    // Testea que se haya cargado bien la librera
-    describe('Carga', function(){
-    it('should be loaded', function(){
-        assert(nodo, "Cargado");
-    });
-
-    });
- 
-});
-
 describe('Arbol', function(){
     // Testea que se haya cargado bien la librera
     describe('Carga', function(){
