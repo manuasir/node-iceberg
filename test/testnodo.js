@@ -1,4 +1,4 @@
-var nodo = require('../app/Node');
+var nodo = require('../app/node');
 
 var node = new nodo();
 
