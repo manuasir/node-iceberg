@@ -1,5 +1,6 @@
 // Dependencies
 // -----------------------------------------------------
+var path = require('path');
 var express         = require('express');
 var mongoose        = require('mongoose');
 var port            = process.env.PORT || 3000;
@@ -22,6 +23,8 @@ app.use(bodyParser.urlencoded({extended: true}));               // parse applica
 app.use(bodyParser.text());                                     // allows bodyParser to look at raw text
 app.use(bodyParser.json({ type: 'application/vnd.api+json'}));  // parse application/vnd.api+json as json
 app.use(methodOverride());
+app.use(express.static(__dirname + '/../docs'));
+app.use('/docs', function(req,res){res.sendFile(path.resolve('docs/Gruntfile.html'))});
 
 // Routes
 // ------------------------------------------------------
