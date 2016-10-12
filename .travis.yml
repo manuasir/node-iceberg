@@ -1,3 +1,17 @@
+# Build Environment
+build_environment: Ubuntu 14.04
+
+# language setting
 language: node_js
+
+# version numbers, testing against two versions of node
 node_js:
-  - "6.7.0"
+ - "6.7.0"
+
+# npm install runs by default but shown here for illustrative purposes
+before_install:
+ - npm install -g mocha
+
+ # Running npm test to run your test cases
+script:
+ - mocha
