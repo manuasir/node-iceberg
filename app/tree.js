@@ -104,7 +104,6 @@ Arbol.prototype.getDatosFromMongo = function(nodo) {
 };
 
 Arbol.prototype.insertIntoMongo = function(nuevoModelo) {
-	
 	return new Promise(function (resolve, reject) {
 		console.log("en mongo...");
 		nuevoModelo.save(function(err) {
@@ -135,8 +134,5 @@ Arbol.prototype.recorrerArbol = function(nodo){
 		})
 	});
 };
-
-
-
 
 module.exports = Arbol;

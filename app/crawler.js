@@ -3,7 +3,6 @@ var cheerio = Promise.promisifyAll(require('cheerio'));
 var request = Promise.promisifyAll(require("request"));
 var fs = Promise.promisifyAll(require("fs"));
 var vueltas = 0;
-var topeNivel=0;
 var url_array = [];
 var Async = Promise.promisifyAll(require('async'));
 var startwith = require('string.prototype.startswith');
@@ -15,12 +14,12 @@ var treeWrapper = require('json-tree-wrap');
 
 function Crawler(url,niv) {
   // always initialize all instance properties
-  console.log("NUEVA ARAÑA CON URL Y NIVEL "+url+" "+niv);
+  
   this.arbol = new Arbol(url);
   this.cola = [];
-  this.url_raiz=url;
-  this.topeNivel=niv;
-  console.log("NEW CRAWLER CON URL "+this.url_raiz);
+  this.url_raiz= url;
+  this.topeNivel= niv;
+  console.log("NUEVA ARAÑA CON URL Y NIVEL "+url+" "+this.topeNivel);
   // this.db=Crawler.prototype.conectarMongo();
 }
 
@@ -62,26 +61,38 @@ Crawler.prototype.getPrimeraUrl = function(){
 	return this.arbol.getRaiz();
 };
 
-Crawler.prototype.formatearUrl = function(links,arbol){
+Crawler.prototype.getUrlRaiz = function(){
+	console.log("Devolviendo URL Raiz: "+this.url_raiz);
+	return this.url_raiz;
+};
+
+
+Crawler.prototype.formatearUrl = function(urlraiz,links){
 
 	return new Promise(function (resolve, reject) {
+
 		var nodostemp = [];
+		var cont = 0;
 		links.each(function(index,item){
 			var uri = $(item).attr('href');
 			var url;
 			if( uri && uri != '' ){
 				var eq = (true, uri.startsWith('h'));
 				if(!eq){	
-					console.log("THIS.URL RAIZ ------->"+this.url_raiz)
-					url = this.url_raiz+uri;	
+					
+					url = urlraiz+uri;	
+					console.log("THIS.URL RAIZ ------->"+ url);
 				}
 				else
 					url = uri;
-				var temp = arbol.crearNodo(url);
+				var temp = Arbol.prototype.crearNodo(url);
 				nodostemp.push(temp);
 			}
+			cont ++
+			if(cont == links.length )
+				resolve(nodostemp);
 		});
-		resolve(nodostemp);
+		
 	});
 };
 
@@ -134,7 +145,7 @@ Crawler.prototype.arrancar = function (nodo,arbol,nivel) {
 };
 
 Crawler.prototype.procesarUrls = function(nodo,arbol,nivel){
-	console.log("TOPE NIVEL : "+this.topeNivel);
+	console.log("TOPE NIVEL : "+this.getTopeNivel());
 	return new Promise(function(resolve,reject){
 		nivel = nivel + 1;	
 		if(nivel == 1) {
@@ -157,7 +168,7 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel){
 				}
 				else{
 					console.log(links.length);
-					Crawler.prototype.formatearUrl(links,arbol)
+					Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)
 					.then(function(hijos){
 
 						arbol.addHijosToNodo(nodo,hijos)
