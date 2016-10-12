@@ -18,6 +18,7 @@
     "method-override": "^2.3.6",
     "mongoose": "^4.6.3",
     "morgan": "^1.7.0",
+    "path": "^0.12.7",
     "request": "^2.75.0",
     "string.prototype.startswith": "^0.2.0",
     "util": "*"
