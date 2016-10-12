@@ -1,4 +1,4 @@
-var Crawler = require('../app/crawlerclass');
+var Crawler = require('../app/crawler');
 
 var arania = new Crawler("http://www.diariodejerez.es/");
 
