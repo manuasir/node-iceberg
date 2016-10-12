@@ -1,11 +1,11 @@
 var assert = require("assert"),
-    arbol = require(__dirname+"/../app/tree.js");
+    node = require(__dirname+"/../app/node.js");
 
-describe('Arbol', function(){
+describe('Nodo', function(){
     // Testea que se haya cargado bien la librera
     describe('Carga', function(){
     it('should be loaded', function(){
-        assert(arbol, "Cargado");
+        assert(node, "Cargado");
     });
 
     });
