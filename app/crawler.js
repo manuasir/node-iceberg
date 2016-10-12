@@ -18,16 +18,14 @@ function Crawler(url) {
   this.arbol = new Arbol(url);
   this.cola = [];
   this.url_raiz= url;
-  console.log("NUEVA ARAÑA CON URL Y NIVEL "+url+" "+this.topeNivel);
+  //console.log("NUEVA ARAÑA CON URL Y NIVEL "+url+" "+this.topeNivel);
   // this.db=Crawler.prototype.conectarMongo();
 }
 
 Crawler.prototype.conectarMongo=function(){
 	mongoTree.connect('mongodb://127.0.0.1:27017/test',function(err){
-		if(!err)
-			console.log("conectado a mongo");
-		else
-			console.log("ERROR :"+err);
+		if(err)
+			return err;
 	});
 };
 
@@ -61,7 +59,7 @@ Crawler.prototype.getPrimeraUrl = function(){
 };
 
 Crawler.prototype.getUrlRaiz = function(){
-	console.log("Devolviendo URL Raiz: "+this.url_raiz);
+	//console.log("Devolviendo URL Raiz: "+this.url_raiz);
 	return this.url_raiz;
 };
 
@@ -113,7 +111,7 @@ Crawler.prototype.getDocumentData = function (url) {
 };
 
 Crawler.prototype.recorrerArbol = function (callback) {
-	console.log('Crawler Recorrer Arbol');
+	//console.log('Crawler Recorrer Arbol');
 
   //  return new Promise(function (resolve, reject) {
 
@@ -131,12 +129,12 @@ Crawler.prototype.recorrerArbol = function (callback) {
 Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel) {
 
 	return new Promise(function (resolve, reject) {
-		console.log('arrancando url' + nivel +topenivel);
+		//console.log('arrancando url' + nivel +topenivel);
 		var contador = 0;
 		Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel)
 		.then(function(){
     	 //salida(data);
-    	 console.log("FIN!!");
+    	// console.log("FIN!!");
     	 resolve();
     	})
 
@@ -144,37 +142,37 @@ Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel) {
 };
 
 Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel){
-	console.log("TOPE NIVEL : "+topenivel);
+	//console.log("TOPE NIVEL : "+topenivel);
 	return new Promise(function(resolve,reject){
 		nivel = nivel + 1;	
 		if(nivel == topenivel) {
-			console.log("fin por niveles");
+			//console.log("fin por niveles");
 			resolve();	
 		}
 		else{
 			var contador = 0;
-			console.log("turno de "+arbol.getDatosNodo(nodo));
-			console.log("nivel "+nivel+" se va a proceder a realizar la peticion GET");
+			//console.log("turno de "+arbol.getDatosNodo(nodo));
+			//console.log("nivel "+nivel+" se va a proceder a realizar la peticion GET");
 			var url = arbol.getDatosNodo(nodo);
 			Crawler.prototype.getDocumentData(url)
 			.then(function(data){
-				console.log("recibido body de " + arbol.getDatosNodo(nodo));
+				//console.log("recibido body de " + arbol.getDatosNodo(nodo));
 				$ = cheerio.load(data);
 				var links = $('a');
 				if(links.length == 0){
-					console.log("fin porque no hay links");
+					//console.log("fin porque no hay links");
 					resolve();
 				}
 				else{
-					console.log(links.length);
+					//console.log(links.length);
 					Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)
 					.then(function(hijos){
 
 						arbol.addHijosToNodo(nodo,hijos)
 						.then(function(){
-							console.log("añadido hijos a nodo. recorriendo hijos");
+							//console.log("añadido hijos a nodo. recorriendo hijos");
 							Async.forEach(hijos,function(item){
-								console.log("siguiente"+ item.getDatos());
+								//console.log("siguiente"+ item.getDatos());
 								
 								Crawler.prototype.procesarUrls(item,arbol,nivel,topenivel)
 								.then(function(){

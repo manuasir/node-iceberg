@@ -99,13 +99,13 @@ Arbol.prototype.getDatosFromMongo = function(nodo) {
 		if (err) throw err;
 
   // object of all the users
-  console.log(datos);
+ // console.log(datos);
 });
 };
 
 Arbol.prototype.insertIntoMongo = function(nuevoModelo) {
 	return new Promise(function (resolve, reject) {
-		console.log("en mongo...");
+		//console.log("en mongo...");
 		nuevoModelo.save(function(err) {
 			if (err) throw err;
 			resolve();
@@ -116,7 +116,7 @@ Arbol.prototype.insertIntoMongo = function(nuevoModelo) {
 
 Arbol.prototype.recorrerArbol = function(nodo){
 	return new Promise(function (resolve, reject) {
-		console.log("Entrando en recorrerArbol");
+		//console.log("Entrando en recorrerArbol");
 		var temp = nodo.getDatos();
 
 		var nuevoModelo = modeloMongo({
@@ -125,7 +125,7 @@ Arbol.prototype.recorrerArbol = function(nodo){
 				hijos: nodo.getAllHijos()
 			});
 		
-		console.log("salvando........");
+		//console.log("salvando........");
 
 		Arbol.prototype.insertIntoMongo(nuevoModelo)
 		.then(function(){

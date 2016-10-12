@@ -15,10 +15,15 @@ module.exports = function(app) {
 
     app.get('/model/:cadena', function(req, res){
         var cadena = req.body.cadena;
+        var string = req.params.cadena;
+        if(string.indexOf("/") > -1) {
+            var url = 'http://'+string;
+        }
+        else
+            var url = 'http://'+string+"/";
         
-        var url = 'http://'+req.params.cadena+"/";
-        console.log("buscando: "+url);
-        console.log(url);
+        //console.log("buscando: "+url);
+       // console.log(url);
         var query = Nodo.find({ datos: url});
         query.exec(function(err, model){
             if(err){
@@ -26,20 +31,20 @@ module.exports = function(app) {
             }
             else{
                 if(!isEmptyObject(model)){
-                    console.log("NO VACIO");
+                   // console.log("NO VACIO");
                     res.json(model);
                 }
                 else{
-                    console.log("NO HAY DATOS, BUSCANDO...");    
+                   // console.log("NO HAY DATOS, BUSCANDO...");    
 
                     var arania = new Crawler(url);
 
                     function iniciar(callback){
-                        arania.arrancar(arania.getPrimeraUrl(),arania.getArbol(),-1,1)
+                        arania.arrancar(arania.getPrimeraUrl(),arania.getArbol(),-1,2)
                         .then(function(){
-                            console.log("Saliendo del proceso");
+                          //  console.log("Saliendo del proceso");
                             arania.recorrerArbol(function(){
-                                console.log("Terminado de guardar MongoDB");
+                               // console.log("Terminado de guardar MongoDB");
                                 return callback();
                             });
                             
