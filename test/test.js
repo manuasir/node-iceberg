@@ -1,7 +1,5 @@
 var assert = require("assert"),
-    arbol = require(__dirname+"/../app/tree.js"),
-    nodo = require(__dirname+"/../app/node.js"),
-    crawler = require(__dirname+"/../app/crawler.js");
+    arbol = require(__dirname+"/../app/tree.js");
 
 describe('Arbol', function(){
     // Testea que se haya cargado bien la librera
