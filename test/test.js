@@ -11,12 +11,7 @@ describe('Nodo', function(){
     });
 
     });
-    describe('Crea', function(){
-    it('should create apuestas correctly', function(){
-        var node = new nodo('Polopos','Alhama','2-3');
-        assert.equal(node.as_string(), "Polopos: Alhama - 2-3","Creado");
-    });
-    });
+ 
 });
 
 describe('Arbol', function(){
@@ -27,12 +22,7 @@ describe('Arbol', function(){
     });
 
     });
-    describe('Crea', function(){
-    it('should create apuestas correctly', function(){
-        var tree = new arbol('Polopos');
-        assert.equal(nuevo_usuario.as_string(), "Polopos");
-    });
-    });
+ 
 });
 
 
@@ -44,10 +34,5 @@ describe('Crawler', function(){
     });
 
     });
-    describe('Crea', function(){
-    it('should create apuestas correctly', function(){
-        var crawl = new crawler('http://prueba.com');
-        assert.equal(crawl.getUrlRaiz(), "http://prueba.com");
-    });
-    });
+   
 });
