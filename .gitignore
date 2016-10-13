@@ -1,4 +1,3 @@
 #ignorando carpetas de dependencias
 /node_modules
 /bower_components
-[*.log]
