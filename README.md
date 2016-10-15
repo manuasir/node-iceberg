@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/manuasir/ProyectoIV.svg?branch=master)](https://travis-ci.org/manuasir/ProyectoIV)
+
 # ProyectoIV
 Proyecto para la asignatura Infraestructura Virtual de la Universidad de Granada 
 
