@@ -23,3 +23,5 @@ Se debe elegir el nivel de profundidad hasta el cual se va a explorar el árbol,
 >'## Es necesario tener el servicio mongod activo
 > $ node /app/server.js
 > '##Comienza a recibir peticiones a través de http://localhost:3000
+
+Se utilizó Travis-CI para la Integración Continua al ofrecer ventajas tales como trabajar con repositorios privados al ser beneficiario de GitHub Students.
