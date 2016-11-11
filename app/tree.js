@@ -1,15 +1,12 @@
 var Nodo = require('./node');
 var modeloMongo = require('../models/model.js');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/crawler');
+mongoose.connect('mongodb://manuasir:mongodb@ds147497.mlab.com:47497/heroku_hbc36tp7');
 // Constructor
 function Arbol(datos) {
   // always initialize all instance properties
   this.raiz = new Nodo(datos);
   this.profundidad = 0;
-  // this.nuevoModelo;
-  // this.db = mongoose.connection;
-  // this.db = mongoTree.connect('mongodb://127.0.0.1:27017/test');
 }
 
 // class methods
@@ -20,37 +17,30 @@ Arbol.prototype.crearNodo = function(info) {
 };
 
 Arbol.prototype.getRaiz = function() {
-	
 	return this.raiz;
 };
 
 Arbol.prototype.getColaNodo = function(nodo) {
-	
 	return nodo.getCola();
 };
 
 Arbol.prototype.getDatosNodo = function(nodo) {
-	
 	return nodo.getDatos();
 };
 
 Arbol.prototype.getNumHijos = function(nodo) {
-	
 	return nodo.getNumHijos();
 };
 
 Arbol.prototype.getProfundidad = function(nodo) {
-	
 	return this.profundidad;
 };
 
 Arbol.prototype.getNodo = function(nodo,i) {
-	
 	return nodo.getNodo().getHijo(i);
 };
 
 Arbol.prototype.getArbol = function() {
-	
 	return this;
 };
 
