@@ -8,7 +8,6 @@ services: mongodb
 # version numbers, testing against two versions of node
 node_js:
  - "4.6.1"
- - "6.9.1"
 # npm install runs by default but shown here for illustrative purposes
 before_install:
  - npm install -g mocha
