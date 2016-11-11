@@ -1,6 +1,9 @@
 {
   "name": "mean-crawler",
   "version": "1.0.0",
+  "engines": {
+    "6.9.1"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -29,7 +32,6 @@
     "string.prototype.startswith": "^0.2.0",
     "util": "*"
   },
-  "engine": "node 6.9.1",
   "description": "NodeJS Web Crawler",
   "main": "Gruntfile.js",
   "directories": {
