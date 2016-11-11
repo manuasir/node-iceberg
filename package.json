@@ -29,6 +29,7 @@
     "string.prototype.startswith": "^0.2.0",
     "util": "*"
   },
+  "engine": "node 6.9.1",
   "description": "NodeJS Web Crawler",
   "main": "Gruntfile.js",
   "directories": {
