@@ -8,7 +8,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-     "start": "node app/server.js"
+    "start": "node app/server.js",
+    "postinstall": "bower install"
   },
   "devDependencies": {
     "docco": "^0.7.0",
