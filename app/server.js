@@ -12,7 +12,7 @@ var app             = express();
 // Express Configuration
 // -----------------------------------------------------
 // Sets the connection to MongoDB
-mongoose.createConnection("mongodb://localhost/crawler");
+mongoose.createConnection("mongodb://manuasir:Heroku41516-@ds147497.mlab.com:47497/heroku_hbc36tp7");
 
 // Logging and Parsing
 app.use(express.static(__dirname + '/../public'));                 // sets the static files location to public
