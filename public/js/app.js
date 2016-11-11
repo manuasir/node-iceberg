@@ -10,7 +10,7 @@ var app = angular.module('myApp', ['jsonFormatter'])
 			$scope.espera="esperando..."
 			if(cadena!=""){
 		    $http.get('/model/'+cadena)
-		        .success(function(data) {
+		        .success(function(data){
 		            //console.log("dattos...");
 		           
 		            if(data!=[] && data.length>0){
