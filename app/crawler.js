@@ -23,7 +23,7 @@ function Crawler(url) {
 }
 
 Crawler.prototype.conectarMongo=function(){
-	mongoTree.connect("mongodb://manuasir:Heroku41516-@ds147497.mlab.com:47497/heroku_hbc36tp7",function(err){
+	mongoTree.connect("mongodb://manuasir:mongodb@ds147497.mlab.com:47497/heroku_hbc36tp7",function(err){
 		if(err)
 			return err;
 	});
