@@ -2,7 +2,7 @@
   "name": "mean-crawler",
   "version": "1.0.0",
   "engines": {
-    "node": "6.9.1"
+    "node": "4.6.1"
   },
   "description": "",
   "main": "index.js",
