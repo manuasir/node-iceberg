@@ -11,6 +11,8 @@ node_js:
 # npm install runs by default but shown here for illustrative purposes
 before_install:
  - npm install -g mocha
+ - sudo apt-get -y install mongod
+ - mongod &
 
  # Running npm test to run your test cases
 script:
