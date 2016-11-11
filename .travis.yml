@@ -12,6 +12,8 @@ node_js:
 # npm install runs by default but shown here for illustrative purposes
 before_install:
  - npm install -g mocha
+ - npm install -g bower
+ - npm install bower
  - bower install
  # Running npm test to run your test cases
 script:
