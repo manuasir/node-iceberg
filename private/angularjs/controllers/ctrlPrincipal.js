@@ -7,9 +7,10 @@
  */
 miApp.controller( 'ctrlPrincipal', ['$http', function($http) {
     var vm = this;
-
+    console.log("controlador principal");
     vm.cargar = function(){
-        //alert("cargando...");
+
+        alert("cargando...");
         var cadena = $("#campotexto").val()
         //console.log(vm.campotexto);
 

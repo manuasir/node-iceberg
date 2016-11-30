@@ -5,10 +5,5 @@
  */
 
 var miApp = angular.module('miApp', [
-    "jsonFormatter",
-    "ngRoute",
-    'ui.router',
-    "satellizer",
-    "ngMaterial",
-    "ngCookies"
+    "jsonFormatter"
 ]);
