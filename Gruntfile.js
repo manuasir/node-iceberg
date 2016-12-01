@@ -7,7 +7,7 @@ module.exports = function(grunt) {
   pkg: grunt.file.readJSON('package.json'),
   docco: {
       debug: {
-      src: ['*.js'],
+      src: ['*.js','private/**/*.js'],
       options: {
           output: 'docs/'
       }

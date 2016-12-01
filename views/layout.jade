@@ -1,0 +1,35 @@
+doctype html
+// index.html
+// ASSIGN OUR ANGULAR MODULE
+html(ng-app='miApp')
+    head
+        // META
+        title= title
+        //link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/json-formatter/dist/json-formatter.css')
+        base(href="/")
+
+    body(ng-cloak ng-controller='ctrlPrincipal as cp')
+        .container
+            .text-center
+                .form-group
+                    label(for='usr') URL
+                    br
+                    label(for='usr') Formato: (www.example.com)
+                    input#campotexto.form-control(type='text')
+                button.btn(ng-click="cp.cargar()") Araña
+                br
+        //var json = {{ cp.topdos }}
+        //label {{ cp.todos }}
+        json-formatter(align='center', open='0', json="cp.todos")
+        div(align='center')
+            p {{ cp.espera }}
+
+            //p {{todos}}
+        // FORM TO CREATE TODOS
+
+    script(src = "https://code.jquery.com/jquery-3.1.1.min.js",integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=",crossorigin="anonymous")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js")
+    script(src="/dist/app.min.js")
+    script(src="/json-formatter/dist/json-formatter.js")
