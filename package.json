@@ -2,7 +2,8 @@
   "name": "mean-crawler",
   "version": "1.1.0",
   "engines": {
-    "node": "4.6.2"
+    "node": "4.6.2",
+    "npm": "3.10.8"
   },
   "description": "NodeJS Web Crawler",
   "main": "Gruntfile.js",
