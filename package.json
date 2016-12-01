@@ -8,8 +8,7 @@
   "main": "Gruntfile.js",
   "scripts": {
     "test": "mocha",
-    "start": "node bin/www",
-    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/gulp/bin/gulp.js compress && ./node_modules/grunt/bin/grunt.js"
+    "start": "node bin/www"
   },
   "devDependencies": {
     "bower": "^1.8.0",
@@ -51,20 +50,7 @@
     "request": "^2.75.0",
     "serve-favicon": "^2.3.2",
     "string.prototype.startswith": "^0.2.0",
-    "util": "*",
-    "docco": "^0.7.0",
-    "grunt": "^0.4.5",
-    "grunt-docco": "^0.4.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-help": "^1.6.1",
-    "gulp-jshint": "^2.0.4",
-    "gulp-livereload": "^3.8.1",
-    "gulp-ng-annotate": "^2.0.0",
-    "gulp-notify": "^2.2.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^2.0.0",
-    "gulp-watch": "^4.3.11"
-
+    "util": "*"
   },
   "directories": {
     "doc": "docs",
