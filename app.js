@@ -16,7 +16,7 @@ app.disable('x-powered-by');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+// app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //clases.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -26,6 +26,8 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
+// app.use('/docs', function(req,res){res.sendFile(path.resolve('docs/Gruntfile.html'))});
+app.use('/docs',express.static(path.join(__dirname, 'docs')));
 
 app.use('/', routes);
 

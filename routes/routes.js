@@ -23,6 +23,13 @@ router.get('/', function(req, res, next) {
     res.render('layout');
 });
 
+/**
+ * Renderiza la vista principal con cabeceras,footer,etc
+ */
+// router.get('/docs', function(req, res, next) {
+//     console.log("docs");
+//     res.sendFile('Gruntfile.html');
+// });
 
 /**
  * Ruta que comienza a procesar una cadena
