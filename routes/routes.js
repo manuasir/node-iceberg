@@ -22,7 +22,6 @@ function isEmptyObject(obj) {
 router.get('/', function(req, res, next) {
     res.render('layout');
 });
-
 /**
  * Renderiza la vista principal con cabeceras,footer,etc
  */
