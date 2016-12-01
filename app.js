@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/routes');
 
 var app = express();
+
 /**
  * Middleware para eliminar cabecera X-Powered-By: Express
  */
