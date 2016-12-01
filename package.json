@@ -1,6 +1,6 @@
 {
   "name": "mean-crawler",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "engines": {
     "node": "4.6.1"
   },
@@ -8,8 +8,8 @@
   "main": "Gruntfile.js",
   "scripts": {
     "test": "mocha",
-    "start": "nodemon bin/www",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "start": "node bin/www",
+    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/gulp/bin/gulp compress && ./node_modules/grunt/bin/grunt"
   },
   "devDependencies": {
     "bower": "^1.8.0",
@@ -35,6 +35,7 @@
     "cheerio": "^0.22.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
+    "ejs": "^2.5.3",
     "express": "^4.14.0",
     "fs": "*",
     "gulp": "^3.9.1",

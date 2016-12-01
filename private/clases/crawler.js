@@ -12,6 +12,12 @@ var util = require('util');
 var jsonfile = require('jsonfile');
 var treeWrapper = require('json-tree-wrap');
 
+/**
+ * Clase Crawler:
+ * Construye un árbol a partir de una URL,explorando iterativamente entre sus hijos y guardando en MongoDB
+ * @param url
+ * @constructor
+ */
 function Crawler(url) {
   // always initialize all instance properties
   
@@ -22,6 +28,9 @@ function Crawler(url) {
   // this.db=Crawler.prototype.conectarMongo();
 }
 
+/**
+ * Conecta con MongoDB
+ */
 Crawler.prototype.conectarMongo=function(){
 	mongoTree.connect("mongodb://manuasir:mongodb@ds147497.mlab.com:47497/heroku_hbc36tp7",function(err){
 		if(err)
@@ -29,22 +38,35 @@ Crawler.prototype.conectarMongo=function(){
 	});
 };
 
+/**
+ * Cierra la conexión con MongoDB
+ */
 Crawler.prototype.cerrarMongo=function(){
 	
 	MongoClient.disconnect();
 };
 
-
+/**
+ * Devuelve el árbol
+ * @returns {Arbol}
+ */
 Crawler.prototype.getArbol = function(){
 
 	return this.arbol;
 };
 
+/**
+ * Devuelve el nivel tope de profundidad a explorar
+ * @returns {*}
+ */
 Crawler.prototype.getTopeNivel = function(){
 
 	return this.topeNivel;
 };
 
+/**
+ * Escribe a JSON
+ */
 Crawler.prototype.escribirJSON = function(){
 	
 	var enrrollado = new treeWrapper();
@@ -53,17 +75,29 @@ Crawler.prototype.escribirJSON = function(){
 
 };
 
+/**
+ * Devuelve la primera URL, de la raíz
+ * @returns {Nodo|Node}
+ */
 Crawler.prototype.getPrimeraUrl = function(){
 
 	return this.arbol.getRaiz();
 };
 
+/**
+ * Devuelve la raíz
+ * @returns {*}
+ */
 Crawler.prototype.getUrlRaiz = function(){
 	//console.log("Devolviendo URL Raiz: "+this.url_raiz);
 	return this.url_raiz;
 };
 
-
+/**
+ * Proporciona formato adecuado a la URL
+ * @param urlraiz
+ * @param links
+ */
 Crawler.prototype.formatearUrl = function(urlraiz,links){
 
 	return new Promise(function (resolve, reject) {
@@ -93,6 +127,10 @@ Crawler.prototype.formatearUrl = function(urlraiz,links){
 	});
 };
 
+/**
+ * Obtiene el DOM de una URL
+ * @param url
+ */
 Crawler.prototype.getDocumentData = function (url) {
     // console.log('Processing url');
     return new Promise(function (resolve, reject) {
@@ -110,22 +148,24 @@ Crawler.prototype.getDocumentData = function (url) {
 	});
 };
 
+/**
+ * Recorrer el árbol
+ * @param callback
+ */
 Crawler.prototype.recorrerArbol = function (callback) {
-	//console.log('Crawler Recorrer Arbol');
-
-  //  return new Promise(function (resolve, reject) {
-
   	this.arbol.recorrerArbol(this.arbol.getRaiz())
   	.then(function(){
   		return callback();
   	})
-
-
-
- //resolve();
- //   });
 };
 
+/**
+ * Comenzar con el procesamiento
+ * @param nodo
+ * @param arbol
+ * @param nivel
+ * @param topenivel
+ */
 Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel) {
 
 	return new Promise(function (resolve, reject) {
@@ -141,6 +181,13 @@ Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel) {
 	});
 };
 
+/**
+ * Iterativamente obtiene información filtrada del DOM y va construyendo el árbol
+ * @param nodo
+ * @param arbol
+ * @param nivel
+ * @param topenivel
+ */
 Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel){
 	//console.log("TOPE NIVEL : "+topenivel);
 	return new Promise(function(resolve,reject){
@@ -167,7 +214,6 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel){
 					//console.log(links.length);
 					Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)
 					.then(function(hijos){
-
 						arbol.addHijosToNodo(nodo,hijos)
 						.then(function(){
 							//console.log("añadido hijos a nodo. recorriendo hijos");
@@ -180,7 +226,6 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel){
 									if(contador == hijos.length)
 										resolve();
 								});
-
 							},function(err){
 								reject(err);
 							});
