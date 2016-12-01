@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha",
     "start": "node bin/www",
-    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/gulp/bin/gulp compress && ./node_modules/grunt/bin/grunt"
+    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/gulp/bin/gulp.js compress && ./node_modules/grunt/bin/grunt.js"
   },
   "devDependencies": {
     "bower": "^1.8.0",
