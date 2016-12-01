@@ -1,7 +1,6 @@
 {
   "name": "ProyectoIV",
   "scripts": {
-    "postdeploy": "./node_modules/bower/bin/bower install && ./node_modules/gulp/bin/gulp.js compress && ./node_modules/grunt/bin/grunt.js"
 
   },
   "env": {
