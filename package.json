@@ -40,6 +40,7 @@
     "fs": "*",
     "gulp": "^3.9.1",
     "jade": "^1.11.0",
+    "jshint": "^2.9.4",
     "json-tree-wrap": "0.0.2",
     "jsonfile": "^2.4.0",
     "method-override": "^2.3.6",
