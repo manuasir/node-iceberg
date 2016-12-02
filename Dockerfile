@@ -15,8 +15,10 @@ RUN curl nvm install 4.6.1
 RUN sudo git clone https://github.com/manuasir/ProyectoIV
 
 # Herramientras
+RUN npm install
 RUN npm install -g bower
 RUN npm install -g grunt
 RUN npm install -g gulp
-RUN npm install
+RUN gulp compress
+RUN grunt
 RUN npm start
