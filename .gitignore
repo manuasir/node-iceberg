@@ -4,4 +4,4 @@
 *.log
 .idea
 /docs/
-/public/dist
+/public/dist/
