@@ -6,7 +6,6 @@ RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y git
 RUN apt-get install -y curl
-RUN apt-get install -y mongodb-server
 
 # NVM y Node version
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
