@@ -59,3 +59,10 @@ Desde el botón insertado al inicio de README.md puede ejecutarse el despliegue 
 Se puede acceder al proyecto en producción [aquí](https://ivwebcrawler.herokuapp.com/).
 
 [Documentación](https://ivwebcrawler.herokuapp.com/docs/Gruntfile.html)
+
+### Contenedores docker
+
+Ejecutar la siguiente secuencia de comandos para desplegar localmente la imagen con el proyecto:
+
+- sudo docker pull manuasir/proyectoiv
+- sudo docker run manuasir/proyectoiv
