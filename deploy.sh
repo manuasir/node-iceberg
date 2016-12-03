@@ -20,5 +20,3 @@ fi
   npm update -g bower pm2; \
   cd /ProyectoIV && npm update && npm install && npm install -g grunt && npm install -g gulp && gulp compress && grunt && bower install; \
   NODE_ENV=production pm2 start $APP_MAIN -i 0
-
-tail -f $HOME/.pm2/logs/*
