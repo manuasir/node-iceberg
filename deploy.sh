@@ -1,10 +1,8 @@
 #! /bin/bash
 
-#check and set the default app start file
 if [ -z "$APP_MAIN" ]; then APP_MAIN="bin/www"; fi;
 
-#check the file to be started in the container's logs
-echo NodeJS app\'s start file is: $APP_MAIN
+echo NodeJS app\'s start en: $APP_MAIN
 
 #comprueba y cambia la hora. necesario si se exporta en IaaS
 if [ -n "$TIME_ZONE" ]
@@ -14,9 +12,6 @@ then
 fi
 
 #instala versión de node,pone permisos pertinentes, instala librerías
-. ~/.nvm/nvm.sh && nvm use default; \
-  npm install -g gulp; \
-  npm install -g grunt; \
-  npm update -g bower pm2; \
-  cd /ProyectoIV && npm update && npm install && bower install --allow-root && grunt && gulp compress; \
-  NODE_ENV=production pm2 start $APP_MAIN -i 0
+. ~/.nvm/nvm.sh && nvm use 4.6.1; \
+  npm install && bower install --allow-root && grunt && gulp compress; \
+  NODE_ENV=production npm start
