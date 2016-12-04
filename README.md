@@ -67,18 +67,12 @@ Se puede acceder al proyecto en producción [aquí](https://ivwebcrawler.herokua
 Ejecutar la siguiente secuencia de comandos para desplegar localmente la imagen con el proyecto:
 
 - sudo docker pull manuasir/proyectoiv
-- sudo docker run -ti manuasir/proyectoiv /bin/bash
+- sudo docker run -tid manuasir/proyectoiv 
 
-Una vez concluido el despliegue y habiendo accedido al prompt lo que queda por hacer es
-```c
-$ cd ProyectoIV/
-$ pm2 start bin/www 
-```
+Una vez concluido el despliegue, ya no queda nada ms que hacer por parte del usuario al encontrarse automatizado todo el proceso. Consultar la IP de la imagen con el siguiente comando:
 
-Consultar la ip de la imagen con el comando 
-```c
-$ sudo ifconfig
-```
+- sudo docker inspect <id-container>
+
 Y acceder mediante el navegador en:
 
 http://ip-contenedor:3000/
