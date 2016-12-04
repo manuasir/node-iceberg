@@ -7,7 +7,6 @@ watch       = require('gulp-watch'),
     uglify      = require('gulp-uglify'),
     rename      = require('gulp-rename'),
     moment      = require('moment');
-    notify      = require('gulp-notify');
 
 require('gulp-help')(gulp, {
     description: 'Ayuda'

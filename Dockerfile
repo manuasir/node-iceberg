@@ -10,13 +10,10 @@ RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted uni
 # instalar paquetes
 RUN apt-get update && apt-get install -y curl git build-essential
 
-#añadir un usuario sólo para estos menesteres
-RUN useradd --home /home/node -m -U -s /bin/bash node
-
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
 
 #versión de Node
-ENV NODE_VERSION 6.9.1
+ENV NODE_VERSION 4.6.1
 
 #necesario para la instalación de NVM
 ENV NVM_DIR /root/.nvm

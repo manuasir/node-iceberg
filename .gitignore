@@ -3,5 +3,3 @@
 /bower_components
 *.log
 .idea
-/docs/
-/public/dist/
