@@ -1,7 +1,5 @@
 #! /bin/bash
 
-#el usuario es 'node'
-
 #check and set the default app start file
 if [ -z "$APP_MAIN" ]; then APP_MAIN="bin/www"; fi;
 
@@ -17,6 +15,8 @@ fi
 
 #instala versión de node,pone permisos pertinentes, instala librerías
 . ~/.nvm/nvm.sh && nvm use default; \
+  npm install -g gulp; \
+  npm install -g grunt; \
   npm update -g bower pm2; \
-  cd /ProyectoIV && npm update && npm install && npm install -g grunt && npm install -g gulp && gulp compress && grunt && bower install; \
+  cd /ProyectoIV && npm update && npm install && bower install --allow-root && grunt && gulp compress; \
   NODE_ENV=production pm2 start $APP_MAIN -i 0

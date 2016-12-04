@@ -10,7 +10,6 @@ RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted uni
 # instalar paquetes
 RUN apt-get update && apt-get install -y curl git build-essential
 
-
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
 
 #versión de Node
