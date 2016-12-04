@@ -1,5 +1,6 @@
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/manuasir/ProyectoIV)
 [![Build Status](https://travis-ci.org/manuasir/ProyectoIV.svg?branch=master)](https://travis-ci.org/manuasir/ProyectoIV)
+[![Inline docs](http://inch-ci.org/github/manuasir/ProyectoIV.svg?branch=master)](http://inch-ci.org/github/manuasir/ProyectoIV)
 
 # ProyectoIV
 Proyecto para la asignatura Infraestructura Virtual de la Universidad de Granada 
@@ -58,11 +59,26 @@ Para automatizar la instalación de dependencias en front-end se utilizó un fic
 Desde el botón insertado al inicio de README.md puede ejecutarse el despliegue en el PaaS Heroku.
 Se puede acceder al proyecto en producción [aquí](https://ivwebcrawler.herokuapp.com/).
 
-[Documentación](https://ivwebcrawler.herokuapp.com/docs/Gruntfile.html)
+[Documentación del código](https://ivwebcrawler.herokuapp.com/docs/Gruntfile.html)
+[Documentación del proyecto](https://github.com/manuasir/ProyectoIV/tree/docs/README.md)
 
-### Contenedores docker
+### Contenedores con Docker
 
 Ejecutar la siguiente secuencia de comandos para desplegar localmente la imagen con el proyecto:
 
 - sudo docker pull manuasir/proyectoiv
-- sudo docker run manuasir/proyectoiv
+- sudo docker run -ti manuasir/proyectoiv /bin/bash
+
+Una vez concluido el despliegue y habiendo accedido al prompt lo que queda por hacer es
+```c
+$ cd ProyectoIV/
+$ pm2 start bin/www 
+```
+
+Consultar la ip de la imagen con el comando 
+```c
+$ sudo ifconfig
+```
+Y acceder mediante el navegador en:
+
+http://ip-contenedor:3000/
