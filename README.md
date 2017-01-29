@@ -124,16 +124,21 @@ En él se especifican datos de autentificación en AWS como la ACCESS KEY y la A
 Como se observa se hace referencia a Ansible, el cual nos va a provisionar la máquina una vez se haya instanciado:
 
 ```c
-- hosts
-	sudo: yes
-	remote_user: manu
-	tasks:
-	- name: Update packages
-	  apt: update_cache=yes upgrade=dist
-	- name: Install git
-	  apt: name=git state=present
-	- name: Pull repository
-	  git: repo=https://github.com/manuasir/ProyectoIV.git dest=/home/manu/ProyectoIV clone=yes force=yes
+---
+- hosts: default
+  remote_user: sergio
+  sudo: yes
+  tasks:
+  - name: download sources
+    get_url:
+      url: https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh
+      dest: /home/ubuntu/install.sh
+  - name: permisos nvm
+    shell: chmod a+x install.sh
+  - name: instalar nvm
+    shell: /home/ubuntu/install.sh
+  - name: instalar node
+    shell: /root/.nvm/nvm.sh install 4.6.1
 ```
 
 En esta secuencia de comandos se clona el repositorio indicado y se trae al servidor para a continuación ejecutar el script que provisiona de las dependencias necesarias. El contenido del script es el siguiente:
@@ -161,6 +166,7 @@ fi
 Con todas las configuraciones preparadas, se ejecuta Vagrant para instanciar el proyecto:
 
 - vagrant up --provider=aws
+- vagrant provision
 
 ```c
 Bringing machine 'default' up with 'aws' provider...
@@ -193,6 +199,9 @@ Ahora sólo falta conectarnos a ella mediante SSH y el certificado que se ha gen
 
 [!img](http://i1339.photobucket.com/albums/o717/manuasir/c8_zpsgivu2ggg.png)
 
+Adicionalmente se usaron herramientas propias de Javascript para realizar tareas de automatización en el proyecto. Desde el propio 'package.json' se automatizan las tareas relacionadas con la ejecución de la aplicación y la instalación de otras herramientas como [Gulp](https://github.com/manuasir/ProyectoIV/blob/master/Gulpfile.js) y [Grunt](https://github.com/manuasir/ProyectoIV/blob/master/Gruntfile.js).
+Con Gulp se realiza automáticamente la inyección de los controladores Javascript y preparlos para producción (minify y uglify). Ésto es concatenar todos los controladores e incluirlos en uno sólo y sustituir las variables proporcionadas por otras de menos tamaño para que su lectura sea más rápida y su interpretación por parte de un humano más difícil. 
+Desde Grunt se genera la documentación del proyecto de forma automática. Se genera a partir de los comentarios con la librería docco.
 
-
+Se puede acceder al proyecto en producción en AWS [aquí](http://ec2-54-88-8-70.compute-1.amazonaws.com:3000/)
 

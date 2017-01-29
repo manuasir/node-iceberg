@@ -12,6 +12,6 @@ then
 fi
 
 #instala versión de node,pone permisos pertinentes, instala librerías
-. ~/.nvm/nvm.sh && nvm use 4.6.1; \
+#. /root/.nvm/nvm.sh && nvm use 4.6.1; \
   npm install && ./node_modules/bower/bin/bower install --allow-root && grunt && gulp compress; \
   NODE_ENV=production npm start
