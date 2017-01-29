@@ -76,3 +76,123 @@ Una vez concluido el despliegue, ya no queda nada ms que hacer por parte del usu
 Y acceder mediante el navegador en:
 
 http://ip-contenedor:3000/
+
+
+### Despliegue en IaaS: AWS
+
+A continuación se va a explicar el proceso mediante el cual este proyecto, o cualquiera alojado en otro repositorio se debe despegar en una plataforma IaaS de la manera más automatizada posible. Ésto es, sin ejecutar ninguna entrada por parte del usuario y únicamente se realicen las tareas mediante scripts.
+En primer lugar hay que descargar el kit de herramientas de AWS. Para ello se ha de ejecutar la siguiente orden en el terminal de comandos:
+
+```c
+$ sudo apt-get install awscli
+```
+
+Seguidamente el usuario ha de autentificarse mediante el servicio que proporciona AWS y poder usar asi la herramienta CLI:
+
+```c
+$ aws configure
+```
+
+Esta orden requerirá que se introduzcan distintos parámetros de seguridad como son las Key públicas y secretas que proporciona AWS.
+Es conveniente almacenar éstas variables de seguridad en variables de entorno del sistema.
+
+Después es el turno de configurar Vagrant. Para ello se generó un Vagrantfile con el siguiente contenido:
+
+```c
+Vagrant.configure("2") do |config|
+	config.vm.box = "dummy"
+	config.vm.provider :aws do |aws, override|
+		aws.access_key_id = ENV["AWS_ACCESS_KEY"]
+		aws.secret_access_key = ENV["AWS_ACCESS_KEY_SECRET"]
+		aws.keypair_name = "ivkeypar"
+		aws.security_groups = [ 'vagrant' ]
+		aws.ami = "ami-7747d01e"
+		override.ssh.username = "ubuntu"
+		override.ssh.private_key_path = "/home/manu/Descargas/rsa-APKAJVKAQI6IIO6BCRBQ.pem"
+		config.vm.provision "ansible" do |ansible|
+			ansible.sudo = true
+			ansible.raw_arguments=["-vvv"]
+			ansible.playbook = "ansible.yml"
+			ansible.verbose= "v"
+			ansible.host_key_checking=false
+		end
+	end
+end
+```
+
+En él se especifican datos de autentificación en AWS como la ACCESS KEY y la ACCESS KEY SECRET, proporcionadas por AWS.
+Como se observa se hace referencia a Ansible, el cual nos va a provisionar la máquina una vez se haya instanciado:
+
+```c
+- hosts
+	sudo: yes
+	remote_user: manu
+	tasks:
+	- name: Update packages
+	  apt: update_cache=yes upgrade=dist
+	- name: Install git
+	  apt: name=git state=present
+	- name: Pull repository
+	  git: repo=https://github.com/manuasir/ProyectoIV.git dest=/home/manu/ProyectoIV clone=yes force=yes
+```
+
+En esta secuencia de comandos se clona el repositorio indicado y se trae al servidor para a continuación ejecutar el script que provisiona de las dependencias necesarias. El contenido del script es el siguiente:
+
+```c
+#! /bin/bash
+
+if [ -z "$APP_MAIN" ]; then APP_MAIN="bin/www"; fi;
+
+echo NodeJS app\'s start en: $APP_MAIN
+
+#comprueba y cambia la hora. necesario si se exporta en IaaS
+if [ -n "$TIME_ZONE" ]
+then
+  echo $TIME_ZONE | sudo tee /etc/timezone;
+  sudo dpkg-reconfigure -f noninteractive tzdata;
+fi
+
+#instala versión de node,pone permisos pertinentes, instala librerías
+. ~/.nvm/nvm.sh && nvm use 4.6.1; \
+  npm install && ./node_modules/bower/bin/bower install --allow-root && grunt && gulp compress; \
+  NODE_ENV=production npm start
+```
+
+Con todas las configuraciones preparadas, se ejecuta Vagrant para instanciar el proyecto:
+
+- vagrant up --provider=aws
+
+```c
+Bringing machine 'default' up with 'aws' provider...
+==> default: Warning! The AWS provider doesn't support any of the Vagrant
+==> default: high-level network configurations (`config.vm.network`). They
+==> default: will be silently ignored.
+==> default: Launching an instance with the following settings...
+==> default:  -- Type: m3.medium
+==> default:  -- AMI: ami-7747d01e
+==> default:  -- Region: us-east-1
+==> default:  -- Keypair: ivkeypar
+==> default:  -- Security Groups: ["vagrant"]
+==> default:  -- Block Device Mapping: []
+==> default:  -- Terminate On Shutdown: false
+==> default:  -- Monitoring: false
+==> default:  -- EBS optimized: false
+==> default:  -- Source Destination check: 
+==> default:  -- Assigning a public IP address in a VPC: false
+==> default:  -- VPC tenancy specification: default
+==> default: Waiting for instance to become "ready"...
+==> default: Waiting for SSH to become available...
+==> default: Machine is booted and ready for use!
+==> default: Rsyncing folder: /home/manu/ => /vagrant
+```
+
+Si comprobamos en la plataforma web de AWS se habrá creado la instancia y estará ejecutándose.
+[!img](http://i1339.photobucket.com/albums/o717/manuasir/c9_zpscni59rfl.png)
+
+Ahora sólo falta conectarnos a ella mediante SSH y el certificado que se ha generado previamente:
+
+[!img](http://i1339.photobucket.com/albums/o717/manuasir/c8_zpsgivu2ggg.png)
+
+
+
+
