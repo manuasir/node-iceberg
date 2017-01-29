@@ -193,11 +193,11 @@ Bringing machine 'default' up with 'aws' provider...
 ```
 
 Si comprobamos en la plataforma web de AWS se habrá creado la instancia y estará ejecutándose.
-[!img](http://i1339.photobucket.com/albums/o717/manuasir/c9_zpscni59rfl.png)
+![img](http://i1339.photobucket.com/albums/o717/manuasir/c9_zpscni59rfl.png)
 
 Ahora sólo falta conectarnos a ella mediante SSH y el certificado que se ha generado previamente:
 
-[!img](http://i1339.photobucket.com/albums/o717/manuasir/c8_zpsgivu2ggg.png)
+![img](http://i1339.photobucket.com/albums/o717/manuasir/c8_zpsgivu2ggg.png)
 
 Adicionalmente se usaron herramientas propias de Javascript para realizar tareas de automatización en el proyecto. Desde el propio 'package.json' se automatizan las tareas relacionadas con la ejecución de la aplicación y la instalación de otras herramientas como [Gulp](https://github.com/manuasir/ProyectoIV/blob/master/Gulpfile.js) y [Grunt](https://github.com/manuasir/ProyectoIV/blob/master/Gruntfile.js).
 Con Gulp se realiza automáticamente la inyección de los controladores Javascript y preparlos para producción (minify y uglify). Ésto es concatenar todos los controladores e incluirlos en uno sólo y sustituir las variables proporcionadas por otras de menos tamaño para que su lectura sea más rápida y su interpretación por parte de un humano más difícil. 
