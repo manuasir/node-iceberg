@@ -126,10 +126,10 @@ Como se observa se hace referencia a Ansible, el cual nos va a provisionar la m√
 ```c
 ---
 - hosts: default
-  remote_user: sergio
+  remote_user: ubuntu
   sudo: yes
   tasks:
-  - name: download sources
+  - name: download nvm
     get_url:
       url: https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh
       dest: /home/ubuntu/install.sh
