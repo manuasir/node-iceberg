@@ -9,7 +9,8 @@
   "main": "Gruntfile.js",
   "scripts": {
     "test": "mocha",
-    "start": "pm2 start bin/www"
+    "start": "pm2 start bin/www",
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "devDependencies": {
     "docco": "^0.7.0",
