@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 var Crawler = require('../private/clases/crawler');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://manuasir:mongodb@ds147497.mlab.com:47497/heroku_hbc36tp7');
+mongoose.connect('mongodb://manuasir:mongodb@ds147497.mlab.com:47497/heroku_hbc36tp7','useMongoClient');
 // mongoose.connect('mongodb://localhost/crawler');
 
 
