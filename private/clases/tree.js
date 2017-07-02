@@ -1,7 +1,5 @@
 var Nodo = require('./node');
 var modeloMongo = require('../models/model.js');
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://manuasir:mongodb@ds147497.mlab.com:47497/heroku_hbc36tp7');
 
 /**
  * Clase Arbol: Estructura de datos con la información y las relaciones entre los nodos
@@ -92,69 +90,59 @@ Arbol.prototype.getArbol = function() {
  */
 Arbol.prototype.addHijosToNodo = function(nodo,vec) {
 
-    return new Promise(function (resolve, reject) {
-        this.profundidad=this.profundidad+1;
-        // console.log("añadiendo "+vec.length+" elementos al nodo seleccionado "+nodo.getDatos());
-        // console.log(vec);
-        var arraynodos = [];
-        if(vec.length>0){
-            vec.forEach(function(item,index){
-                if(item instanceof Nodo == false){
-                    // console.log("array de tipo de datos que no es nodo");
-                    var temp = new Nodo(item);
-                    arraynodos.push(temp);
-                }
-                else{
-                    // console.log("vector de nodo");
-                    // console.log(item instanceof Nodo);
-                    arraynodos.push(item);
-                }
-            });
-        }
-        else{
-            if(vec instanceof Nodo == false){
-                // console.log("un solo elemento tipo de datos que no es nodo");
-                var temp = new Nodo(vec);
+    //return new Promise(function (resolve, reject) {
+    this.profundidad=this.profundidad+1;
+    // console.log("añadiendo "+vec.length+" elementos al nodo seleccionado "+nodo.getDatos());
+    console.log("add hijos to nodo...",vec);
+    var arraynodos = [];
+    if(vec.length>0){
+        vec.forEach(function(item,index){
+            if(item instanceof Nodo === false){
+                var temp = new Nodo(item);
                 arraynodos.push(temp);
             }
             else{
-                // console.log("un solo nodo");
-                arraynodos.push(vec);
+                arraynodos.push(item);
             }
+        });
+    }
+    else{
+        if(vec instanceof Nodo === false){
+            var temp = new Nodo(vec);
+            arraynodos.push(temp);
         }
-        nodo.addHijos(arraynodos);
-        // console.log("añadidos "+arraynodos.length+ " hijos al nodo "+nodo.getDatos());
-        resolve();
-    });
+        else{
+            // console.log("un solo nodo");
+            arraynodos.push(vec);
+        }
+    }
+    nodo.addHijos(arraynodos);
 };
 
 // var aux = [];
 /**
  * Obtiene los datos a partir de un nodo
  * @param nodo
+ * @param cb
  */
-Arbol.prototype.getDatosFromMongo = function(nodo) {
+Arbol.prototype.getDatosFromMongo = function(nodo,cb) {
 
     this.nuevoModelo.find({datos:nodo.getDatos()}, function(err, datos) {
-        if (err) throw err;
+        if (err) return cb(err,null);
+        cb(null,datos)
 
-        // object of all the users
-        // console.log(datos);
     });
 };
 
 /**
  * Inserta en MongoDB
  * @param nuevoModelo
- * @returns {Promise}
+ * @param callback
  */
-Arbol.prototype.insertIntoMongo = function(nuevoModelo) {
-    return new Promise(function (resolve, reject) {
-        //console.log("en mongo...");
-        nuevoModelo.save(function(err) {
-            if (err) throw err;
-            resolve();
-        });
+Arbol.prototype.insertIntoMongo = function(nuevoModelo,callback) {
+    nuevoModelo.save(function(err) {
+        if (err) return callback(err,null);
+        callback(null,null);
     });
 };
 
@@ -163,25 +151,22 @@ Arbol.prototype.insertIntoMongo = function(nuevoModelo) {
  * @param nodo
  * @returns {Promise}
  */
-Arbol.prototype.recorrerArbol = function(nodo){
-    return new Promise(function (resolve, reject) {
-        //console.log("Entrando en recorrerArbol");
-        var temp = nodo.getDatos();
+Arbol.prototype.recorrerArbol = function(nodo,callback){
+    //return new Promise(function (resolve, reject) {
+    //console.log("Entrando en recorrerArbol");
+    var temp = nodo.getDatos()
 
-        var nuevoModelo = modeloMongo({
-            datos: nodo.getDatos(),
-            //padre: nodo.getPadre().getDatos(),
-            hijos: nodo.getAllHijos()
-        });
-
-        //console.log("salvando........");
-
-        Arbol.prototype.insertIntoMongo(nuevoModelo)
-            .then(function(){
-                resolve();
-
-            })
+    var nuevoModelo = modeloMongo({
+        datos: nodo.getDatos(),
+        hijos: nodo.getAllHijos()
     });
+
+    Arbol.prototype.insertIntoMongo(nuevoModelo,function(err,datos){
+        if(err)
+            return callback(err)
+        callback(null,null)
+    })
+
 };
 
 module.exports = Arbol;
