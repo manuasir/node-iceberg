@@ -1,4 +1,4 @@
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/manuasir/NodeJS-WebCrawler)
+<a href="https://github.com/manuasir/NodeJS-WebCrawle" ><img src="https://www.herokucdn.com/deploy/button.svg" height="20px"/></a>
 [![Build Status](https://travis-ci.org/manuasir/NodeJS-WebCrawler.svg?branch=master)](https://travis-ci.org/manuasir/NodeJS-WebCrawler)
 [![Inline docs](http://inch-ci.org/github/manuasir/NodeJS-WebCrawler.svg?branch=master)](http://inch-ci.org/github/manuasir/NodeJS-WebCrawler)
 
@@ -8,7 +8,7 @@ Extrae y organiza hipervínculos por niveles a partir de una URL de origen resul
 
 [Artículo wikipedia aquí](https://en.wikipedia.org/wiki/Web_crawler)
 
-### Planteamiento
+### Introducción
 
 Se trata construir una estructura de datos de tipo árbol en la que se van a organizar las URL extraídas.
 El backend corriendo bajo Node.JS se encarga de gestionar este almacenamiento construyendo objetos JSON que respeten la estructura de árbol inicial, y la almacene en una base de datos documental MongoDB.
