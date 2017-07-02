@@ -12,5 +12,6 @@ then
 fi
 
 #instala dependencias,pone permisos pertinentes, instala librerías
+. ~/.nvm/nvm.sh && nvm use 6.11.0; \
 npm install -g npm && npm install && ./node_modules/bower/bin/bower install --allow-root && grunt && gulp compress; \
 NODE_ENV=production npm start
