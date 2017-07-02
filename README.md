@@ -1,11 +1,8 @@
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/manuasir/ProyectoIV)
-[![Build Status](https://travis-ci.org/manuasir/ProyectoIV.svg?branch=master)](https://travis-ci.org/manuasir/ProyectoIV)
-[![Inline docs](http://inch-ci.org/github/manuasir/ProyectoIV.svg?branch=master)](http://inch-ci.org/github/manuasir/ProyectoIV)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/manuasir/NodeJS-WebCrawler)
+[![Build Status](https://travis-ci.org/manuasir/NodeJS-WebCrawler.svg?branch=master)](https://travis-ci.org/manuasir/NodeJS-WebCrawler)
+[![Inline docs](http://inch-ci.org/github/manuasir/NodeJS-WebCrawler.svg?branch=master)](http://inch-ci.org/github/manuasir/NodeJS-WebCrawler)
 
-# ProyectoIV
-Proyecto para la asignatura Infraestructura Virtual de la Universidad de Granada 
-
-### Web-Crawler
+# NodeJS-WebCrawler
 
 Extrae y organiza hipervínculos por niveles a partir de una URL de origen resultando en una estructura de árbol almacenada en una base de datos MongoDB, presentándose en una interfaz web o mediante peticiones REST. Este proyecto utiliza el stack de Javascript MEAN: (MongoDB + Express + AngularJS + NodeJS).
 
