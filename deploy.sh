@@ -12,5 +12,5 @@ then
 fi
 
 #instala dependencias,pone permisos pertinentes, instala librerías
-npm install && ./node_modules/bower/bin/bower install --allow-root && grunt && gulp compress; \
+npm install -g npm && npm install && ./node_modules/bower/bin/bower install --allow-root && grunt && gulp compress; \
 NODE_ENV=production npm start
