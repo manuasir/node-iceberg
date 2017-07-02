@@ -13,10 +13,6 @@ before_install:
  - npm install -g npm
  - npm install -g mocha
  - npm install -g bower
- - npm install -g grunt
- - npm install -g gulp
- - npm install grunt
- - npm install gulp
  - npm install bower
  - bower install
  # Running npm test to run your test cases
