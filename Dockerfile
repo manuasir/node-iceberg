@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 MAINTAINER Manuel Jiménez Bernal <manuasir@correo.ugr.es>
 
 # instalar paquetes
@@ -8,7 +8,7 @@ WORKDIR /usr/src/app/
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 
 RUN git clone https://github.com/manuasir/NodeJS-WebCrawler.git
-WORKDIR /usr/src/app/ProyectoIV/
+WORKDIR /usr/src/app/NodeJS-Webcrawler/
 #versión de Node
 ENV NODE_VERSION 6.11.0
 
