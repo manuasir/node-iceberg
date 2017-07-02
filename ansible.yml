@@ -5,11 +5,11 @@
   tasks:
   - name: download sources
     get_url:
-      url: https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh
+      url: https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh
       dest: /home/ubuntu/install.sh
   - name: permisos nvm
     shell: chmod a+x install.sh
   - name: instalar nvm
     shell: /home/ubuntu/install.sh
   - name: instalar node
-    shell: /root/.nvm/nvm.sh install 4.6.1
+    shell: /root/.nvm/nvm.sh install 6.11.0
