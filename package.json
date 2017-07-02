@@ -9,7 +9,7 @@
   "main": "Gruntfile.js",
   "scripts": {
     "test": "mocha",
-    "start": "pm2 start bin/www"
+    "start": "pm2 start bin/www",
     "postinstall": "./node_modules/bower/bin/bower install &&  npm install -g gulp && npm install -g grunt && npm install gulp && npm install grunt && gulp compress && grunt"
   },
   "devDependencies": {
