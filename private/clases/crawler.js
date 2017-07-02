@@ -1,17 +1,17 @@
 var Promise = require('bluebird');
-var cheerio = Promise.promisifyAll(require('cheerio'));
-var request = Promise.promisifyAll(require("request"));
-var fs = Promise.promisifyAll(require("fs"));
+var cheerio = require('cheerio');
+var request = require("request");
+var fs = require("fs");
 var vueltas = 0;
 var url_array = [];
-var Async = Promise.promisifyAll(require('async'));
+var async = require('async');
 var startwith = require('string.prototype.startswith');
 var Arbol = require('./tree');
 var url_array_global = [];
 var util = require('util');
 var jsonfile = require('jsonfile');
 var treeWrapper = require('json-tree-wrap');
-
+var _ = require('lodash')
 /**
  * Clase Crawler:
  * Construye un árbol a partir de una URL,explorando iterativamente entre sus hijos y guardando en MongoDB
@@ -19,31 +19,32 @@ var treeWrapper = require('json-tree-wrap');
  * @constructor
  */
 function Crawler(url) {
-  // always initialize all instance properties
-  
-  this.arbol = new Arbol(url);
-  this.cola = [];
-  this.url_raiz= url;
-  //console.log("NUEVA ARAÑA CON URL Y NIVEL "+url+" "+this.topeNivel);
-  // this.db=Crawler.prototype.conectarMongo();
+    // always initialize all instance properties
+
+    this.arbol = new Arbol(url);
+    this.cola = [];
+    this.url_raiz= url;
+    //console.log("NUEVA ARAÑA CON URL Y NIVEL "+url+" "+this.topeNivel);
+    // this.db=Crawler.prototype.conectarMongo();
 }
 
 /**
  * Conecta con MongoDB
  */
-Crawler.prototype.conectarMongo=function(){
-	mongoTree.connect("mongodb://manuasir:mongodb@ds147497.mlab.com:47497/heroku_hbc36tp7",function(err){
-		if(err)
-			return err;
-	});
+Crawler.prototype.conectarMongo=function(cb){
+    mongoTree.connect("mongodb://manuasir:mongodb@ds147497.mlab.com:47497/heroku_hbc36tp7",function(err){
+        if(err)
+            return err;
+        cb()
+    });
 };
 
 /**
  * Cierra la conexión con MongoDB
  */
 Crawler.prototype.cerrarMongo=function(){
-	
-	MongoClient.disconnect();
+
+    MongoClient.disconnect();
 };
 
 /**
@@ -52,7 +53,7 @@ Crawler.prototype.cerrarMongo=function(){
  */
 Crawler.prototype.getArbol = function(){
 
-	return this.arbol;
+    return this.arbol;
 };
 
 /**
@@ -61,17 +62,17 @@ Crawler.prototype.getArbol = function(){
  */
 Crawler.prototype.getTopeNivel = function(){
 
-	return this.topeNivel;
+    return this.topeNivel;
 };
 
 /**
  * Escribe a JSON
  */
 Crawler.prototype.escribirJSON = function(){
-	
-	var enrrollado = new treeWrapper();
-	var rootWrapper = enrrollado.wrap(this.arbol);
-	jsonfile.writeFileSync('elarbol.json', rootWrapper);
+
+    var enrrollado = new treeWrapper();
+    var rootWrapper = enrrollado.wrap(this.arbol);
+    jsonfile.writeFileSync('elarbol.json', rootWrapper);
 
 };
 
@@ -81,7 +82,7 @@ Crawler.prototype.escribirJSON = function(){
  */
 Crawler.prototype.getPrimeraUrl = function(){
 
-	return this.arbol.getRaiz();
+    return this.arbol.getRaiz();
 };
 
 /**
@@ -89,8 +90,8 @@ Crawler.prototype.getPrimeraUrl = function(){
  * @returns {*}
  */
 Crawler.prototype.getUrlRaiz = function(){
-	//console.log("Devolviendo URL Raiz: "+this.url_raiz);
-	return this.url_raiz;
+    //console.log("Devolviendo URL Raiz: "+this.url_raiz);
+    return this.url_raiz;
 };
 
 /**
@@ -100,52 +101,42 @@ Crawler.prototype.getUrlRaiz = function(){
  */
 Crawler.prototype.formatearUrl = function(urlraiz,links){
 
-	return new Promise(function (resolve, reject) {
+    //return new Promise(function (resolve, reject) {
 
-		var nodostemp = [];
-		var cont = 0;
-		links.each(function(index,item){
-			var uri = $(item).attr('href');
-			var url;
-			if( uri && uri != '' ){
-				var eq = (true, uri.startsWith('h'));
-				if(!eq){	
-					
-					url = urlraiz+uri;	
-					//console.log("THIS.URL RAIZ ------->"+ url);
-				}
-				else
-					url = uri;
-				var temp = Arbol.prototype.crearNodo(url);
-				nodostemp.push(temp);
-			}
-			cont ++
-			if(cont == links.length )
-				resolve(nodostemp);
-		});
-		
-	});
+    var nodostemp = [];
+    var cont = 0;
+    _.forEach(links,function(item){
+        var uri = $(item).attr('href');
+        var url;
+        if( uri && uri != '' ){
+            var eq = (true, uri.startsWith('h'));
+            if(!eq){
+                url = urlraiz+uri;
+                //console.log("THIS.URL RAIZ ------->"+ url);
+            }
+            else
+                url = uri;
+            var temp = Arbol.prototype.crearNodo(url);
+            nodostemp.push(temp);
+        }
+
+    });
+    return nodostemp;
+    //});
 };
 
 /**
  * Obtiene el DOM de una URL
  * @param url
  */
-Crawler.prototype.getDocumentData = function (url) {
+Crawler.prototype.getDocumentData = function (url,cb) {
     // console.log('Processing url');
-    return new Promise(function (resolve, reject) {
-	//console.log("realizando request a "+url);
-		request(url, function(err, resp, body){
-		if(!err){
-				//console.log("devolviendo body");
-				resolve(body);
-			}
-			else{
-				//console.log(err);
-				reject(err);
-			}
-		});
-	});
+    //console.log("realizando request a "+url);
+    request(url, function(err, resp, body){
+        if(err)
+            return cb(err,null)
+        cb(null,body)
+    });
 };
 
 /**
@@ -153,10 +144,11 @@ Crawler.prototype.getDocumentData = function (url) {
  * @param callback
  */
 Crawler.prototype.recorrerArbol = function (callback) {
-  	this.arbol.recorrerArbol(this.arbol.getRaiz())
-  	.then(function(){
-  		return callback();
-  	})
+    this.arbol.recorrerArbol(this.arbol.getRaiz(),function(err,data){
+        if(err)
+            return callback(err,null)
+        callback(null,null);
+    })
 };
 
 /**
@@ -166,19 +158,15 @@ Crawler.prototype.recorrerArbol = function (callback) {
  * @param nivel
  * @param topenivel
  */
-Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel) {
+Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel,callback) {
+    var contador = 0;
+    Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel,function(err,data){
+        if(err)
+            return callback(err,null)
+        callback(null,null)
+    })
 
-	return new Promise(function (resolve, reject) {
-		//console.log('arrancando url' + nivel +topenivel);
-		var contador = 0;
-		Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel)
-		.then(function(){
-    	 //salida(data);
-    	// console.log("FIN!!");
-    	 resolve();
-    	})
-
-	});
+    //});
 };
 
 /**
@@ -188,54 +176,48 @@ Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel) {
  * @param nivel
  * @param topenivel
  */
-Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel){
-	//console.log("TOPE NIVEL : "+topenivel);
-	return new Promise(function(resolve,reject){
-		nivel = nivel + 1;	
-		if(nivel == topenivel) {
-			//console.log("fin por niveles");
-			resolve();	
-		}
-		else{
-			var contador = 0;
-			//console.log("turno de "+arbol.getDatosNodo(nodo));
-			//console.log("nivel "+nivel+" se va a proceder a realizar la peticion GET");
-			var url = arbol.getDatosNodo(nodo);
-			Crawler.prototype.getDocumentData(url)
-			.then(function(data){
-				//console.log("recibido body de " + arbol.getDatosNodo(nodo));
-				$ = cheerio.load(data);
-				var links = $('a');
-				if(links.length == 0){
-					//console.log("fin porque no hay links");
-					resolve();
-				}
-				else{
-					//console.log(links.length);
-					Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)
-					.then(function(hijos){
-						arbol.addHijosToNodo(nodo,hijos)
-						.then(function(){
-							//console.log("añadido hijos a nodo. recorriendo hijos");
-							Async.forEach(hijos,function(item){
-								//console.log("siguiente"+ item.getDatos());
-								
-								Crawler.prototype.procesarUrls(item,arbol,nivel,topenivel)
-								.then(function(){
-									contador++;
-									if(contador == hijos.length)
-										resolve();
-								});
-							},function(err){
-								reject(err);
-							});
-							
-						})	
-					})	
-				}
-			})
-		}
-	});
+Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,mainCallback){
+    //console.log("TOPE NIVEL : "+topenivel);
+    //return new Promise(function(resolve,reject){
+    nivel += 1;
+    if(nivel === topenivel) {
+        //console.log("fin por niveles");
+        return mainCallback(null,null)
+    }
+
+    var url = arbol.getDatosNodo(nodo);
+    Crawler.prototype.getDocumentData(url,function(err,data){
+        if(err)
+            return mainCallback(err,null)
+        $ = cheerio.load(data);
+        var links = $('a');
+
+        if(_.isEmpty(links))
+            return mainCallback(null,null);
+
+        //console.log(links.length);
+        var hijos = Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)
+        //console.log("hijos...",hijos)
+        arbol.addHijosToNodo(nodo,hijos)
+
+        //console.log("añadido hijos a nodo. recorriendo hijos");
+        async.each(hijos,function(item,callback){
+            //console.log("siguiente"+ item.getDatos());
+            Crawler.prototype.procesarUrls(item,arbol,nivel,topenivel,function(err,data){
+                if(err)
+                    return callback(err,null)
+                callback(null,null)
+            });
+        },function(err){
+            if(err)
+                return mainCallback(err,null)
+            mainCallback(null,null)
+        });
+
+
+    })
+
+    //});
 };
 
 module.exports = Crawler;
