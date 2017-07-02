@@ -1,9 +1,6 @@
 var gulp        = require('gulp'),
-    jshint      = require('gulp-jshint');
 watch       = require('gulp-watch'),
-    liveReload  = require('gulp-livereload'),
     concat      = require('gulp-concat'),
-    ngAnnotate  = require('gulp-ng-annotate'),
     uglify      = require('gulp-uglify'),
     rename      = require('gulp-rename'),
     moment      = require('moment');
@@ -15,16 +12,11 @@ require('gulp-help')(gulp, {
 gulp.task('compress', 'Concatena y uglyfica todos los javascripts de AngularJS en clases.min.js.', function() {
     gulp.src(['private/angularjs/core/*.js', 'private/angularjs/controllers/*.js'])
         .pipe(concat('app'))
-        .pipe(ngAnnotate())
-        .pipe(jshint())
         .pipe(uglify())
         .pipe(rename({
             extname: ".min.js"
         }))
         .pipe(gulp.dest('public/dist'))
-        .pipe(liveReload({
-            auto: false
-        }));
 });
 
 
