@@ -7,10 +7,10 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app/
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 
-RUN git clone https://github.com/manuasir/ProyectoIV.git
+RUN git clone https://github.com/manuasir/NodeJS-WebCrawler.git
 WORKDIR /usr/src/app/ProyectoIV/
 #versión de Node
-ENV NODE_VERSION 6.11.10
+ENV NODE_VERSION 6.11.0
 
 #necesario para nvm
 export NVM_DIR="$HOME/.nvm"

@@ -21,7 +21,7 @@
     "gulp-notify": "^3.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^3.0.0",
-    "gulp-watch": "^4.3.11",
+    "gulp-watch": "^4.3.11"
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -57,7 +57,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/manuasir/ProyectoIV.git"
+    "url": "git+https://github.com/manuasir/NodeJS-WebCrawler.git"
   },
   "author": "Manuel Jiménez Bernal",
   "license": "ISC",
