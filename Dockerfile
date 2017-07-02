@@ -5,13 +5,16 @@ MAINTAINER Manuel Jiménez Bernal <manuasir@correo.ugr.es>
 RUN apt-get update && apt-get install -y curl git build-essential
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app/
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+
 RUN git clone https://github.com/manuasir/ProyectoIV.git
 WORKDIR /usr/src/app/ProyectoIV/
 #versión de Node
-ENV NODE_VERSION 4.6.1
+ENV NODE_VERSION 6.11.10
 
-#necesario para la instalación de NVM
+#necesario para nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvma instalación de NVM
 ENV NVM_DIR /root/.nvm
 
 #clonar repositorio

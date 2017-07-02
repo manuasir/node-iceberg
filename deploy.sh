@@ -11,7 +11,6 @@ then
   sudo dpkg-reconfigure -f noninteractive tzdata;
 fi
 
-#instala versión de node,pone permisos pertinentes, instala librerías
-#. /root/.nvm/nvm.sh && nvm use 4.6.1; \
-  npm install && ./node_modules/bower/bin/bower install --allow-root && grunt && gulp compress; \
-  NODE_ENV=production npm start
+#instala dependencias,pone permisos pertinentes, instala librerías
+npm install && ./node_modules/bower/bin/bower install --allow-root && grunt && gulp compress; \
+NODE_ENV=production npm start
