@@ -89,19 +89,19 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> <span class="hljs-built_in">Promise</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'bluebird'</span>);
-<span class="hljs-keyword">var</span> cheerio = <span class="hljs-built_in">Promise</span>.promisifyAll(<span class="hljs-built_in">require</span>(<span class="hljs-string">'cheerio'</span>));
-<span class="hljs-keyword">var</span> request = <span class="hljs-built_in">Promise</span>.promisifyAll(<span class="hljs-built_in">require</span>(<span class="hljs-string">"request"</span>));
-<span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">Promise</span>.promisifyAll(<span class="hljs-built_in">require</span>(<span class="hljs-string">"fs"</span>));
+<span class="hljs-keyword">var</span> cheerio = <span class="hljs-built_in">require</span>(<span class="hljs-string">'cheerio'</span>);
+<span class="hljs-keyword">var</span> request = <span class="hljs-built_in">require</span>(<span class="hljs-string">"request"</span>);
+<span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">"fs"</span>);
 <span class="hljs-keyword">var</span> vueltas = <span class="hljs-number">0</span>;
 <span class="hljs-keyword">var</span> url_array = [];
-<span class="hljs-keyword">var</span> Async = <span class="hljs-built_in">Promise</span>.promisifyAll(<span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>));
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">async</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);
 <span class="hljs-keyword">var</span> startwith = <span class="hljs-built_in">require</span>(<span class="hljs-string">'string.prototype.startswith'</span>);
 <span class="hljs-keyword">var</span> Arbol = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./tree'</span>);
 <span class="hljs-keyword">var</span> url_array_global = [];
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
 <span class="hljs-keyword">var</span> jsonfile = <span class="hljs-built_in">require</span>(<span class="hljs-string">'jsonfile'</span>);
 <span class="hljs-keyword">var</span> treeWrapper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'json-tree-wrap'</span>);
-
+<span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>)
 <span class="hljs-comment">/**
  * Clase Crawler:
  * Construye un árbol a partir de una URL,explorando iterativamente entre sus hijos y guardando en MongoDB
@@ -123,10 +123,10 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  
-  <span class="hljs-keyword">this</span>.arbol = <span class="hljs-keyword">new</span> Arbol(url);
-  <span class="hljs-keyword">this</span>.cola = [];
-  <span class="hljs-keyword">this</span>.url_raiz= url;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+    <span class="hljs-keyword">this</span>.arbol = <span class="hljs-keyword">new</span> Arbol(url);
+    <span class="hljs-keyword">this</span>.cola = [];
+    <span class="hljs-keyword">this</span>.url_raiz= url;</pre></div></div>
             
         </li>
         
@@ -147,19 +147,20 @@ this.db=Crawler.prototype.conectarMongo();</p>
 <span class="hljs-comment">/**
  * Conecta con MongoDB
  */</span>
-Crawler.prototype.conectarMongo=<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-	mongoTree.connect(<span class="hljs-string">"mongodb://manuasir:mongodb@ds147497.mlab.com:47497/heroku_hbc36tp7"</span>,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>)</span>{
-		<span class="hljs-keyword">if</span>(err)
-			<span class="hljs-keyword">return</span> err;
-	});
+Crawler.prototype.conectarMongo=<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">cb</span>)</span>{
+    mongoTree.connect(<span class="hljs-string">"mongodb://manuasir:mongodb@ds147497.mlab.com:47497/heroku_hbc36tp7"</span>,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>)</span>{
+        <span class="hljs-keyword">if</span>(err)
+            <span class="hljs-keyword">return</span> err;
+        cb()
+    });
 };
 
 <span class="hljs-comment">/**
  * Cierra la conexión con MongoDB
  */</span>
 Crawler.prototype.cerrarMongo=<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-	
-	MongoClient.disconnect();
+
+    MongoClient.disconnect();
 };
 
 <span class="hljs-comment">/**
@@ -168,7 +169,7 @@ Crawler.prototype.cerrarMongo=<span class="hljs-function"><span class="hljs-keyw
  */</span>
 Crawler.prototype.getArbol = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
 
-	<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.arbol;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.arbol;
 };
 
 <span class="hljs-comment">/**
@@ -177,17 +178,17 @@ Crawler.prototype.getArbol = <span class="hljs-function"><span class="hljs-keywo
  */</span>
 Crawler.prototype.getTopeNivel = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
 
-	<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.topeNivel;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.topeNivel;
 };
 
 <span class="hljs-comment">/**
  * Escribe a JSON
  */</span>
 Crawler.prototype.escribirJSON = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-	
-	<span class="hljs-keyword">var</span> enrrollado = <span class="hljs-keyword">new</span> treeWrapper();
-	<span class="hljs-keyword">var</span> rootWrapper = enrrollado.wrap(<span class="hljs-keyword">this</span>.arbol);
-	jsonfile.writeFileSync(<span class="hljs-string">'elarbol.json'</span>, rootWrapper);
+
+    <span class="hljs-keyword">var</span> enrrollado = <span class="hljs-keyword">new</span> treeWrapper();
+    <span class="hljs-keyword">var</span> rootWrapper = enrrollado.wrap(<span class="hljs-keyword">this</span>.arbol);
+    jsonfile.writeFileSync(<span class="hljs-string">'elarbol.json'</span>, rootWrapper);
 
 };
 
@@ -197,7 +198,7 @@ Crawler.prototype.escribirJSON = <span class="hljs-function"><span class="hljs-k
  */</span>
 Crawler.prototype.getPrimeraUrl = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
 
-	<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.arbol.getRaiz();
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.arbol.getRaiz();
 };
 
 <span class="hljs-comment">/**
@@ -219,7 +220,7 @@ Crawler.prototype.getUrlRaiz = <span class="hljs-function"><span class="hljs-key
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.url_raiz;
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.url_raiz;
 };
 
 <span class="hljs-comment">/**
@@ -227,20 +228,7 @@ Crawler.prototype.getUrlRaiz = <span class="hljs-function"><span class="hljs-key
  * @param urlraiz
  * @param links
  */</span>
-Crawler.prototype.formatearUrl = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">urlraiz,links</span>)</span>{
-
-	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>{
-
-		<span class="hljs-keyword">var</span> nodostemp = [];
-		<span class="hljs-keyword">var</span> cont = <span class="hljs-number">0</span>;
-		links.each(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">index,item</span>)</span>{
-			<span class="hljs-keyword">var</span> uri = $(item).attr(<span class="hljs-string">'href'</span>);
-			<span class="hljs-keyword">var</span> url;
-			<span class="hljs-keyword">if</span>( uri &amp;&amp; uri != <span class="hljs-string">''</span> ){
-				<span class="hljs-keyword">var</span> eq = (<span class="hljs-literal">true</span>, uri.startsWith(<span class="hljs-string">'h'</span>));
-				<span class="hljs-keyword">if</span>(!eq){	
-					
-					url = urlraiz+uri;</pre></div></div>
+Crawler.prototype.formatearUrl = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">urlraiz,links</span>)</span>{</pre></div></div>
             
         </li>
         
@@ -251,29 +239,20 @@ Crawler.prototype.formatearUrl = <span class="hljs-function"><span class="hljs-k
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>console.log(“THIS.URL RAIZ ——-&gt;”+ url);</p>
+              <p>return new Promise(function (resolve, reject) {</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>				}
-				<span class="hljs-keyword">else</span>
-					url = uri;
-				<span class="hljs-keyword">var</span> temp = Arbol.prototype.crearNodo(url);
-				nodostemp.push(temp);
-			}
-			cont ++
-			<span class="hljs-keyword">if</span>(cont == links.length )
-				resolve(nodostemp);
-		});
-		
-	});
-};
-
-<span class="hljs-comment">/**
- * Obtiene el DOM de una URL
- * @param url
- */</span>
-Crawler.prototype.getDocumentData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">url</span>) </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+    <span class="hljs-keyword">var</span> nodostemp = [];
+    <span class="hljs-keyword">var</span> cont = <span class="hljs-number">0</span>;
+    _.forEach(links,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item</span>)</span>{
+        <span class="hljs-keyword">var</span> uri = $(item).attr(<span class="hljs-string">'href'</span>);
+        <span class="hljs-keyword">var</span> url;
+        <span class="hljs-keyword">if</span>( uri &amp;&amp; uri != <span class="hljs-string">''</span> ){
+            <span class="hljs-keyword">var</span> eq = (<span class="hljs-literal">true</span>, uri.startsWith(<span class="hljs-string">'h'</span>));
+            <span class="hljs-keyword">if</span>(!eq){
+                url = urlraiz+uri;</pre></div></div>
             
         </li>
         
@@ -284,11 +263,19 @@ Crawler.prototype.getDocumentData = <span class="hljs-function"><span class="hlj
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>console.log(‘Processing url’);</p>
+              <p>console.log(“THIS.URL RAIZ ——-&gt;”+ url);</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>            }
+            <span class="hljs-keyword">else</span>
+                url = uri;
+            <span class="hljs-keyword">var</span> temp = Arbol.prototype.crearNodo(url);
+            nodostemp.push(temp);
+        }
+
+    });
+    <span class="hljs-keyword">return</span> nodostemp;</pre></div></div>
             
         </li>
         
@@ -299,12 +286,17 @@ Crawler.prototype.getDocumentData = <span class="hljs-function"><span class="hlj
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>console.log(“realizando request a “+url);</p>
+              <p>});</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>		request(url, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, resp, body</span>)</span>{
-		<span class="hljs-keyword">if</span>(!err){</pre></div></div>
+            <div class="content"><div class='highlight'><pre>};
+
+<span class="hljs-comment">/**
+ * Obtiene el DOM de una URL
+ * @param url
+ */</span>
+Crawler.prototype.getDocumentData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">url,cb</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -315,13 +307,44 @@ Crawler.prototype.getDocumentData = <span class="hljs-function"><span class="hlj
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>console.log(“devolviendo body”);</p>
+              <p>console.log(‘Processing url’);
+console.log(“realizando request a “+url);</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>				resolve(body);
-			}
-			<span class="hljs-keyword">else</span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    request(url, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, resp, body</span>)</span>{
+        <span class="hljs-keyword">if</span>(err)
+            <span class="hljs-keyword">return</span> cb(err,<span class="hljs-literal">null</span>)
+        cb(<span class="hljs-literal">null</span>,body)
+    });
+};
+
+<span class="hljs-comment">/**
+ * Recorrer el árbol
+ * @param callback
+ */</span>
+Crawler.prototype.recorrerArbol = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">callback</span>) </span>{
+    <span class="hljs-keyword">this</span>.arbol.recorrerArbol(<span class="hljs-keyword">this</span>.arbol.getRaiz(),<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,data</span>)</span>{
+        <span class="hljs-keyword">if</span>(err)
+            <span class="hljs-keyword">return</span> callback(err,<span class="hljs-literal">null</span>)
+        callback(<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>);
+    })
+};
+
+<span class="hljs-comment">/**
+ * Comenzar con el procesamiento
+ * @param nodo
+ * @param arbol
+ * @param nivel
+ * @param topenivel
+ */</span>
+Crawler.prototype.arrancar = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nodo,arbol,nivel,topenivel,callback</span>) </span>{
+    <span class="hljs-keyword">var</span> contador = <span class="hljs-number">0</span>;
+    Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,data</span>)</span>{
+        <span class="hljs-keyword">if</span>(err)
+            <span class="hljs-keyword">return</span> callback(err,<span class="hljs-literal">null</span>)
+        callback(<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>)
+    })</pre></div></div>
             
         </li>
         
@@ -332,37 +355,20 @@ Crawler.prototype.getDocumentData = <span class="hljs-function"><span class="hlj
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>console.log(err);</p>
+              <p>});</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>				reject(err);
-			}
-		});
-	});
-};
+            <div class="content"><div class='highlight'><pre>};
 
 <span class="hljs-comment">/**
- * Recorrer el árbol
- * @param callback
- */</span>
-Crawler.prototype.recorrerArbol = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">callback</span>) </span>{
-  	<span class="hljs-keyword">this</span>.arbol.recorrerArbol(<span class="hljs-keyword">this</span>.arbol.getRaiz())
-  	.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-  		<span class="hljs-keyword">return</span> callback();
-  	})
-};
-
-<span class="hljs-comment">/**
- * Comenzar con el procesamiento
+ * Iterativamente obtiene información filtrada del DOM y va construyendo el árbol
  * @param nodo
  * @param arbol
  * @param nivel
  * @param topenivel
  */</span>
-Crawler.prototype.arrancar = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nodo,arbol,nivel,topenivel</span>) </span>{
-
-	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>{</pre></div></div>
+Crawler.prototype.procesarUrls = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nodo,arbol,nivel,topenivel,mainCallback</span>)</span>{</pre></div></div>
             
         </li>
         
@@ -373,13 +379,13 @@ Crawler.prototype.arrancar = <span class="hljs-function"><span class="hljs-keywo
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>console.log(‘arrancando url’ + nivel +topenivel);</p>
+              <p>console.log(“TOPE NIVEL : “+topenivel);
+return new Promise(function(resolve,reject){</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">var</span> contador = <span class="hljs-number">0</span>;
-		Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel)
-		.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    nivel += <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span>(nivel === topenivel) {</pre></div></div>
             
         </li>
         
@@ -390,25 +396,22 @@ Crawler.prototype.arrancar = <span class="hljs-function"><span class="hljs-keywo
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>salida(data);
-console.log(“FIN!!”);</p>
+              <p>console.log(“fin por niveles”);</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    	 resolve();
-    	})
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> mainCallback(<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>)
+    }
 
-	});
-};
+    <span class="hljs-keyword">var</span> url = arbol.getDatosNodo(nodo);
+    Crawler.prototype.getDocumentData(url,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,data</span>)</span>{
+        <span class="hljs-keyword">if</span>(err)
+            <span class="hljs-keyword">return</span> mainCallback(err,<span class="hljs-literal">null</span>)
+        $ = cheerio.load(data);
+        <span class="hljs-keyword">var</span> links = $(<span class="hljs-string">'a'</span>);
 
-<span class="hljs-comment">/**
- * Iterativamente obtiene información filtrada del DOM y va construyendo el árbol
- * @param nodo
- * @param arbol
- * @param nivel
- * @param topenivel
- */</span>
-Crawler.prototype.procesarUrls = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nodo,arbol,nivel,topenivel</span>)</span>{</pre></div></div>
+        <span class="hljs-keyword">if</span>(_.isEmpty(links))
+            <span class="hljs-keyword">return</span> mainCallback(<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>);</pre></div></div>
             
         </li>
         
@@ -419,13 +422,11 @@ Crawler.prototype.procesarUrls = <span class="hljs-function"><span class="hljs-k
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>console.log(“TOPE NIVEL : “+topenivel);</p>
+              <p>console.log(links.length);</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">resolve,reject</span>)</span>{
-		nivel = nivel + <span class="hljs-number">1</span>;	
-		<span class="hljs-keyword">if</span>(nivel == topenivel) {</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> hijos = Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)</pre></div></div>
             
         </li>
         
@@ -436,14 +437,11 @@ Crawler.prototype.procesarUrls = <span class="hljs-function"><span class="hljs-k
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>console.log(“fin por niveles”);</p>
+              <p>console.log(“hijos…”,hijos)</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>			resolve();	
-		}
-		<span class="hljs-keyword">else</span>{
-			<span class="hljs-keyword">var</span> contador = <span class="hljs-number">0</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        arbol.addHijosToNodo(nodo,hijos)</pre></div></div>
             
         </li>
         
@@ -454,14 +452,11 @@ Crawler.prototype.procesarUrls = <span class="hljs-function"><span class="hljs-k
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p>console.log(“turno de “+arbol.getDatosNodo(nodo));
-console.log(“nivel “+nivel+” se va a proceder a realizar la peticion GET”);</p>
+              <p>console.log(“añadido hijos a nodo. recorriendo hijos”);</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">var</span> url = arbol.getDatosNodo(nodo);
-			Crawler.prototype.getDocumentData(url)
-			.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>)</span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">async</span>.each(hijos,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item,callback</span>)</span>{</pre></div></div>
             
         </li>
         
@@ -472,13 +467,23 @@ console.log(“nivel “+nivel+” se va a proceder a realizar la peticion GET�
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>console.log(“recibido body de “ + arbol.getDatosNodo(nodo));</p>
+              <p>console.log(“siguiente”+ item.getDatos());</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>				$ = cheerio.load(data);
-				<span class="hljs-keyword">var</span> links = $(<span class="hljs-string">'a'</span>);
-				<span class="hljs-keyword">if</span>(links.length == <span class="hljs-number">0</span>){</pre></div></div>
+            <div class="content"><div class='highlight'><pre>            Crawler.prototype.procesarUrls(item,arbol,nivel,topenivel,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,data</span>)</span>{
+                <span class="hljs-keyword">if</span>(err)
+                    <span class="hljs-keyword">return</span> callback(err,<span class="hljs-literal">null</span>)
+                callback(<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>)
+            });
+        },<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>)</span>{
+            <span class="hljs-keyword">if</span>(err)
+                <span class="hljs-keyword">return</span> mainCallback(err,<span class="hljs-literal">null</span>)
+            mainCallback(<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>)
+        });
+
+
+    })</pre></div></div>
             
         </li>
         
@@ -489,78 +494,11 @@ console.log(“nivel “+nivel+” se va a proceder a realizar la peticion GET�
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <p>console.log(“fin porque no hay links”);</p>
+              <p>});</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>					resolve();
-				}
-				<span class="hljs-keyword">else</span>{</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-17">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
-              </div>
-              <p>console.log(links.length);</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>					Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)
-					.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">hijos</span>)</span>{
-						arbol.addHijosToNodo(nodo,hijos)
-						.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-18">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
-              </div>
-              <p>console.log(“añadido hijos a nodo. recorriendo hijos”);</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>							Async.forEach(hijos,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item</span>)</span>{</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-19">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
-              </div>
-              <p>console.log(“siguiente”+ item.getDatos());</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>								
-								Crawler.prototype.procesarUrls(item,arbol,nivel,topenivel)
-								.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-									contador++;
-									<span class="hljs-keyword">if</span>(contador == hijos.length)
-										resolve();
-								});
-							},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>)</span>{
-								reject(err);
-							});
-							
-						})	
-					})	
-				}
-			})
-		}
-	});
-};
+            <div class="content"><div class='highlight'><pre>};
 
 <span class="hljs-built_in">module</span>.exports = Crawler;</pre></div></div>
             

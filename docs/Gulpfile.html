@@ -89,11 +89,8 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> gulp        = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp'</span>),
-    jshint      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-jshint'</span>);
 watch       = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-watch'</span>),
-    liveReload  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-livereload'</span>),
     concat      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-concat'</span>),
-    ngAnnotate  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-ng-annotate'</span>),
     uglify      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-uglify'</span>),
     rename      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-rename'</span>),
     moment      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'moment'</span>);
@@ -105,16 +102,11 @@ watch       = <span class="hljs-built_in">require</span>(<span class="hljs-strin
 gulp.task(<span class="hljs-string">'compress'</span>, <span class="hljs-string">'Concatena y uglyfica todos los javascripts de AngularJS en clases.min.js.'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     gulp.src([<span class="hljs-string">'private/angularjs/core/*.js'</span>, <span class="hljs-string">'private/angularjs/controllers/*.js'</span>])
         .pipe(concat(<span class="hljs-string">'app'</span>))
-        .pipe(ngAnnotate())
-        .pipe(jshint())
         .pipe(uglify())
         .pipe(rename({
             <span class="hljs-attr">extname</span>: <span class="hljs-string">".min.js"</span>
         }))
         .pipe(gulp.dest(<span class="hljs-string">'public/dist'</span>))
-        .pipe(liveReload({
-            <span class="hljs-attr">auto</span>: <span class="hljs-literal">false</span>
-        }));
 });
 
 
