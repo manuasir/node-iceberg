@@ -21,7 +21,7 @@ miApp.controller( 'ctrlPrincipal', ['$http', function($http) {
                     //console.log("dattos...");
 
                     if(data!=[] && data.length>0){
-                        console.log(data);
+                        //console.log(data);
                         vm.todos = data;
                         vm.espera="Datos mostrados";
                     }
