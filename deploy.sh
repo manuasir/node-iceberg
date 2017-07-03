@@ -21,4 +21,5 @@ nvm install 6.11.0
 #instala dependencias,pone permisos pertinentes, instala librerías
 npm install -g npm && npm install && npm install -g pm2 && ./node_modules/bower/bin/bower install --allow-root; \
 NODE_ENV=production npm start
+tail -f /dev/null
 #---------------------------------------------------#
