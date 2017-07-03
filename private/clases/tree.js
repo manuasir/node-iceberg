@@ -92,8 +92,6 @@ Arbol.prototype.addHijosToNodo = function(nodo,vec) {
 
     //return new Promise(function (resolve, reject) {
     this.profundidad=this.profundidad+1;
-    // console.log("añadiendo "+vec.length+" elementos al nodo seleccionado "+nodo.getDatos());
-    //console.log("add hijos to nodo...",vec);
     var arraynodos = [];
     if(vec.length>0){
         vec.forEach(function(item,index){
@@ -112,7 +110,6 @@ Arbol.prototype.addHijosToNodo = function(nodo,vec) {
             arraynodos.push(temp);
         }
         else{
-            // console.log("un solo nodo");
             arraynodos.push(vec);
         }
     }
@@ -151,22 +148,16 @@ Arbol.prototype.insertIntoMongo = function(nuevoModelo,callback) {
  * @param nodo
  * @returns {Promise}
  */
-Arbol.prototype.recorrerArbol = function(nodo,callback){
-    //return new Promise(function (resolve, reject) {
-    //console.log("Entrando en recorrerArbol");
-    var temp = nodo.getDatos()
-
+Arbol.prototype.insertNodeIntoDb = function(nodo,callback){
     var nuevoModelo = modeloMongo({
         datos: nodo.getDatos(),
         hijos: nodo.getAllHijos()
     });
-
     Arbol.prototype.insertIntoMongo(nuevoModelo,function(err,datos){
         if(err)
             return callback(err)
         callback(null,null)
     })
-
 };
 
 module.exports = Arbol;
