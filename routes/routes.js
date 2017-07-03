@@ -29,46 +29,44 @@ router.get('/', function(req, res, next) {
 /**
  * Ruta que comienza a procesar una cadena
  */
-router.get('/model/:cadena', function(req, res){
-    var string = req.params.cadena;
+router.get('/crawl/', function(req, res){
+    if(!req.query.q || !req.query.level)
+        return res.status(400).json({code:"faltan parametros de busqueda"});
+    var string = req.query.q;
+    var level = (req.query.level < 5) ? req.query.level : 5;
+    console.log("nivel...",level)
     if(string.indexOf("/") > -1) {
         var url = 'http://'+string;
     }
     else
         var url = 'http://'+string+"/";
 
-    var query = Nodo.find({ datos: url});
-    query.exec(function(err, model){
-        if(err)
-            return res.status(400).json(err);
+    var arania = new Crawler(url,level);
 
-        if(!isEmptyObject(model)){
-            console.log("cacheado en bd");
-            return res.status(200).json(model);
+    arania.arrancar(arania.getPrimeraUrl(),arania.getArbol(),-1,level,function(err,data){
+        //  console.log("Saliendo del proceso");
+        if(err){
+            console.error("terminado con error ",err)
+            return res.status(401).json(err);
         }
-
-        var arania = new Crawler(url);
-
-        arania.arrancar(arania.getPrimeraUrl(),arania.getArbol(),-1,2,function(err,data){
-            //  console.log("Saliendo del proceso");
+        console.log("terminado sin error, guardando en mongodb ")
+        arania.recorrerArbol(function(err,data){
+            // console.log("Terminado de guardar MongoDB");
             if(err)
-                return res.status(401).json(err);
-            arania.recorrerArbol(function(err,data){
-                // console.log("Terminado de guardar MongoDB");
+                return res.status(402).json(err);
+            var query = Nodo.find({ datos: url});
+            query.exec(function(err, model){
                 if(err)
                     return res.status(402).json(err);
-                query.exec(function(err, model){
-                    if(err)
-                        return res.status(402).json(err);
-                    console.log("devuelvo el modelo")
-                    res.status(200).json(model);
-                });
-
+                console.log("devuelvo el modelo")
+                res.status(200).json(model);
             });
 
-        })
+        });
 
-    });
+    })
+
+
 });
 
 

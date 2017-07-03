@@ -16,16 +16,22 @@ html(ng-app='miApp')
                 .form-group
                     label(for='usr') URL
                     br
-                    label(for='usr') Formato: (www.example.com)
-                    input#campotexto.form-control(type='text')
+                    .row
+                        .col
+                            label(for='usr') Formato: (www.example.com)
+                            input.form-control(ng-model="cp.cadena" type='text')
+                        .col
+                            label(for='usr') Nivel
+                                input.form-control(ng-model="cp.level" type='text')
                 button.btn(ng-click="cp.cargar()") Araña
+                br
                 br
         //var json = {{ cp.topdos }}
         //label {{ cp.todos }}
-        json-formatter(align='center', open='0', json="cp.todos")
+        json-formatter(ng-if="cp.todos && !cp.espera" align='center', open='0', json="cp.todos")
         div(align='center')
-            p {{ cp.espera }}
-            a(href="https://ivwebcrawler.herokuapp.com/docs/Gruntfile.html") Documentación
+            img(ng-if="cp.espera" src="/imgs/gears.gif")
+
     script(src = "https://code.jquery.com/jquery-3.1.1.min.js",integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=",crossorigin="anonymous")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js")
     script(src="/dist/app.min.js")

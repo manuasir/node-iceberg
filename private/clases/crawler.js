@@ -134,7 +134,7 @@ Crawler.prototype.getDocumentData = function (url,cb) {
     //console.log("realizando request a "+url);
     request(url, function(err, resp, body){
         if(err)
-            return cb(err,null)
+            return cb(null,null)
         cb(null,body)
     });
 };
@@ -187,34 +187,36 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,mainCallbac
 
     var url = arbol.getDatosNodo(nodo);
     Crawler.prototype.getDocumentData(url,function(err,data){
-        if(err)
-            return mainCallback(err,null)
-        $ = cheerio.load(data);
-        var links = $('a');
+        //if(err)
+        //    return mainCallback(err,null)
+        if(data){
+            $ = cheerio.load(data);
+            var links = $('a');
 
-        if(_.isEmpty(links))
-            return mainCallback(null,null);
+            if(_.isEmpty(links))
+                return mainCallback(null,null);
 
-        //console.log(links.length);
-        var hijos = Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)
-        //console.log("hijos...",hijos)
-        arbol.addHijosToNodo(nodo,hijos)
+            //console.log(links.length);
+            var hijos = Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)
+            //console.log("hijos...",hijos)
+            arbol.addHijosToNodo(nodo,hijos)
 
-        //console.log("añadido hijos a nodo. recorriendo hijos");
-        async.each(hijos,function(item,callback){
-            //console.log("siguiente"+ item.getDatos());
-            Crawler.prototype.procesarUrls(item,arbol,nivel,topenivel,function(err,data){
+            //console.log("añadido hijos a nodo. recorriendo hijos");
+            async.each(hijos,function(item,callback){
+                //console.log("siguiente"+ item.getDatos());
+                Crawler.prototype.procesarUrls(item,arbol,nivel,topenivel,function(err,data){
+                    if(err)
+                        return callback(err,null)
+                    callback(null,null)
+                });
+            },function(err){
                 if(err)
-                    return callback(err,null)
-                callback(null,null)
+                    return mainCallback(err,null)
+                mainCallback(null,null)
             });
-        },function(err){
-            if(err)
-                return mainCallback(err,null)
+
+        }else
             mainCallback(null,null)
-        });
-
-
     })
 
     //});

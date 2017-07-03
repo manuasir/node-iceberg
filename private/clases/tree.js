@@ -93,7 +93,7 @@ Arbol.prototype.addHijosToNodo = function(nodo,vec) {
     //return new Promise(function (resolve, reject) {
     this.profundidad=this.profundidad+1;
     // console.log("añadiendo "+vec.length+" elementos al nodo seleccionado "+nodo.getDatos());
-    console.log("add hijos to nodo...",vec);
+    //console.log("add hijos to nodo...",vec);
     var arraynodos = [];
     if(vec.length>0){
         vec.forEach(function(item,index){

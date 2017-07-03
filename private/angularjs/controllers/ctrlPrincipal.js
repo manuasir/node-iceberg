@@ -7,37 +7,39 @@
  */
 miApp.controller( 'ctrlPrincipal', ['$http', function($http) {
     var vm = this;
+    vm.espera = false;
+    vm.cadena=""
+    vm.level=""
     console.log("controlador principal");
     vm.cargar = function(){
 
-        alert("cargando...");
-        var cadena = $("#campotexto").val()
-        //console.log(vm.campotexto);
-
-        vm.espera="esperando...";
-        if(cadena!=""){
-            $http.get('/model/'+cadena)
+        vm.espera=true;
+        if(vm.cadena!=="" && vm.level !== ""){
+            $http.get('/crawl?q='+vm.cadena+'&level='+vm.level)
                 .success(function(data){
+                    vm.espera = false
                     //console.log("dattos...");
 
                     if(data!=[] && data.length>0){
                         //console.log(data);
                         vm.todos = data;
-                        vm.espera="Datos mostrados";
+                        vm.espera=false
                     }
                     else{
-                        vm.espera="Sin resultados";
+                        vm.espera=false
                         vm.todos=[];
 
                     }
                     //console.log(data);
                 })
                 .error(function(data) {
+                    console.log("error ",data)
                     vm.todos=[];
-                    vm.espera="Error de conexión";
+                    vm.espera=false;
                 });
         }else{
-            vm.espera="Entrada no valida";
+            vm.espera=false;
+
         }
     };
 
