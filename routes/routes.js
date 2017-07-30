@@ -5,8 +5,8 @@ var express = require('express');
 var router = express.Router();
 var Crawler = require('../private/clases/crawler');
 var mongoose = require('mongoose');
-// mongoose.connect('mongodb://manuasir:mongodb@ds147072.mlab.com:47072/heroku_mctx4f0c');
-mongoose.connect('mongodb://localhost:27017/crawler');
+mongoose.connect('mongodb://manuasir:mongodb@ds147072.mlab.com:47072/heroku_mctx4f0c');
+// mongoose.connect('mongodb://localhost:27017/crawler');
 
 /**
  * Renderiza la vista principal con cabeceras,footer,etc
