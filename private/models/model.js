@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-//var Nodo = require('../clases/node.js');
+
 // create a schema
 var nodoSchema = new Schema({
-	datos: String,
-  //padre: String,
-	hijos: []
+	url: String,
+	payload : Object,
+	nextUrls: [{type: Object}]
 });
 
 // the schema is useless so far

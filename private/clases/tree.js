@@ -1,17 +1,15 @@
 var Nodo = require('./node');
 var modeloMongo = require('../models/model.js');
-
+var _ = require('lodash')
 /**
  * Clase Arbol: Estructura de datos con la información y las relaciones entre los nodos
  * @param datos
  * @constructor
  */
 function Arbol(datos) {
-    // always initialize all instance properties
-    this.raiz = new Nodo(datos);
-    this.profundidad = 0;
+  this.raiz = new Nodo(datos);
+  this.profundidad = 0;
 }
-
 
 /**
  * Crear un nuevo nodo con información pasada por parámetro
@@ -19,8 +17,7 @@ function Arbol(datos) {
  * @returns {Node}
  */
 Arbol.prototype.crearNodo = function(info) {
-    var nuevonodo = new Nodo(info);
-    return nuevonodo;
+  return new Nodo(info);
 };
 
 /**
@@ -28,7 +25,7 @@ Arbol.prototype.crearNodo = function(info) {
  * @returns {Nodo|Node}
  */
 Arbol.prototype.getRaiz = function() {
-    return this.raiz;
+  return this.raiz;
 };
 
 /**
@@ -37,7 +34,7 @@ Arbol.prototype.getRaiz = function() {
  * @returns {*}
  */
 Arbol.prototype.getColaNodo = function(nodo) {
-    return nodo.getCola();
+  return nodo.getCola();
 };
 
 /**
@@ -45,7 +42,7 @@ Arbol.prototype.getColaNodo = function(nodo) {
  * @param nodo
  */
 Arbol.prototype.getDatosNodo = function(nodo) {
-    return nodo.getDatos();
+  return nodo.getDatos();
 };
 
 /**
@@ -53,7 +50,7 @@ Arbol.prototype.getDatosNodo = function(nodo) {
  * @param nodo
  */
 Arbol.prototype.getNumHijos = function(nodo) {
-    return nodo.getNumHijos();
+  return nodo.getNumHijos();
 };
 
 /**
@@ -62,7 +59,7 @@ Arbol.prototype.getNumHijos = function(nodo) {
  * @returns {number}
  */
 Arbol.prototype.getProfundidad = function(nodo) {
-    return this.profundidad;
+  return this.profundidad;
 };
 
 /**
@@ -71,7 +68,7 @@ Arbol.prototype.getProfundidad = function(nodo) {
  * @param i
  */
 Arbol.prototype.getNodo = function(nodo,i) {
-    return nodo.getNodo().getHijo(i);
+  return nodo.getNodo().getHijo(i);
 };
 
 /**
@@ -79,56 +76,40 @@ Arbol.prototype.getNodo = function(nodo,i) {
  * @returns {Arbol}
  */
 Arbol.prototype.getArbol = function() {
-    return this;
+  return this;
 };
 
 /**
  * Añade un nuevo hijo o conjunto de hijos a un nodo
  * @param nodo
  * @param vec
- * @returns {Promise}
+ * @returns
  */
 Arbol.prototype.addHijosToNodo = function(nodo,vec) {
 
-    //return new Promise(function (resolve, reject) {
-    this.profundidad=this.profundidad+1;
-    var arraynodos = [];
-    if(vec.length>0){
-        vec.forEach(function(item,index){
-            if(item instanceof Nodo === false){
-                var temp = new Nodo(item);
-                arraynodos.push(temp);
-            }
-            else{
-                arraynodos.push(item);
-            }
-        });
+  this.profundidad=this.profundidad+1;
+  var arraynodos = [];
+  if(vec.length>0){
+    vec.forEach(function(item,index){
+      if(item instanceof Nodo === false){
+        var temp = new Nodo(item);
+        arraynodos.push(temp);
+      }
+      else{
+        arraynodos.push(item);
+      }
+    });
+  }
+  else{
+    if(vec instanceof Nodo === false){
+      var temp = new Nodo(vec);
+      arraynodos.push(temp);
     }
     else{
-        if(vec instanceof Nodo === false){
-            var temp = new Nodo(vec);
-            arraynodos.push(temp);
-        }
-        else{
-            arraynodos.push(vec);
-        }
+      arraynodos.push(vec);
     }
-    nodo.addHijos(arraynodos);
-};
-
-// var aux = [];
-/**
- * Obtiene los datos a partir de un nodo
- * @param nodo
- * @param cb
- */
-Arbol.prototype.getDatosFromMongo = function(nodo,cb) {
-
-    this.nuevoModelo.find({datos:nodo.getDatos()}, function(err, datos) {
-        if (err) return cb(err,null);
-        cb(null,datos)
-
-    });
+  }
+  nodo.addHijos(arraynodos);
 };
 
 /**
@@ -137,27 +118,32 @@ Arbol.prototype.getDatosFromMongo = function(nodo,cb) {
  * @param callback
  */
 Arbol.prototype.insertIntoMongo = function(nuevoModelo,callback) {
-    nuevoModelo.save(function(err) {
-        if (err) return callback(err,null);
-        callback(null,null);
-    });
+  nuevoModelo.save(function(err) {
+    if (err) return callback(err,null);
+    callback(null,null);
+  });
 };
 
 /**
  * Recorrer el árbol
  * @param nodo
- * @returns {Promise}
  */
 Arbol.prototype.insertNodeIntoDb = function(nodo,callback){
-    var nuevoModelo = modeloMongo({
-        datos: nodo.getDatos(),
-        hijos: nodo.getAllHijos()
-    });
-    Arbol.prototype.insertIntoMongo(nuevoModelo,function(err,datos){
-        if(err)
-            return callback(err)
-        callback(null,null)
-    })
+  console.log("insertando en mongodb")
+
+  var nuevoModelo = modeloMongo({
+    url: nodo.getDatos(),
+    payload: nodo.getPayload(),
+    nextUrls: nodo.getAllHijos()
+  });
+  Arbol.prototype.insertIntoMongo(nuevoModelo,function(err,datos){
+    if(err){
+      console.error(" error al insertar ",err)
+      return callback(err)
+
+    }
+    callback(null,null)
+  })
 };
 
 module.exports = Arbol;

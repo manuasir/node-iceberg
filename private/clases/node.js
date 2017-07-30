@@ -1,31 +1,50 @@
-// Clase Node (Node of the tree)
+var _ = require('lodash')
 
-// Constructor
 /**
- * Clase Nodo: Estructura de datos que guarda información sobre una URL y sus hijos
+ * Clase Nodo: Estructura de datos que guarda información sobre una URL, su contenido(payload) y sus URL hijas
  * @param datos
+ * @param payload
  * @constructor
  */
 function Node(datos) {
-    this.datos = datos;
-    this.hijos = [];
-
+  this.url = datos;
+  this.payload = {}
+  this.nextUrls = [];
 }
 
 /**
  * Añade hijos a un nodo
- * @param vector
+ * @param vectorDeNodos
  */
-Node.prototype.addHijos = function(vector){
+Node.prototype.addHijos = function(vectorDeUrls){
+  if(vectorDeUrls.length>0){
+    for(var i=0;i<vectorDeUrls.length;i++){
+      this.nextUrls.push(vectorDeUrls[i]);
+    }
+  }
+  else{
+    this.nextUrls.push(vectorDeUrls);
+  }
+};
 
-    if(vector.length>0){
-        for(var i=0;i<vector.length;i++){
-            this.hijos.push(vector[i]);
-        }
-    }
-    else{
-        this.hijos.push(vector);
-    }
+/**
+ * Añade el payload de un nodo
+ * @param something
+ */
+Node.prototype.getPayload = function(){
+  return this.payload
+};
+
+/**
+ * Añade el payload de un nodo
+ * @param something
+ */
+Node.prototype.setPayload = function(something){
+  //console.log("seteando payload en nodo ")
+  if(!_.isObject(something)){
+    this.payload = {unknownType: something}
+  }else
+    this.payload = something
 };
 
 /**
@@ -33,8 +52,10 @@ Node.prototype.addHijos = function(vector){
  * @returns {Array}
  */
 Node.prototype.getAllHijos = function(){
-
-    return this.hijos;
+  if(this.nextUrls.length>0)
+    return this.nextUrls;
+  else
+    return []
 };
 
 /**
@@ -43,10 +64,10 @@ Node.prototype.getAllHijos = function(){
  * @returns {*}
  */
 Node.prototype.getHijo = function(i){
-    if(this.hijos.length > 0)
-        return this.hijos[i];
-    else
-        return 0;
+  if(this.nextUrls.length > 0)
+    return this.nextUrls[i];
+  else
+    return 0;
 };
 
 /**
@@ -55,7 +76,7 @@ Node.prototype.getHijo = function(i){
  */
 Node.prototype.getNumHijos = function(){
 
-    return this.hijos.length;
+  return this.nextUrls.length;
 };
 
 /**
@@ -63,8 +84,7 @@ Node.prototype.getNumHijos = function(){
  * @returns {Node}
  */
 Node.prototype.getNodo = function(){
-
-    return this;
+  return this;
 };
 
 /**
@@ -73,16 +93,8 @@ Node.prototype.getNodo = function(){
  */
 Node.prototype.getDatos = function(){
 
-    return this.datos;
+  return this.url;
 };
 
-/**
- * Proporciona datos al nodo
- * @param datos
- */
-Node.prototype.setDatos = function(datos){
-
-    this.datos = datos;
-};
 
 module.exports = Node;

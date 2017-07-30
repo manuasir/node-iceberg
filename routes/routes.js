@@ -12,46 +12,45 @@ mongoose.connect('mongodb://localhost:27017/crawler');
  * Renderiza la vista principal con cabeceras,footer,etc
  */
 router.get('/', function(req, res, next) {
-    res.render('layout');
+  res.render('layout');
 });
-
 
 /**
  * Ruta que comienza a procesar una cadena
  */
 router.get('/crawl/', function(req, res){
-    var url=""
-    if(!req.query.q || !req.query.level)
-        return res.status(400).json({code:"faltan parametros de busqueda"});
-    var string = req.query.q;
-    var level = (req.query.level < 5) ? req.query.level : 5;
-    console.log("nivel...",level)
-    if(string.indexOf("/") > -1) {
-        url = 'http://'+string;
+  var url=""
+  if(!req.query.q || !req.query.level)
+    return res.status(400).json({code:"faltan parametros de busqueda"});
+  var string = req.query.q;
+  var level = (req.query.level < 5) ? req.query.level : 5;
+  console.log("nivel...",level)
+  if(string.indexOf("/") > -1) {
+    url = 'http://'+string;
+  }
+  else
+    url = 'http://'+string+"/";
+
+  var arania = new Crawler(url,level);
+  console.log('arrancando')
+  arania.arrancar(arania.getPrimeraUrl(),arania.getArbol(),-1,level,true,function(err,data){
+    if(err){
+      console.error("terminado con error ",err)
+      return res.status(401).json(err);
     }
-    else
-        url = 'http://'+string+"/";
-
-    var arania = new Crawler(url,level);
-
-    arania.arrancar(arania.getPrimeraUrl(),arania.getArbol(),-1,level,function(err,data){
-        if(err){
-            console.error("terminado con error ",err)
-            return res.status(401).json(err);
-        }
-        console.log("terminado sin error, guardando en mongodb ")
-        arania.insertNodeIntoDb(function(err,data){
-            if(err)
-                return res.status(402).json(err);
-            var query = Nodo.find({ datos: url});
-            query.exec(function(err, model){
-                if(err)
-                    return res.status(402).json(err);
-                console.log("devuelvo el modelo")
-                res.status(200).json(model);
-            });
-        });
-    })
+    console.log("terminado sin error, guardando en mongodb ")
+    arania.insertTreeIntoDb(function(err,data){
+      if(err)
+        return res.status(402).json(err);
+      var query = Nodo.find({ url: url});
+      query.exec(function(err, model){
+        if(err)
+          return res.status(402).json(err);
+        console.log("devuelvo el modelo")
+        res.status(200).json(model);
+      });
+    });
+  })
 });
 
 module.exports = router;
