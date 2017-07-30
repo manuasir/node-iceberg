@@ -135,6 +135,7 @@ Crawler.prototype.insertNodeIntoDb = function (callback) {
  * @param arbol
  * @param nivel
  * @param topenivel
+ * @param callback
  */
 Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel,callback) {
     Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel,function(err,data){
@@ -153,10 +154,11 @@ Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel,callback) {
  */
 Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,mainCallback){
     nivel += 1;
-    if(nivel === topenivel) {
+    if(nivel == topenivel) {
+        console.log("me salgo de esta iteracion al haber llegado al tope")
         return mainCallback(null,null)
     }
-
+    console.log("explorando nivel ",nivel+" topenivel ",topenivel)
     var url = arbol.getDatosNodo(nodo);
     Crawler.prototype.getDocumentData(url,function(err,data){
         if(data){
@@ -167,6 +169,7 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,mainCallbac
 
             var hijos = Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)
             arbol.addHijosToNodo(nodo,hijos)
+            console.log("extraidos numero de hijos: ",hijos.length)
             async.each(hijos,function(item,callback){
                 Crawler.prototype.procesarUrls(item,arbol,nivel,topenivel,function(err,data){
                     if(err)
