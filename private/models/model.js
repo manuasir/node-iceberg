@@ -4,8 +4,8 @@ var Schema = mongoose.Schema;
 // create a schema
 var nodoSchema = new Schema({
 	url: String,
-	payload : Object,
-	nextUrls: [{type: Object}]
+  payload: Object,
+	nextUrls: []
 });
 
 // the schema is useless so far

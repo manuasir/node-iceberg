@@ -16,20 +16,19 @@ function Node(datos) {
  * Añade hijos a un nodo
  * @param vectorDeNodos
  */
-Node.prototype.addHijos = function(vectorDeUrls){
-  if(vectorDeUrls.length>0){
-    for(var i=0;i<vectorDeUrls.length;i++){
-      this.nextUrls.push(vectorDeUrls[i]);
+Node.prototype.addHijos = function(vectorDeNodos){
+  if(vectorDeNodos.length>0){
+    for(var i=0;i<vectorDeNodos.length;i++){
+      this.nextUrls.push(vectorDeNodos[i]);
     }
   }
   else{
-    this.nextUrls.push(vectorDeUrls);
+    this.nextUrls.push(vectorDeNodos);
   }
 };
 
 /**
- * Añade el payload de un nodo
- * @param something
+ * Obtiene el payload de un nodo
  */
 Node.prototype.getPayload = function(){
   return this.payload
@@ -40,11 +39,11 @@ Node.prototype.getPayload = function(){
  * @param something
  */
 Node.prototype.setPayload = function(something){
-  //console.log("seteando payload en nodo ")
-  if(!_.isObject(something)){
-    this.payload = {unknownType: something}
-  }else
-    this.payload = something
+  this.payload = {titulos:"algo"}
+  //this.nextUrls = [{alguna:'prueba'}]
+ // console.log("seteando payload en nodo ",this.url)
+  //console.log("seteando nexUrls en nodo ",this.nextUrls)
+
 };
 
 /**
@@ -92,7 +91,6 @@ Node.prototype.getNodo = function(){
  * @returns {*}
  */
 Node.prototype.getDatos = function(){
-
   return this.url;
 };
 

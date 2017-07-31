@@ -17,7 +17,8 @@ function Arbol(datos) {
  * @returns {Node}
  */
 Arbol.prototype.crearNodo = function(info) {
-  return new Nodo(info);
+  var nodo = new Nodo(info);
+  return nodo;
 };
 
 /**
@@ -77,6 +78,16 @@ Arbol.prototype.getNodo = function(nodo,i) {
  */
 Arbol.prototype.getArbol = function() {
   return this;
+};
+
+/**
+ * Añade un nuevo hijo o conjunto de hijos a un nodo
+ * @param nodo
+ * @param vec
+ * @returns
+ */
+Arbol.prototype.setPayload = function(nodo,pay) {
+  nodo.setPayload(pay)
 };
 
 /**

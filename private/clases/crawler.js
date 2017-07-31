@@ -70,14 +70,13 @@ Crawler.prototype.getUrlRaiz = function(){
 };
 
 /**
- * Proporciona formato adecuado a la URL
+ * Genera array de nodos a partir de array de URLs
  * @param urlraiz
  * @param links
  * @returns Array
  */
-Crawler.prototype.formatearUrl = function(urlraiz,links){
+Crawler.prototype.urlsToNodosHijos = function(urlraiz,links){
   var nodostemp = [];
-  var cont = 0;
   _.forEach(links,function(item){
     var uri = $(item).attr('href');
     var url;
@@ -85,7 +84,6 @@ Crawler.prototype.formatearUrl = function(urlraiz,links){
       var eq = (true, uri.startsWith('h'));
       if(!eq){
         url = urlraiz+uri;
-        //console.log("THIS.URL RAIZ ------->"+ url);
       }
       else
         url = uri;
@@ -130,7 +128,7 @@ Crawler.prototype.insertTreeIntoDb = function (callback) {
  * @param callback
  */
 Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel,payload,callback) {
-  console.log(nodo,arbol,nivel,topenivel,payload)
+  //console.log(nodo,arbol,nivel,topenivel,payload)
   Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel,payload,function(err,data){
     if(err)
       return callback(err,null)
@@ -153,8 +151,7 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,addPayload,
   }
   // obtener la URL del nodo a explorar
   var url = arbol.getDatosNodo(nodo);
-  console.log("explorando ",url)
-
+  //console.log("explorando ",url)
   // Obtener el DOM de la URL
   Crawler.prototype.getDocumentData(url,function(err,data){
     if(data){
@@ -163,23 +160,20 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,addPayload,
       var links = $('a');
       if(addPayload){
         var payload = $('post-title entry-title')
-        var pay = {titulos:payload}
-        console.log("añadiendo este payload ")
-        nodo.setPayload(pay)
+        var pay = {titulos:"titulos"}
+        arbol.setPayload(nodo,pay)
       }
       // Salir si no hay más enlaces hijos
       if(_.isEmpty(links))
         return mainCallback(null,null);
 
-      // devuelve array formateado con las URL pendientes de explorar
-      var hijos = Crawler.prototype.formatearUrl(arbol.getDatosNodo(nodo),links)
+      // devuelve array de Nodos formateado con las URL pendientes de explorar
+      var hijos = Crawler.prototype.urlsToNodosHijos(arbol.getDatosNodo(nodo),links)
 
-      //
       arbol.addHijosToNodo(nodo,hijos)
-      console.log("extraidos numero de hijos: ",hijos.length)
       async.each(hijos,function(urlHija,callback){
-        var item = new Nodo(urlHija)
-        Crawler.prototype.procesarUrls(item,arbol,nivel,topenivel,addPayload,function(err,data){
+        //var item = new Nodo(urlHija.url)
+        Crawler.prototype.procesarUrls(urlHija,arbol,nivel,topenivel,addPayload,function(err,data){
           if(err)
             return callback(err,null)
           callback(null,null)
