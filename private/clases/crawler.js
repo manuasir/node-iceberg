@@ -1,4 +1,3 @@
-var cheerio = require('cheerio');
 var request = require("request");
 var fs = require("fs");
 var async = require('async');
@@ -7,7 +6,7 @@ var util = require('util');
 var jsonfile = require('jsonfile');
 var treeWrapper = require('json-tree-wrap');
 var _ = require('lodash')
-var Nodo = require('./node')
+var Filter = require('./filters')
 /**
  * Consdtructor Crawler:
  * Construye un árbol a partir de una URL,explorando iterativamente entre sus hijos y guardando en MongoDB
@@ -18,6 +17,7 @@ function Crawler(url) {
   this.arbol = new Arbol(url);
   this.cola = [];
   this.url_raiz= url;
+  this.filter = ""
 }
 
 /**
@@ -78,7 +78,8 @@ Crawler.prototype.getUrlRaiz = function(){
 Crawler.prototype.urlsToNodosHijos = function(urlraiz,links){
   var nodostemp = [];
   _.forEach(links,function(item){
-    var uri = $(item).attr('href');
+    //var uri =
+    var uri = this.filter.getAttr(item,'href')
     var url;
     if( uri && uri != '' ){
       var eq = (true, uri.startsWith('h'));
@@ -128,7 +129,7 @@ Crawler.prototype.insertTreeIntoDb = function (callback) {
  * @param callback
  */
 Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel,payload,callback) {
-  //console.log(nodo,arbol,nivel,topenivel,payload)
+  console.log(nodo,arbol,nivel,topenivel,payload)
   Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel,payload,function(err,data){
     if(err)
       return callback(err,null)
@@ -142,25 +143,31 @@ Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel,payload,callba
  * @param arbol
  * @param nivel
  * @param topenivel
+ * @param addPayload
+ * @param mainCallback
  */
 Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,addPayload,mainCallback){
   nivel += 1;
+  if(!_.isNumber(topenivel))
+    topenivel = parseInt(topenivel)
+  if(!_.isNumber(nivel))
+    topenivel = parseInt(nivel)
   // salir si nivel actual es = al tope del nivel
-  if(nivel == topenivel) {
+  if(nivel === topenivel) {
     return mainCallback(null,null)
   }
   // obtener la URL del nodo a explorar
   var url = arbol.getDatosNodo(nodo);
-  //console.log("explorando ",url)
   // Obtener el DOM de la URL
-  Crawler.prototype.getDocumentData(url,function(err,data){
-    if(data){
-      $ = cheerio.load(data);
-      // Extraer hipervínculos de la URL
-      var links = $('a');
+  Crawler.prototype.getDocumentData(url,function(err,DOM){
+    if(DOM){
+      this.filter = new Filter(DOM)
+      // AQUÍ FILTRAR EL CONTENIDO //
+      // Extraer hipervínculos para explorar a partir de la URL (también puede tener condiciones)
+      var links = filter.getAllLinks()
       if(addPayload){
-        var payload = $('post-title entry-title')
-        var pay = {titulos:"titulos"}
+       // var payload = $('post-title entry-title')
+        var pay = {payload:'algo'}
         arbol.setPayload(nodo,pay)
       }
       // Salir si no hay más enlaces hijos
