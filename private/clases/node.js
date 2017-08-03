@@ -47,7 +47,6 @@ Node.prototype.setPayload = function(something){
     }
   }
   else{
-    console.log("SOMETHING YA ES UN OBJETO")
     json = something
 
   }

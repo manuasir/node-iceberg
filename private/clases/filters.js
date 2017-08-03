@@ -1,5 +1,5 @@
-
 var cheerio = require('cheerio')
+var _ = require('lodash')
 
 /**
  * Clase Nodo: Estructura de datos que guarda información sobre una URL, su contenido(payload) y sus URL hijas
@@ -19,16 +19,57 @@ Filter.prototype.getAllLinks = function(){
 };
 
 /**
- * Devuelve los links
+ * Devuelve elementos del DOM filtrados
+ * @param json
  * @returns {*}
  */
 Filter.prototype.getElementsByFilter = function(json){
-  //console.log("FILTRADO ",this.$('a.blog-pager-older-link'))
-  if(!json.cssClass)
-    return this.$(json.element);
-  else{
-    return this.$(json.element+"."+json.cssClass);
+  var payload;
+  var hrefs;
+  if(!json){
+    console.log('SIN JSON O SIN CLASE, MANDAR TODOS LOS <A HREF>')
+    payload =  this.$('a')
+    hrefs = _.map(payload,'attribs',function(o){
+      if(o.hasOwnProperty('href'))
+        return o
+    })
+    return hrefs
   }
+  else if(json.attrib){
+    payload =  this.$(json.element)
+    hrefs = _.map(payload,'attribs',function(o){
+      if(o.hasOwnProperty(json.attrib))
+        return o
+    })
+    return _.map(hrefs,json.attrib)
+  }
+
+  // TO-DO: Otros filtros (atributos,clases,hijos,etc)
+    /*
+  else if(json.attrib){
+    console.log('CON ATTR')
+
+    payload =  this.$(json.element)
+    hrefs = _.map(payload,'attribs',function(o){
+      if(o.hasOwnProperty(json.attrib))
+        return o
+    })
+    return hrefs
+  }
+  else if(json.cssClass){
+    console.log('CON CLASS')
+
+    this.$(json.element).map(function(){
+      console.log(this.child().text())
+    })
+    // hrefs = _.map(payload,'class',function(o){
+    //   if(o.class == json.cssClass)
+    //     return o
+    // })
+    //console.log(payload)
+    return hrefs
+  }
+  */
 };
 
 /**
@@ -36,7 +77,7 @@ Filter.prototype.getElementsByFilter = function(json){
  * @returns {*}
  */
 Filter.prototype.getUrlsByFilter = function(json){
-  if(!json.cssClass)
+  if(!json || !json.cssClass)
     return this.$('a');
   else
     return this.$('a.'+json.cssClass);
@@ -44,6 +85,7 @@ Filter.prototype.getUrlsByFilter = function(json){
 
 /**
  * Filtra mediante atributo
+ * @param item
  * @param attr
  * @returns {*}
  */

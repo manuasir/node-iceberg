@@ -162,6 +162,7 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,addPayload,
   var url = arbol.getDatosNodo(nodo);
   // Obtener el DOM de la URL
   Crawler.prototype.getDocumentData(url,function(err,DOM){
+
     if(DOM){
       this.filter = new Filter(DOM)
       // AQUÍ FILTRAR EL CONTENIDO //
@@ -172,22 +173,19 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,addPayload,
       }
 
       // Obtener los links SIGUIENTES a explorar,por tanto deben ser objetos DOM de tipo 'a' con el attributo HREF
-      var links = filter.getUrlsByFilter(auxJson)
+      var links = this.filter.getUrlsByFilter(auxJson)
 
       // Si se quiere payload, se incrusta en cada nodo
       if(addPayload) {
-        var auxJson = {
-          element: 'h2',
-          cssClass: 'date-header'
+        var conf = {
+          element: 'a',
+          attrib: 'href'
         }
-
-        // var payload = $('post-title entry-title')
-        var pay = filter.getElementsByFilter(auxJson)
-        console.log(pay.children().text())
-        //var total = _.sample(pay)
-        arbol.setPayload(nodo,pay.children().text())
-
+        var pay = this.filter.getElementsByFilter(conf)
+        arbol.setPayload(nodo,pay)
       }
+
+      // Si no hay links, salir de esta iteración
       if(_.isEmpty(links))
         return mainCallback(null,null);
 
