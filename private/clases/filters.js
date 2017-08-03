@@ -1,5 +1,4 @@
 
-
 var cheerio = require('cheerio')
 
 /**
@@ -17,6 +16,30 @@ function Filter(DOM) {
  */
 Filter.prototype.getAllLinks = function(){
   return this.$('a');
+};
+
+/**
+ * Devuelve los links
+ * @returns {*}
+ */
+Filter.prototype.getElementsByFilter = function(json){
+  //console.log("FILTRADO ",this.$('a.blog-pager-older-link'))
+  if(!json.cssClass)
+    return this.$(json.element);
+  else{
+    return this.$(json.element+"."+json.cssClass);
+  }
+};
+
+/**
+ * Devuelve los links
+ * @returns {*}
+ */
+Filter.prototype.getUrlsByFilter = function(json){
+  if(!json.cssClass)
+    return this.$('a');
+  else
+    return this.$('a.'+json.cssClass);
 };
 
 /**

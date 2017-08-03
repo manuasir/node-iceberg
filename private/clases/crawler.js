@@ -2,7 +2,7 @@ var request = require("request");
 var fs = require("fs");
 var async = require('async');
 var Arbol = require('./tree');
-var util = require('util');
+var util = require('./utils');
 var jsonfile = require('jsonfile');
 var treeWrapper = require('json-tree-wrap');
 var _ = require('lodash')
@@ -70,16 +70,18 @@ Crawler.prototype.getUrlRaiz = function(){
 };
 
 /**
- * Genera array de nodos a partir de array de URLs
+ * Genera array de nodos a partir de array de Objetos DOM
  * @param urlraiz
  * @param links
  * @returns Array
  */
 Crawler.prototype.urlsToNodosHijos = function(urlraiz,links){
   var nodostemp = [];
+  //console.log("LOS LINKSSS ",links)
   _.forEach(links,function(item){
     //var uri =
     var uri = this.filter.getAttr(item,'href')
+    //console.log("UNA URI ",uri)
     var url;
     if( uri && uri != '' ){
       var eq = (true, uri.startsWith('h'));
@@ -129,7 +131,7 @@ Crawler.prototype.insertTreeIntoDb = function (callback) {
  * @param callback
  */
 Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel,payload,callback) {
-  console.log(nodo,arbol,nivel,topenivel,payload)
+  //console.log(nodo,arbol,nivel,topenivel,payload)
   Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel,payload,function(err,data){
     if(err)
       return callback(err,null)
@@ -163,23 +165,37 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,addPayload,
     if(DOM){
       this.filter = new Filter(DOM)
       // AQUÍ FILTRAR EL CONTENIDO //
-      // Extraer hipervínculos para explorar a partir de la URL (también puede tener condiciones)
-      var links = filter.getAllLinks()
-      if(addPayload){
-       // var payload = $('post-title entry-title')
-        var pay = {payload:'algo'}
-        arbol.setPayload(nodo,pay)
+      // Extraer hipervínculos para explorar a partir de la URL (también puede tener condiciones,como clases CSS)
+      var auxJson = {
+        element:'a',
+        cssClass:'blog-pager-older-link'
       }
-      // Salir si no hay más enlaces hijos
+
+      // Obtener los links SIGUIENTES a explorar,por tanto deben ser objetos DOM de tipo 'a' con el attributo HREF
+      var links = filter.getUrlsByFilter(auxJson)
+
+      // Si se quiere payload, se incrusta en cada nodo
+      if(addPayload) {
+        var auxJson = {
+          element: 'h2',
+          cssClass: 'date-header'
+        }
+
+        // var payload = $('post-title entry-title')
+        var pay = filter.getElementsByFilter(auxJson)
+        console.log(pay.children().text())
+        //var total = _.sample(pay)
+        arbol.setPayload(nodo,pay.children().text())
+
+      }
       if(_.isEmpty(links))
         return mainCallback(null,null);
 
-      // devuelve array de Nodos formateado con las URL pendientes de explorar
+      // devuelve array de Nodos formateado con las URL pendientes de explorar obtenidas a partir de los objetos DOM (links)
       var hijos = Crawler.prototype.urlsToNodosHijos(arbol.getDatosNodo(nodo),links)
 
       arbol.addHijosToNodo(nodo,hijos)
       async.each(hijos,function(urlHija,callback){
-        //var item = new Nodo(urlHija.url)
         Crawler.prototype.procesarUrls(urlHija,arbol,nivel,topenivel,addPayload,function(err,data){
           if(err)
             return callback(err,null)

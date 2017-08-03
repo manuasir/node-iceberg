@@ -1,3 +1,5 @@
+const util = require('util')
+
 /**
  * Devuelve una URL bien formada
  * @param str
@@ -13,3 +15,12 @@ exports.urlValid = function(str){
   return url;
 }
 
+
+/**
+ * Elimina estructuras circulares en objetos
+ * @param obj
+ * @return {*}
+ */
+exports.deleteCircular = function(obj){
+  return util.inspect(obj);
+}

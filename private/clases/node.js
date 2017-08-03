@@ -39,11 +39,20 @@ Node.prototype.getPayload = function(){
  * @param something
  */
 Node.prototype.setPayload = function(something){
-  this.payload = {titulos:"algo"}
-  //this.nextUrls = [{alguna:'prueba'}]
- // console.log("seteando payload en nodo ",this.url)
-  //console.log("seteando nexUrls en nodo ",this.nextUrls)
+  var json
+  if(!_.isObject(something)){
 
+    json = {
+      content: JSON.stringify(something)
+    }
+  }
+  else{
+    console.log("SOMETHING YA ES UN OBJETO")
+    json = something
+
+  }
+
+  this.payload = json
 };
 
 /**
