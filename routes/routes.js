@@ -30,7 +30,7 @@ router.get('/crawl/', function(req, res){
   var arania = new Crawler(url,level);
 
   // cargar configuración predeterminada (ej. blogspot)
-  var conf = confs.services('blogspot')
+  var conf = confs.services(srv)
 
   arania.arrancar(arania.getPrimeraUrl(),arania.getArbol(),-1,level,conf,function(err,data){
     if(err){
