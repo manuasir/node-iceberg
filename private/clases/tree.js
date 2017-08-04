@@ -129,9 +129,9 @@ Arbol.prototype.addHijosToNodo = function(nodo,vec) {
  * @param callback
  */
 Arbol.prototype.insertIntoMongo = function(nuevoModelo,callback) {
-  nuevoModelo.save(function(err) {
+  nuevoModelo.save(function(err,data) {
     if (err) return callback(err,null);
-    callback(null,null);
+    callback(null,data);
   });
 };
 
@@ -151,9 +151,9 @@ Arbol.prototype.insertNodeIntoDb = function(nodo,callback){
     if(err){
       console.error(" error al insertar ",err)
       return callback(err)
-
     }
-    callback(null,null)
+    console.log(datos)
+    callback(null,datos)
   })
 };
 

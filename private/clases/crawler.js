@@ -114,10 +114,10 @@ Crawler.prototype.getDocumentData = function (url,cb) {
  * @param callback
  */
 Crawler.prototype.insertTreeIntoDb = function (callback) {
-  this.arbol.insertNodeIntoDb(this.arbol.getRaiz(),function(err,data){
+  this.arbol.insertNodeIntoDb(this.arbol.getRaiz(),function(err,datos){
     if(err)
       return callback(err,null)
-    callback(null,null);
+    callback(null,datos);
   })
 };
 
@@ -169,7 +169,8 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,conf,mainCa
       // Extraer hipervínculos para explorar a partir de la URL (también puede tener condiciones,como clases CSS)
       // Obtener los links SIGUIENTES a explorar,por tanto deben ser objetos DOM de tipo 'a' con el attributo HREF
       var links = this.filter.getUrlsByFilter(conf.nextIteration)
-
+      if(links.length < 1)
+        return mainCallback(null,null)
       // Si se quiere payload, se incrusta en cada nodo
       if(typeof conf.payload === 'object') {
         var pay = this.filter.getElementsByFilter(conf.payload)
