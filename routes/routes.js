@@ -25,7 +25,7 @@ router.get('/crawl/', function(req, res){
     return res.status(400).json({code:"faltan parametros de busqueda"});
 
   var url = util.urlValid(req.query.q);
-  var level = (req.query.level < 5) ? req.query.level : 5;
+  var level = (req.query.level < 30) ? req.query.level : 30;
   var srv = req.query.srv;
   var arania = new Crawler(url,level);
 
