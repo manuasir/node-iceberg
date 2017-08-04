@@ -152,7 +152,6 @@ Arbol.prototype.insertNodeIntoDb = function(nodo,callback){
       console.error(" error al insertar ",err)
       return callback(err)
     }
-    console.log(datos)
     callback(null,datos)
   })
 };
