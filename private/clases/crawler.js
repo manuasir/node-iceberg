@@ -179,7 +179,9 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,addPayload,
       if(addPayload) {
         var conf = {
           element: 'a',
-          attrib: 'href'
+          attrib: 'href',
+          substrings:['adf','paypal','mediafire','dropbox']
+
         }
         var pay = this.filter.getElementsByFilter(conf)
         arbol.setPayload(nodo,pay)

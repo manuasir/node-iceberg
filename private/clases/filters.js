@@ -41,7 +41,11 @@ Filter.prototype.getElementsByFilter = function(json){
       if(o.hasOwnProperty(json.attrib))
         return o
     })
-    return _.map(hrefs,json.attrib)
+    var objs = _.uniq(_.filter(_.map(hrefs,json.attrib),function(o){
+      if (new RegExp(json.substrings.join("|")).test(o))
+        return o
+    }));
+    return objs
   }
 
   // TO-DO: Otros filtros (atributos,clases,hijos,etc)
