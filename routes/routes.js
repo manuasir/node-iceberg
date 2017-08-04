@@ -1,5 +1,4 @@
 
-var Nodo            = require('../private/models/model.js');
 var path = require('path');
 var express = require('express');
 var router = express.Router();
@@ -8,6 +7,8 @@ var mongoose = require('mongoose');
 var util = require('./../private/clases/utils')
 var confs = require('../private/clases/configurations')
 var _ = require('lodash')
+
+// CONECTAR CON MONGODB //
 // mongoose.connect('mongodb://manuasir:mongodb@ds147072.mlab.com:47072/heroku_mctx4f0c');
 mongoose.connect('mongodb://localhost:27017/crawler');
 
