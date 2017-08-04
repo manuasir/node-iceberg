@@ -148,7 +148,7 @@ Crawler.prototype.arrancar = function (nodo,arbol,nivel,topenivel,payload,callba
  * @param addPayload
  * @param mainCallback
  */
-Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,addPayload,mainCallback){
+Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,conf,mainCallback){
   nivel += 1;
   if(!_.isNumber(topenivel))
     topenivel = parseInt(topenivel)
@@ -167,23 +167,12 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,addPayload,
       this.filter = new Filter(DOM)
       // AQUÍ FILTRAR EL CONTENIDO //
       // Extraer hipervínculos para explorar a partir de la URL (también puede tener condiciones,como clases CSS)
-      var auxJson = {
-        element:'a',
-        cssClass:'blog-pager-older-link'
-      }
-
       // Obtener los links SIGUIENTES a explorar,por tanto deben ser objetos DOM de tipo 'a' con el attributo HREF
-      var links = this.filter.getUrlsByFilter(auxJson)
+      var links = this.filter.getUrlsByFilter(conf.nextIteration)
 
       // Si se quiere payload, se incrusta en cada nodo
-      if(addPayload) {
-        var conf = {
-          element: 'a',
-          attrib: 'href',
-          substrings:['adf','paypal','mediafire','dropbox']
-
-        }
-        var pay = this.filter.getElementsByFilter(conf)
+      if(typeof conf.payload === 'object') {
+        var pay = this.filter.getElementsByFilter(conf.payload)
         arbol.setPayload(nodo,pay)
       }
 
@@ -193,10 +182,9 @@ Crawler.prototype.procesarUrls = function(nodo,arbol,nivel,topenivel,addPayload,
 
       // devuelve array de Nodos formateado con las URL pendientes de explorar obtenidas a partir de los objetos DOM (links)
       var hijos = Crawler.prototype.urlsToNodosHijos(arbol.getDatosNodo(nodo),links)
-
       arbol.addHijosToNodo(nodo,hijos)
       async.each(hijos,function(urlHija,callback){
-        Crawler.prototype.procesarUrls(urlHija,arbol,nivel,topenivel,addPayload,function(err,data){
+        Crawler.prototype.procesarUrls(urlHija,arbol,nivel,topenivel,conf,function(err,data){
           if(err)
             return callback(err,null)
           callback(null,null)

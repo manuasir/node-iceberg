@@ -2,7 +2,7 @@ var cheerio = require('cheerio')
 var _ = require('lodash')
 
 /**
- * Clase Nodo: Estructura de datos que guarda información sobre una URL, su contenido(payload) y sus URL hijas
+ * Clase Filter: encapsula métodos para filtrar contenido del DOM
  * @param DOM
  * @constructor
  */
@@ -81,7 +81,7 @@ Filter.prototype.getElementsByFilter = function(json){
  * @returns {*}
  */
 Filter.prototype.getUrlsByFilter = function(json){
-  if(!json || !json.cssClass)
+  if(!json || !json.cssClass || json === false)
     return this.$('a');
   else
     return this.$('a.'+json.cssClass);

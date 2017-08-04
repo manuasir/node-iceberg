@@ -13,6 +13,7 @@
     "postinstall": "./node_modules/bower/bin/bower install"
   },
   "devDependencies": {
+    "bower": "^1.8.0",
     "docco": "^0.7.0",
     "grunt": "^1.0.1",
     "grunt-docco": "^0.5.0",
@@ -25,23 +26,16 @@
   },
   "dependencies": {
     "async": "^2.0.1",
-    "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
-    "bower": "^1.8.0",
     "cheerio": "^0.22.0",
-    "colors": "^1.1.2",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
     "dateformat": "^2.0.0",
     "debug": "^2.3.3",
-    "ejs": "^2.5.3",
     "express": "^4.14.0",
-    "findup-sync": "^1.0.0",
     "fs": "*",
     "gulp": "^3.9.1",
     "jade": "^1.11.0",
-    "json-tree-wrap": "0.0.2",
-    "jsonfile": "^3.0.0",
     "lodash": "^4.17.4",
     "method-override": "^2.3.6",
     "moment": "^2.17.0",
@@ -52,8 +46,7 @@
     "request": "^2.75.0",
     "serve-favicon": "^2.3.2",
     "string.prototype.startswith": "^0.2.0",
-    "util": "*",
-    "which": "^1.2.14"
+    "util": "*"
   },
   "directories": {
     "doc": "docs",
