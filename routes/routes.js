@@ -42,13 +42,9 @@ router.get('/crawl/', function(req, res){
     arania.insertTreeIntoDb(function(err,data){
       if(err)
         return res.status(402).json(err);
-      var query = Nodo.find({ url: url});
-      query.exec(function(err, model){
-        if(err)
-          return res.status(402).json(err);
-        console.log("devuelvo el modelo")
-        res.status(200).json(model);
-      });
+      // el join une los resultados
+      var aux = _.join(_.map(functions.getPayloads(data),'payload'))
+      res.status(200).json(aux);
     });
   })
 });
