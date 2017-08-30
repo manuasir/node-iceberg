@@ -8,6 +8,7 @@ WORKDIR /usr/src/app/
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 
 RUN git clone https://github.com/manuasir/NodeJS-WebCrawler.git
+
 WORKDIR /usr/src/app/NodeJS-WebCrawler/
 #versión de Node
 ENV NODE_VERSION 6.11.0
@@ -15,10 +16,6 @@ ENV NODE_VERSION 6.11.0
 #necesario para nvm
 ENV NVM_DIR /root/.nvm
 
-#clonar repositorio
-
-#instalar la versión de node y seleccionar como predeterminada. también se instalan paquetes globales (-g)
-# RUN . ~/.nvm/nvm.sh && nvm install $NODE_VERSION && nvm alias default $NODE_VERSION && npm install -g bower pm2 gulp grunt
 # Añadir script que automatiza el despliegue
 ADD ./deploy.sh /deploy.sh
 
