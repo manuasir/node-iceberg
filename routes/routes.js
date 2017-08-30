@@ -5,8 +5,14 @@ var express = require('express');
 var router = express.Router();
 var Crawler = require('../private/clases/crawler');
 var mongoose = require('mongoose');
+var util = require('./../private/clases/utils')
+var confs = require('../private/clases/configurations')
+var _ = require('lodash')
+var functions = require('./functions')
+// CONECTAR CON MONGODB //
 mongoose.connect('mongodb://manuasir:mongodb@ds147072.mlab.com:47072/heroku_mctx4f0c');
-// mongoose.connect('mongodb://localhost:27017/crawler');
+//mongoose.connect('mongodb://localhost:27017/crawler');
+
 
 /**
  * Renderiza la vista principal con cabeceras,footer,etc
@@ -42,15 +48,14 @@ router.get('/crawl/', function(req, res){
     arania.insertTreeIntoDb(function(err,data){
       if(err)
         return res.status(402).json(err);
-      var query = Nodo.find({ url: url});
-      query.exec(function(err, model){
-        if(err)
-          return res.status(402).json(err);
-        console.log("devuelvo el modelo")
-        res.status(200).json(model);
-      });
+      // el join une los resultados
+      var aux = _.join(_.map(functions.getPayloads(data),'payload'))
+      res.status(200).json(aux);
+
     });
   })
 });
+
+
 
 module.exports = router;
