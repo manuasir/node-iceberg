@@ -8,7 +8,8 @@
   "main": "Gruntfile.js",
   "scripts": {
     "test": "mocha",
-    "start": "nodemon bin/www"},
+    "start": "nodemon bin/www",
+    "postinstall": "npm install"},
   "devDependencies": {
     "bower": "^1.8.0",
     "docco": "^0.7.0",
