@@ -42,7 +42,7 @@ router.get('/crawl/', function(req, res){
     crawl.insertTreeIntoDb(function(err,data){
       if(err)
         return res.status(402).json(err);
-      var aux = functions.getPayloads(data)
+      var aux = _.join(_.map(functions.getPayloads(data),'payload'))
       res.status(200).json(aux);
     });
   })
