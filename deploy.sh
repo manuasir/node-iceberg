@@ -15,11 +15,12 @@ fi
 #---------------------------------------------------#
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
-nvm install 6.11.0
+nvm install 6.11.1
+nvm use 6.11.1
 
 #---------------------------------------------------#
 #instala dependencias,pone permisos pertinentes, instala librerías
-npm install -g npm && npm install && npm install -g pm2 && ./node_modules/bower/bin/bower install --allow-root; \
+npm install && npm install -g pm2 \
 NODE_ENV=production npm start
 tail -f /dev/null
 #---------------------------------------------------#
