@@ -10,7 +10,9 @@ node_js:
  - "6.11.1"
 # npm install runs by default but shown here for illustrative purposes
 before_install:
+ - npm install -g npm
  - npm install -g mocha
+
  # Running npm test to run your test cases
 script:
  - mocha
