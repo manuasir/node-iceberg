@@ -49,7 +49,7 @@ class Crawler {
       let uri = this.filter.getAttr(item,'href')
       let url;
       if( uri && uri !== '' ){
-        let eq = (true , uri.startsWith('h'));
+        let eq = uri.startsWith('h');
         if(!eq){
           url = urlraiz+uri;
         }
@@ -91,9 +91,7 @@ class Crawler {
   };
 
   /**
-   * Recorrer el árbol
-   * @param nodo
-   * @param callback
+   * Convertir el arbol a objeto
    */
   treeToObject() {
     return {
@@ -141,22 +139,22 @@ class Crawler {
         }
 
         // Si no hay links, salir de esta iteración
-        if(_.isEmpty(links))
+        if(!links || links.length < 1)
           return mainCallback(null,null);
 
         // devuelve array de Nodos formateado con las URL pendientes de explorar obtenidas a partir de los objetos DOM (links)
         let hijos = this.urlsToNodosHijos(this.arbol.getDatosNodo(nodo),links);
         this.arbol.addHijosToNodo(nodo,hijos);
         async.each(hijos,(urlHija,callback) => {
-          this.procesarUrls(urlHija,nivel,topenivel,conf,function(err,data){
+          this.procesarUrls(urlHija,nivel,topenivel,conf,(err,data) => {
             if(err)
               return callback(err,null)
             callback(null,null)
           });
-        },function(err){
+        },(err) => {
           if(err)
             return mainCallback(err,null)
-          mainCallback(null,null)
+          mainCallback(null,this.treeToObject())
         });
 
       }else

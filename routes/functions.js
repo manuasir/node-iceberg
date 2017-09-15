@@ -8,7 +8,7 @@ let payloads = [];
  * @return {Array}
  */
 exports.getPayloads = (data) => {
-  if(data.nextUrls.length <= 0 || !data.payload)
+  if(!data || data.nextUrls.length <= 0 || !data.payload)
     return 0;
 
   payloads.push({url:data.url, payload:data.payload})

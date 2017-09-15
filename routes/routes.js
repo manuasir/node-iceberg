@@ -41,13 +41,12 @@ router.get('/crawl/', (req, res) => {
     }
     let wholeTree = crawl.treeToObject();
 
-    functions.getPayloads(wholeTree).map((o)=>{
-      payloads.push(o.payload)
-    });
-    res.status(200).json(payloads);
+    // functions.getPayloads(data).map((o)=>{
+    //   if(o.payloads)
+    //     payloads.push(o.payload)
+    // });
+    res.status(200).json(wholeTree);
   })
 });
-
-
 
 module.exports = router;
