@@ -30,7 +30,7 @@ router.get('/crawl/', (req, res) => {
   let conf = confs.services(srv);
   console.log("arrancando");
   crawl.arrancar(crawl.getPrimeraUrl(),-1,level,conf,(err,data) => {
-    let payloads = [];
+    //let payloads = [];
 
     if(err){
       console.error("terminado con error ",err);
