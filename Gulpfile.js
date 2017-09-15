@@ -9,7 +9,7 @@ require('gulp-help')(gulp, {
     description: 'Ayuda'
 });
 
-gulp.task('compress', 'Concatena y uglyfica todos los javascripts de AngularJS en clases.min.js.', function() {
+gulp.task('compress', 'Concatena y uglyfica todos los javascripts de AngularJS en lib.min.js.', function() {
     gulp.src(['private/angularjs/core/*.js', 'private/angularjs/controllers/*.js'])
         .pipe(concat('app'))
         .pipe(uglify())

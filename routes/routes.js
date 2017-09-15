@@ -2,10 +2,10 @@
 var path = require('path');
 var express = require('express');
 var router = express.Router();
-var Crawler = require('../private/clases/crawler');
+var Crawler = require('../private/lib/crawler');
 var mongoose = require('mongoose');
-var util = require('./../private/clases/utils')
-var confs = require('../private/clases/configurations')
+var util = require('../private/lib/utils')
+var confs = require('../private/lib/configurations')
 var _ = require('lodash')
 var functions = require('./functions')
 // CONECTAR CON MONGODB //
