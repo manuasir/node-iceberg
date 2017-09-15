@@ -1,12 +1,9 @@
-var request = require("request");
-var fs = require("fs");
-var async = require('async');
-var Arbol = require('./tree');
-var util = require('./utils');
-var jsonfile = require('jsonfile');
-var treeWrapper = require('json-tree-wrap');
-var _ = require('lodash')
-var Filter = require('./filters')
+const request = require("request");
+const async = require('async');
+const Arbol = require('./tree');
+const _ = require('lodash');
+const Filter = require('./filters');
+
 /**
  * Consdtructor Crawler:
  * Construye un árbol a partir de una URL,explorando iterativamente entre sus hijos y guardando en MongoDB
@@ -14,6 +11,7 @@ var Filter = require('./filters')
  * @constructor
  */
 class Crawler {
+
   constructor(url) {
     this.arbol = new Arbol(url);
     this.cola = [];
@@ -22,35 +20,11 @@ class Crawler {
   }
 
   /**
-   * Cierra la conexión con MongoDB
-   */
-  cerrarMongo(){
-    MongoClient.disconnect();
-  }
-
-  /**
    * Devuelve el árbol
    * @returns {Arbol}
    */
   getArbol(){
     return this.arbol;
-  }
-
-  /**
-   * Devuelve el nivel tope de profundidad a explorar
-   * @returns {*}
-   */
-  getTopeNivel(){
-    return this.topeNivel;
-  }
-
-  /**
-   * Escribe a JSON
-   */
-  escribirJSON(){
-    var enrrollado = new treeWrapper();
-    var rootWrapper = enrrollado.wrap(this.arbol);
-    jsonfile.writeFileSync('elarbol.json', rootWrapper);
   }
 
   /**
@@ -76,21 +50,21 @@ class Crawler {
    * @returns Array
    */
   urlsToNodosHijos(urlraiz,links){
-    var nodostemp = [];
+    let nodostemp = [];
     //console.log("LOS LINKSSS ",links)
     _.forEach(links,function(item){
-      //var uri =
-      var uri = this.filter.getAttr(item,'href')
+      //let uri =
+      let uri = this.filter.getAttr(item,'href')
       //console.log("UNA URI ",uri)
-      var url;
+      let url;
       if( uri && uri !== '' ){
-        var eq = (true , uri.startsWith('h'));
+        let eq = (true , uri.startsWith('h'));
         if(!eq){
           url = urlraiz+uri;
         }
         else
           url = uri;
-        var temp = Arbol.prototype.crearNodo(url);
+        let temp = Arbol.prototype.crearNodo(url);
         nodostemp.push(temp);
       }
     });
@@ -149,6 +123,7 @@ class Crawler {
    * @param mainCallback
    */
   procesarUrls(nodo,arbol,nivel,topenivel,conf,mainCallback){
+    console.log("una iteracion")
     nivel += 1;
     if(!_.isNumber(topenivel))
       topenivel = parseInt(topenivel)
@@ -159,21 +134,21 @@ class Crawler {
       return mainCallback(null,null)
     }
     // obtener la URL del nodo a explorar
-    var url = arbol.getDatosNodo(nodo);
+    let url = arbol.getDatosNodo(nodo);
     // Obtener el DOM de la URL
-    Crawler.prototype.getDocumentData(url,function(err,DOM){
-
+    getDocumentData(url,function(err,DOM){
+      console.log("una itera")
       if(DOM){
         this.filter = new Filter(DOM)
         // AQUÍ FILTRAR EL CONTENIDO //
         // Extraer hipervínculos para explorar a partir de la URL (también puede tener condiciones,como lib CSS)
         // Obtener los links SIGUIENTES a explorar,por tanto deben ser objetos DOM de tipo 'a' con el attributo HREF
-        var links = this.filter.getUrlsByFilter(conf.nextIteration)
+        let links = this.filter.getUrlsByFilter(conf.nextIteration)
         if(links.length < 1)
           return mainCallback(null,null)
         // Si se quiere payload, se incrusta en cada nodo
         if(typeof conf.payload === 'object') {
-          var pay = this.filter.getElementsByFilter(conf.payload)
+          let pay = this.filter.getElementsByFilter(conf.payload)
           arbol.setPayload(nodo,pay)
         }
 
@@ -182,7 +157,7 @@ class Crawler {
           return mainCallback(null,null);
 
         // devuelve array de Nodos formateado con las URL pendientes de explorar obtenidas a partir de los objetos DOM (links)
-        var hijos = Crawler.prototype.urlsToNodosHijos(arbol.getDatosNodo(nodo),links)
+        let hijos = Crawler.prototype.urlsToNodosHijos(arbol.getDatosNodo(nodo),links)
         arbol.addHijosToNodo(nodo,hijos)
         async.each(hijos,function(urlHija,callback){
           Crawler.prototype.procesarUrls(urlHija,arbol,nivel,topenivel,conf,function(err,data){
@@ -202,4 +177,4 @@ class Crawler {
   }
 
 }
-//module.exports = Crawler;
+module.exports = Crawler;

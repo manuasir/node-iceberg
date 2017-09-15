@@ -1,5 +1,5 @@
-var cheerio = require('cheerio')
-var _ = require('lodash')
+const cheerio = require('cheerio');
+const _ = require('lodash');
 
 /**
  * Clase Filter: encapsula métodos para filtrar contenido del DOM
@@ -24,8 +24,8 @@ Filter.prototype.getAllLinks = function(){
  * @returns {*}
  */
 Filter.prototype.getElementsByFilter = function(json){
-  var payload;
-  var hrefs;
+  let payload;
+  let hrefs;
   if(!json){
     console.log('SIN JSON O SIN CLASE, MANDAR TODOS LOS <A HREF>')
     payload =  this.$('a')
