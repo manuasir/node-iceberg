@@ -1,3 +1,5 @@
+'use strict';
+
 const request = require("request");
 const async = require('async');
 const Arbol = require('./tree');
@@ -14,17 +16,8 @@ class Crawler {
 
   constructor(url) {
     this.arbol = new Arbol(url);
-    this.cola = [];
     this.url_raiz = url;
-    this.filter = ""
-  }
-
-  /**
-   * Devuelve el árbol
-   * @returns {Arbol}
-   */
-  getArbol(){
-    return this.arbol;
+    this.filter = "";
   }
 
   /**
@@ -51,11 +44,9 @@ class Crawler {
    */
   urlsToNodosHijos(urlraiz,links){
     let nodostemp = [];
-    //console.log("LOS LINKSSS ",links)
-    _.forEach(links,function(item){
+    _.forEach(links,(item) => {
       //let uri =
       let uri = this.filter.getAttr(item,'href')
-      //console.log("UNA URI ",uri)
       let url;
       if( uri && uri !== '' ){
         let eq = (true , uri.startsWith('h'));
@@ -64,7 +55,7 @@ class Crawler {
         }
         else
           url = uri;
-        let temp = Arbol.prototype.crearNodo(url);
+        let temp = this.arbol.crearNodo(url);
         nodostemp.push(temp);
       }
     });
@@ -84,29 +75,15 @@ class Crawler {
   }
 
   /**
-   * Recorrer el árbol
-   * @param callback
-   */
-  insertTreeIntoDb(callback) {
-    this.arbol.insertNodeIntoDb(this.arbol.getRaiz(),function(err,datos){
-      if(err)
-        return callback(err,null)
-      callback(null,datos);
-    })
-  }
-
-  /**
    * Comenzar con el procesamiento
    * @param nodo
-   * @param arbol
    * @param nivel
    * @param topenivel
    * @param payload
    * @param callback
    */
-  arrancar(nodo,arbol,nivel,topenivel,payload,callback) {
-    //console.log(nodo,arbol,nivel,topenivel,payload)
-    Crawler.prototype.procesarUrls(nodo,arbol,nivel,topenivel,payload,function(err,data){
+  arrancar(nodo,nivel,topenivel,payload,callback) {
+    this.procesarUrls(nodo,nivel,topenivel,payload,(err) => {
       if(err)
         return callback(err,null)
       callback(null,null)
@@ -114,16 +91,28 @@ class Crawler {
   };
 
   /**
+   * Recorrer el árbol
+   * @param nodo
+   * @param callback
+   */
+  treeToObject() {
+    return {
+      url: this.arbol.getRaiz().getDatos(),
+      payload: this.arbol.getRaiz().getPayload(),
+      nextUrls: this.arbol.getRaiz().getAllHijos()
+    };
+  }
+
+
+  /**
    * Iterativamente obtiene información filtrada del DOM y va construyendo el árbol
    * @param nodo
-   * @param arbol
    * @param nivel
    * @param topenivel
    * @param conf
    * @param mainCallback
    */
-  procesarUrls(nodo,arbol,nivel,topenivel,conf,mainCallback){
-    console.log("una iteracion")
+  procesarUrls(nodo,nivel,topenivel,conf,mainCallback){
     nivel += 1;
     if(!_.isNumber(topenivel))
       topenivel = parseInt(topenivel)
@@ -134,22 +123,21 @@ class Crawler {
       return mainCallback(null,null)
     }
     // obtener la URL del nodo a explorar
-    let url = arbol.getDatosNodo(nodo);
+    let url = this.arbol.getDatosNodo(nodo);
     // Obtener el DOM de la URL
-    getDocumentData(url,function(err,DOM){
-      console.log("una itera")
+    this.getDocumentData(url,(err,DOM) => {
       if(DOM){
-        this.filter = new Filter(DOM)
+        this.filter = new Filter(DOM);
         // AQUÍ FILTRAR EL CONTENIDO //
         // Extraer hipervínculos para explorar a partir de la URL (también puede tener condiciones,como lib CSS)
         // Obtener los links SIGUIENTES a explorar,por tanto deben ser objetos DOM de tipo 'a' con el attributo HREF
         let links = this.filter.getUrlsByFilter(conf.nextIteration)
         if(links.length < 1)
-          return mainCallback(null,null)
+          return mainCallback(null,null);
         // Si se quiere payload, se incrusta en cada nodo
         if(typeof conf.payload === 'object') {
           let pay = this.filter.getElementsByFilter(conf.payload)
-          arbol.setPayload(nodo,pay)
+          this.arbol.setPayload(nodo,pay)
         }
 
         // Si no hay links, salir de esta iteración
@@ -157,10 +145,10 @@ class Crawler {
           return mainCallback(null,null);
 
         // devuelve array de Nodos formateado con las URL pendientes de explorar obtenidas a partir de los objetos DOM (links)
-        let hijos = Crawler.prototype.urlsToNodosHijos(arbol.getDatosNodo(nodo),links)
-        arbol.addHijosToNodo(nodo,hijos)
-        async.each(hijos,function(urlHija,callback){
-          Crawler.prototype.procesarUrls(urlHija,arbol,nivel,topenivel,conf,function(err,data){
+        let hijos = this.urlsToNodosHijos(this.arbol.getDatosNodo(nodo),links);
+        this.arbol.addHijosToNodo(nodo,hijos);
+        async.each(hijos,(urlHija,callback) => {
+          this.procesarUrls(urlHija,nivel,topenivel,conf,function(err,data){
             if(err)
               return callback(err,null)
             callback(null,null)
