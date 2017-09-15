@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha",
     "start": "nodemon bin/www"
-    },
+  },
   "devDependencies": {
     "bower": "^1.8.0",
     "docco": "^0.7.0",
@@ -28,23 +28,16 @@
     "cheerio": "^0.22.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
-    "dateformat": "^2.0.0",
     "debug": "^2.3.3",
     "express": "^4.14.0",
-    "fs": "*",
     "gulp": "^3.9.1",
     "jade": "^1.11.0",
     "lodash": "^4.17.4",
-    "method-override": "^2.3.6",
     "moment": "^2.17.0",
     "mongoose": "^4.6.3",
-    "morgan": "^1.7.0",
-    "nopt": "^4.0.1",
     "path": "^0.12.7",
     "request": "^2.75.0",
-    "serve-favicon": "^2.3.2",
-    "string.prototype.startswith": "^0.2.0",
-    "util": "*"
+    "string.prototype.startswith": "^0.2.0"
   },
   "directories": {
     "doc": "docs",

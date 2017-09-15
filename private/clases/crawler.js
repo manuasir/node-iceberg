@@ -1,12 +1,8 @@
 var request = require("request");
-var fs = require("fs");
 var async = require('async');
 var Arbol = require('./tree');
-var util = require('./utils');
-var jsonfile = require('jsonfile');
-var treeWrapper = require('json-tree-wrap');
-var _ = require('lodash')
-var Filter = require('./filters')
+var _ = require('lodash');
+var Filter = require('./filters');
 /**
  * Consdtructor Crawler:
  * Construye un árbol a partir de una URL,explorando iterativamente entre sus hijos y guardando en MongoDB
@@ -43,15 +39,7 @@ Crawler.prototype.getTopeNivel = function(){
   return this.topeNivel;
 };
 
-/**
- * Escribe a JSON
- */
-Crawler.prototype.escribirJSON = function(){
-  var enrrollado = new treeWrapper();
-  var rootWrapper = enrrollado.wrap(this.arbol);
-  jsonfile.writeFileSync('elarbol.json', rootWrapper);
 
-};
 
 /**
  * Devuelve la primera URL, de la raíz
