@@ -7,9 +7,6 @@ const mongoose = require('mongoose');
 const util = require('../private/lib/utils');
 const confs = require('../private/lib/configurations');
 const functions = require('./functions');
-// CONECTAR CON MONGODB //
-//mongoose.connect('mongodb://manuasir:mongodb@ds147072.mlab.com:47072/heroku_mctx4f0c');
-mongoose.connect('mongodb://localhost:27017/crawler');
 
 /**
  * Renderiza la vista principal con cabeceras,footer,etc
