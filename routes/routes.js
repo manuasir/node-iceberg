@@ -8,12 +8,6 @@ const util = require('../private/lib/utils');
 const confs = require('../private/lib/configurations');
 const functions = require('./functions');
 
-/**
- * Renderiza la vista principal con cabeceras,footer,etc
- */
-router.get('/', (req, res, next) => {
-  res.render('layout');
-});
 
 /**
  * Ruta que comienza a procesar una cadena
@@ -28,7 +22,6 @@ router.get('/crawl/', (req, res) => {
   let crawl = new Crawler(url,level);
   // cargar configuración predeterminada (ej. blogspot)
   let conf = confs.services(srv);
-  console.log("arrancando");
   crawl.arrancar(crawl.getPrimeraUrl(),-1,level,conf,(err,data) => {
     //let payloads = [];
 

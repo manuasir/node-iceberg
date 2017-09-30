@@ -110,12 +110,12 @@ class Crawler {
    * @param conf
    * @param mainCallback
    */
-  procesarUrls(nodo,nivel,topenivel,conf,mainCallback){
+    async procesarUrls(nodo,nivel,topenivel,conf,mainCallback){
     nivel += 1;
     if(!_.isNumber(topenivel))
-      topenivel = parseInt(topenivel)
+      topenivel = parseInt(topenivel);
     if(!_.isNumber(nivel))
-      topenivel = parseInt(nivel)
+      topenivel = parseInt(nivel);
     // salir si nivel actual es = al tope del nivel
     if(nivel === topenivel) {
       return mainCallback(null,null)
@@ -129,12 +129,12 @@ class Crawler {
         // AQUÍ FILTRAR EL CONTENIDO //
         // Extraer hipervínculos para explorar a partir de la URL (también puede tener condiciones,como lib CSS)
         // Obtener los links SIGUIENTES a explorar,por tanto deben ser objetos DOM de tipo 'a' con el attributo HREF
-        let links = this.filter.getUrlsByFilter(conf.nextIteration)
+        let links = this.filter.getUrlsByFilter(conf.nextIteration);
         if(links.length < 1)
           return mainCallback(null,null);
         // Si se quiere payload, se incrusta en cada nodo
         if(typeof conf.payload === 'object') {
-          let pay = this.filter.getElementsByFilter(conf.payload)
+          let pay = this.filter.getElementsByFilter(conf.payload);
           this.arbol.setPayload(nodo,pay)
         }
 
@@ -161,6 +161,6 @@ class Crawler {
         mainCallback(null,null)
     })
   }
-
 }
+
 module.exports = Crawler;
