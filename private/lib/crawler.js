@@ -1,7 +1,6 @@
 'use strict';
 
 const request = require("request");
-const async = require('async');
 const Arbol = require('./tree');
 const _ = require('lodash');
 const Filter = require('./filters');
@@ -18,14 +17,6 @@ class Crawler {
     this.arbol = new Arbol(url);
     this.url_raiz = url;
     this.filter = "";
-  }
-
-  /**
-   * Devuelve la primera URL, de la raíz
-   * @returns {Nodo|Node}
-   */
-  getPrimeraUrl(){
-    return this.arbol.getRaiz();
   }
 
   /**
@@ -66,11 +57,13 @@ class Crawler {
    * Obtiene el DOM de una URL
    * @param url
    */
-  getDocumentData(url,cb) {
-    request(url, function(err, resp, body){
-      if(err)
-        return cb(null,null)
-      cb(null,body)
+  async getDocumentData(url) {
+    return new Promise((resolve, reject) => {
+      request(url, function (err, resp, body) {
+        if (err)
+          reject(null, null);
+        resolve(body);
+      });
     });
   }
 
@@ -82,12 +75,16 @@ class Crawler {
    * @param payload
    * @param callback
    */
-  arrancar(nodo,nivel,topenivel,payload,callback) {
-    this.procesarUrls(nodo,nivel,topenivel,payload,(err) => {
-      if(err)
-        return callback(err,null)
-      callback(null,null)
-    })
+  async start(nivel,topenivel,payload,callback) {
+    try {
+      let nodo = this.arbol.getRaiz();
+      console.time("dbsave");
+      await this.procesarUrls(nodo, nivel, topenivel, payload)
+      console.timeEnd("dbsave");
+      return 0;
+    }catch(err){
+      throw err;
+    }
   };
 
   /**
@@ -108,30 +105,30 @@ class Crawler {
    * @param nivel
    * @param topenivel
    * @param conf
-   * @param mainCallback
    */
-  procesarUrls(nodo,nivel,topenivel,conf,mainCallback){
-    nivel += 1;
-    if(!_.isNumber(topenivel))
-      topenivel = parseInt(topenivel)
-    if(!_.isNumber(nivel))
-      topenivel = parseInt(nivel)
-    // salir si nivel actual es = al tope del nivel
-    if(nivel === topenivel) {
-      return mainCallback(null,null)
-    }
-    // obtener la URL del nodo a explorar
-    let url = this.arbol.getDatosNodo(nodo);
-    // Obtener el DOM de la URL
-    this.getDocumentData(url,(err,DOM) => {
+  async procesarUrls(nodo,nivel,topenivel,conf){
+    try{
+      if(!_.isNumber(topenivel))
+        topenivel = parseInt(topenivel)
+      if(!_.isNumber(nivel))
+        topenivel = parseInt(nivel)
+      // salir si nivel actual es = al tope del nivel
+      if(nivel === topenivel) {
+        return 0;
+      }
+      // obtener la URL del nodo a explorar
+      let url = this.arbol.getDatosNodo(nodo);
+      // Obtener el DOM de la URL
+
+      let DOM = await this.getDocumentData(url);
       if(DOM){
         this.filter = new Filter(DOM);
         // AQUÍ FILTRAR EL CONTENIDO //
         // Extraer hipervínculos para explorar a partir de la URL (también puede tener condiciones,como lib CSS)
         // Obtener los links SIGUIENTES a explorar,por tanto deben ser objetos DOM de tipo 'a' con el attributo HREF
-        let links = this.filter.getUrlsByFilter(conf.nextIteration)
+        let links = this.filter.getUrlsByFilter(conf.nextIteration);
         if(links.length < 1)
-          return mainCallback(null,null);
+          return 0;
         // Si se quiere payload, se incrusta en cada nodo
         if(typeof conf.payload === 'object') {
           let pay = this.filter.getElementsByFilter(conf.payload)
@@ -140,26 +137,35 @@ class Crawler {
 
         // Si no hay links, salir de esta iteración
         if(!links || links.length < 1)
-          return mainCallback(null,null);
+          return 0;
 
         // devuelve array de Nodos formateado con las URL pendientes de explorar obtenidas a partir de los objetos DOM (links)
         let hijos = this.urlsToNodosHijos(this.arbol.getDatosNodo(nodo),links);
         this.arbol.addHijosToNodo(nodo,hijos);
-        async.each(hijos,(urlHija,callback) => {
-          this.procesarUrls(urlHija,nivel,topenivel,conf,(err,data) => {
-            if(err)
-              return callback(err,null)
-            callback(null,null)
-          });
-        },(err) => {
-          if(err)
-            return mainCallback(err,null)
-          mainCallback(null,this.treeToObject())
-        });
+
+        // == SEQUENTIAL SOLUTION == //
+
+        // performance this
+        // for(let  urlHija of hijos){
+        //   await this.procesarUrls(urlHija,nivel,topenivel,conf);
+        // }
+
+        // == PARALLEL SOLUTION == //
+        let promises = [];
+
+        for(let urlHija of hijos){
+          promises.push(this.procesarUrls(urlHija,nivel,topenivel,conf));
+        }
+        await Promise.all(promises);
+
+        return 0;
 
       }else
-        mainCallback(null,null)
-    })
+        return 0;
+
+    }catch(err){
+      throw err;
+    }
   }
 
 }
