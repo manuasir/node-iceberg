@@ -1,30 +1,19 @@
 {
-  "name": "mean-crawler",
+  "name": "scrawler",
   "version": "1.1.0",
   "engines": {
-    "node": "8.5.0"
+    "node": "8.7.0"
   },
-  "description": "NodeJS Web Crawler",
+  "description": "nodejs scrawler",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "mocha test/**/*.js",
     "start": "nodemon bin/www"
   },
   "dependencies": {
-    "async": "^2.0.1",
-    "body-parser": "^1.15.2",
     "cheerio": "^0.22.0",
-    "cookie-parser": "^1.4.3",
-    "cors": "^2.8.1",
-    "debug": "^2.3.3",
-    "express": "^4.14.0",
-    "g": "^2.0.1",
-    "lodash": "^4.17.4",
-    "moment": "^2.17.0",
-    "mongoose": "^4.6.3",
     "path": "^0.12.7",
     "request": "^2.75.0",
-    "request-promise": "^4.2.2",
     "string.prototype.startswith": "^0.2.0"
   },
   "directories": {
@@ -38,12 +27,13 @@
   "author": "Manuel Jiménez Bernal",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/manuasir/NodeJS-WebCrawler/issues"
+    "url": "https://github.com/manuasir/nodejs-scraper/issues"
   },
-  "homepage": "https://github.com/manuasir/NodeJS-WebCrawler",
+  "homepage": "https://github.com/manuasir/nodejs-scraper",
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "express": "^4.16.2",
     "mocha": "^4.0.1",
     "standard": "^10.0.3"
   }
