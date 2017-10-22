@@ -2,15 +2,31 @@
 [![Inline docs](http://inch-ci.org/github/manuasir/nodejs-scraper.svg?branch=master)](http://inch-ci.org/github/manuasir/nodejs-scraper)
 [![Code-Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com/)
 
-# scraper
+# scrawler (scraper+crawler)
 
 This package works in two ways:
 
-- Crawler mode:
+- Scraper mode:
 
 ```c
-const scraper = require('nodejs-scraper')
-scraper.start()
+const Scrawler = require('nodejs-scraper')
+const domainsToFilter = ['mediafire','mega','ad.fly']
+const configuration = {
+	nextIteration: { element: 'a', cssClass: 'blog-pager-older-link' },
+	payload: { element: 'a', attrib: 'href', substrings: domainsToFilter }
+}
+const maxLevelDepth = 10
+const crawler = new Scrawler("http://someblog.blogspot.com",configuration)
+const results = await crawler.start(maxLevelDepth)
+```
+or load a predeterminate sheet
+```c
+const Scrawler = require('nodejs-scraper')
+const confs = require('../../lib/util/configurations')
+
+const maxLevelDepth = 10
+const crawler = new Scrawler("http://someblog.blogspot.com",configuration)
+const results = await crawler.start(maxLevelDepth)
 ```
 - Crawler mode:
 
