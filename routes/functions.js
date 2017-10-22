@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-let payloads = [];
+let payloads = []
 
 /**
  * Mapea los datos de los payloads en un solo nivel (recorrer el arbol)
@@ -8,13 +8,12 @@ let payloads = [];
  * @return {Array}
  */
 exports.getPayloads = (data) => {
-  if(!data || data.nextUrls.length <= 0 || !data.payload)
-    return 0;
+  if (!data || data.nextUrls.length <= 0 || !data.payload) { return 0 }
 
-  payloads.push({url:data.url, payload:data.payload})
+  payloads.push({url: data.url, payload: data.payload})
 
-  for(let item of data.nextUrls){
+  for (let item of data.nextUrls) {
     this.getPayloads(item)
   }
   return payloads
-};
+}

@@ -7,7 +7,7 @@
   "description": "NodeJS Web Crawler",
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha test/**/*.js",
     "start": "nodemon bin/www"
   },
   "dependencies": {
@@ -18,6 +18,7 @@
     "cors": "^2.8.1",
     "debug": "^2.3.3",
     "express": "^4.14.0",
+    "g": "^2.0.1",
     "lodash": "^4.17.4",
     "moment": "^2.17.0",
     "mongoose": "^4.6.3",
@@ -39,5 +40,11 @@
   "bugs": {
     "url": "https://github.com/manuasir/NodeJS-WebCrawler/issues"
   },
-  "homepage": "https://github.com/manuasir/NodeJS-WebCrawler"
+  "homepage": "https://github.com/manuasir/NodeJS-WebCrawler",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "mocha": "^4.0.1",
+    "standard": "^10.0.3"
+  }
 }
