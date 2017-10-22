@@ -1,12 +1,15 @@
 /* global describe it */
 
+'use strict'
+
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const expect = chai.expect
-// const should = chai.should()
+const should = chai.should()
 const testServer = require('./testWebServer')
 const Crawler = require('../../lib/classes/crawler')
 const confs = require('../../lib/util/configurations')
+const assert = require('assert')
 
 chai.use(chaiHttp)
 
@@ -16,6 +19,7 @@ describe('crawler feature tests', () => {
   describe('testing server', () => {
     it(' successful connection :)', async () => {
       try {
+        assert(should)
         testServer.createServer()
         let res = await getChaiHttp('/index.html')
         expect(res.statusCode).to.equal(200)
