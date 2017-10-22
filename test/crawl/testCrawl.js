@@ -45,11 +45,26 @@ describe('crawler feature tests', () => {
         throw err
       }
     })
+    it('level 1 with altered URL (no http header)', async () => {
+      try {
+        const crawl = new Crawler('http://localhost:8081/index.html')
+        let conf = confs.services('crawler')
+        await crawl.start(1, conf)
+        const wholeTree = crawl.treeToObject()
+        expect(wholeTree.nextUrls).to.be.a('Array')
+        wholeTree.nextUrls.should.have.lengthOf(2)
+        expect(wholeTree.nextUrls[0].nextUrls).to.be.a('Array')
+        wholeTree.nextUrls[0].nextUrls.should.have.lengthOf(0)
+        return 0
+      } catch (err) {
+        throw err
+      }
+    })
     it('level 2', async () => {
       try {
         const crawl = new Crawler('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
-        await crawl.start(24, conf)
+        await crawl.start(2, conf)
         const wholeTree = crawl.treeToObject()
         // testServer.closeServer()
         expect(wholeTree.nextUrls).to.be.a('Array')
@@ -61,6 +76,42 @@ describe('crawler feature tests', () => {
         throw err
       }
     })
+    it('level 2 failed', async () => {
+      try {
+        const crawl = new Crawler('http://localhost:8081/index.html')
+        let conf = confs.services('crawler')
+        await crawl.start(2, conf)
+        const wholeTree = crawl.treeToObject()
+        // testServer.closeServer()
+        expect(wholeTree.nextUrls).to.be.a('Array')
+        wholeTree.nextUrls.should.have.lengthOf(2)
+        expect(wholeTree.nextUrls[0].nextUrls).to.be.a('Array')
+        wholeTree.nextUrls[0].nextUrls[0].nextUrls.should.have.lengthOf(0)
+        return 0
+      } catch (err) {
+        console.error(err)
+        throw err
+      }
+    })
+    it('level 3 ok', async () => {
+      try {
+        const crawl = new Crawler('http://localhost:8081/index.html')
+        let conf = confs.services('crawler')
+        await crawl.start(3, conf)
+        const wholeTree = crawl.treeToObject()
+        // testServer.closeServer()
+        expect(wholeTree.nextUrls).to.be.a('Array')
+        wholeTree.nextUrls.should.have.lengthOf(2)
+        expect(wholeTree.nextUrls[0].nextUrls).to.be.a('Array')
+        wholeTree.nextUrls[0].nextUrls[0].nextUrls.should.have.lengthOf(2)
+        return 0
+      } catch (err) {
+        console.error(err)
+        throw err
+      }
+    })
+  })
+  describe('Integrity tests', () => {
     it('duplicated entries', async () => {
       try {
         const crawl = new Crawler('http://localhost:8081/index.html', 1)
@@ -86,9 +137,7 @@ describe('crawler feature tests', () => {
         await getChaiHttp('/index.html')
         return 0
       } catch (err) {
-        // console.error(err)
         expect(err.code).to.equal('ECONNREFUSED')
-        // throw err
       }
     })
   })
