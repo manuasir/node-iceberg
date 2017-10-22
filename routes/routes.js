@@ -5,7 +5,7 @@ const router = express.Router()
 const Crawler = require('../lib/classes/crawler')
 const util = require('../lib/util/utils')
 const confs = require('../lib/util/configurations')
-const functions = require('./functions')
+// const functions = require('./functions')
 
 /**
  * Ruta que comienza a procesar una cadena

@@ -1,7 +1,9 @@
-const chai = require('chai'),
-  chaiHttp = require('chai-http')
+/* global describe it */
+
+const chai = require('chai')
+const chaiHttp = require('chai-http')
 const expect = chai.expect
-const should = chai.should()
+// const should = chai.should()
 const testServer = require('./testWebServer')
 const Crawler = require('../../lib/classes/crawler')
 const confs = require('../../lib/util/configurations')

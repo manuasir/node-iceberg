@@ -1,32 +1,28 @@
-/**
- * Created by manu on 21/11/16.
- */
+'use strict'
 
-const chai = require('chai'),
-  chaiHttp = require('chai-http')
+const chai = require('chai')
+const chaiHttp = require('chai-http')
 
 chai.use(chaiHttp)
 
 /**
- *
+ * Perform an async/await HTTP request
  * @param {string}route
  * @param {?object}header
  * @param {?object}body
- * @param {function(err:?object, res:object)}callback
  */
-module.exports = getChaiHttp = async (route, header, body) => {
-  return await callRoute(route, header, body)
+const getChaiHttp = async (route, header, body) => {
+  return callRoute(route, header, body)
 }
-// const getChaiHttp = require('./utiltest');
 
 /**
- * Perform HTTP request, get or post
+ * Perform async/await get or post
  * @param route
  * @param header
  * @param body
  * @return {Promise}
  */
-callRoute = async (route, header, body) => {
+const callRoute = async (route, header, body) => {
   return new Promise(function (resolve, reject) {
     header = header || {}
     if (!body) {
@@ -51,3 +47,5 @@ callRoute = async (route, header, body) => {
     }
   })
 }
+
+module.exports = getChaiHttp

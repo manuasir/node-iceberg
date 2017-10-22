@@ -1,49 +1,49 @@
-const assert = require('assert'),
-  arbol = require('../lib/classes/tree.js'),
-  nodo = require('../lib/classes/node.js'),
-  crawler = require('../lib/classes/crawler.js')
+/* global describe it */
+'use strict'
+
+const assert = require('assert')
+const Tree = require('../lib/classes/tree.js')
+const Node = require('../lib/classes/node.js')
+const Crawler = require('../lib/classes/crawler.js')
 
 describe('Integration tests', function () {
-  describe('Nodo', function () {
-    // Testea que se haya cargado bien la librera
+  describe('Node', function () {
     describe('Carga', function () {
-      it('should be loaded', function () {
-        assert(nodo, 'Cargado')
+      it('a node should be loaded', function () {
+        assert(Node, 'Cargado')
       })
     })
     describe('Crea', function () {
-      it('should create nodo correctly', function () {
-        const nodes = new nodo('Creado')
+      it('should create node correctly', function () {
+        const nodes = new Node('Creado')
         assert.equal(nodes.getData(), 'Creado')
       })
     })
   })
 
   describe('Arbol', function () {
-    // Testea que se haya cargado bien la librera
     describe('Carga', function () {
       it('should be loaded', function () {
-        assert(arbol, 'Cargado')
+        assert(Tree, 'Cargado')
       })
     })
     describe('Crea', function () {
       it('should create arbol correctly', function () {
-        const tree = new arbol('Polopos')
+        const tree = new Tree('Polopos')
         assert.equal(tree.getRaiz().getData(), 'Polopos')
       })
     })
   })
 
   describe('Crawler', function () {
-    // Testea que se haya cargado bien la librera
     describe('Carga', function () {
-      it('should be loaded', function () {
-        assert(crawler, 'Cargado')
+      it('crawler should be loaded', function () {
+        assert(Crawler, 'Cargado')
       })
     })
     describe('Crea', function () {
       it('should create crawler correctly', function () {
-        const crawl = new crawler('http://prueba.com')
+        const crawl = new Crawler('http://prueba.com')
         assert.equal(crawl.getUrlRaiz(), 'http://prueba.com')
       })
     })
