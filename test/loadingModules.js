@@ -8,12 +8,12 @@ const Crawler = require('../lib/classes/crawler.js')
 
 describe('Integration tests', function () {
   describe('Node', function () {
-    describe('Carga', function () {
+    describe('Load', function () {
       it('a node should be loaded', function () {
-        assert(Node, 'Cargado')
+        assert(Node, 'Loaded')
       })
     })
-    describe('Crea', function () {
+    describe('Create', function () {
       it('should create node correctly', function () {
         const nodes = new Node('Creado')
         assert.equal(nodes.getData(), 'Creado')
@@ -22,29 +22,29 @@ describe('Integration tests', function () {
   })
 
   describe('Arbol', function () {
-    describe('Carga', function () {
+    describe('Load', function () {
       it('should be loaded', function () {
-        assert(Tree, 'Cargado')
+        assert(Tree, 'Loaded')
       })
     })
-    describe('Crea', function () {
+    describe('Create', function () {
       it('should create arbol correctly', function () {
         const tree = new Tree('Polopos')
-        assert.equal(tree.getRaiz().getData(), 'Polopos')
+        assert.equal(tree.getRoot().getData(), 'Polopos')
       })
     })
   })
 
   describe('Crawler', function () {
-    describe('Carga', function () {
+    describe('Load', function () {
       it('crawler should be loaded', function () {
-        assert(Crawler, 'Cargado')
+        assert(Crawler, 'Loaded')
       })
     })
-    describe('Crea', function () {
+    describe('Create', function () {
       it('should create crawler correctly', function () {
         const crawl = new Crawler('http://prueba.com')
-        assert.equal(crawl.getUrlRaiz(), 'http://prueba.com')
+        assert.equal(crawl.getUrlRoot(), 'http://prueba.com')
       })
     })
   })

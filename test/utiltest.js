@@ -26,7 +26,7 @@ const callRoute = async (route, header, body) => {
   return new Promise(function (resolve, reject) {
     header = header || {}
     if (!body) {
-      // console.log("PETICION GET!",header);
+      // console.log("GET REQUEST!",header);
       chai.request('http://localhost:8081')
         .get(route)
         .set(header)
@@ -35,7 +35,7 @@ const callRoute = async (route, header, body) => {
           resolve(res)
         })
     } else {
-      // console.log("PETICION POST!");
+      // console.log("POST REQUEST!");
       chai.request('http://localhost:8081')
         .post(route)
         .set(header)
