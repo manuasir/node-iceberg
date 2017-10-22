@@ -5,8 +5,8 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const routes = require('./routes/routes')
-
 const app = express()
+
 /*
  * Middleware para eliminar cabecera X-Powered-By: Express
  */
@@ -14,9 +14,7 @@ app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-// app.use('/docs', function(req,res){res.sendFile(path.resolve('docs/Gruntfile.html'))});
 app.use('/docs', express.static(path.join(__dirname, 'docs')))
-
 app.use('/', routes)
 
 // error handler

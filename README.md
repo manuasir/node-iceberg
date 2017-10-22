@@ -13,6 +13,3 @@ const scraper = require('nodejs-scraper')
 scraper.start()
 ```
 
-
-Se puede acceder al proyecto en producción en AWS [aquí](http://ec2-54-88-8-70.compute-1.amazonaws.com:3000/)
-
