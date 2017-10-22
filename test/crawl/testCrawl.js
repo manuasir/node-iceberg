@@ -32,7 +32,7 @@ describe('crawler feature tests', () => {
   describe('testing crawler levels', () => {
     it('level 1', async () => {
       try {
-        const crawl = new Crawler('http://localhost:8081/index.html', 1)
+        const crawl = new Crawler('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
         await crawl.start(0, 1, conf)
         const wholeTree = crawl.treeToObject()
@@ -47,7 +47,7 @@ describe('crawler feature tests', () => {
     })
     it('level 2', async () => {
       try {
-        const crawl = new Crawler('http://localhost:8081/index.html', 1)
+        const crawl = new Crawler('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
         await crawl.start(0, 24, conf)
         const wholeTree = crawl.treeToObject()
