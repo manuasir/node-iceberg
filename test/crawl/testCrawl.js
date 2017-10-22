@@ -34,7 +34,7 @@ describe('crawler feature tests', () => {
       try {
         const crawl = new Crawler('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
-        await crawl.start(0, 1, conf)
+        await crawl.start(1, conf)
         const wholeTree = crawl.treeToObject()
         expect(wholeTree.nextUrls).to.be.a('Array')
         wholeTree.nextUrls.should.have.lengthOf(2)
@@ -49,7 +49,7 @@ describe('crawler feature tests', () => {
       try {
         const crawl = new Crawler('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
-        await crawl.start(0, 24, conf)
+        await crawl.start(24, conf)
         const wholeTree = crawl.treeToObject()
         // testServer.closeServer()
         expect(wholeTree.nextUrls).to.be.a('Array')
@@ -65,7 +65,7 @@ describe('crawler feature tests', () => {
       try {
         const crawl = new Crawler('http://localhost:8081/index.html', 1)
         let conf = confs.services('crawler')
-        await crawl.start(0, 24, conf)
+        await crawl.start(24, conf)
         const wholeTree = crawl.treeToObject()
         testServer.closeServer()
         expect(wholeTree.nextUrls).to.be.a('Array')
