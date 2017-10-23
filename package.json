@@ -11,7 +11,7 @@
     "start": "nodemon bin/www"
   },
   "dependencies": {
-    "cheerio": "^0.22.0",
+    "cheerio": "1.0.0-rc.2",
     "path": "^0.12.7",
     "request": "^2.75.0",
     "string.prototype.startswith": "^0.2.0"
@@ -25,7 +25,7 @@
     "url": "git+https://github.com/manuasir/NodeJS-WebCrawler.git"
   },
   "author": "Manuel Jiménez Bernal",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/manuasir/nodejs-scraper/issues"
   },
