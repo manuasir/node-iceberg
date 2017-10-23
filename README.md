@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/manuasir/nodejs-scraper.svg?branch=master)](https://travis-ci.org/manuasir/nodejs-scraperr)
 [![Inline docs](http://inch-ci.org/github/manuasir/nodejs-scraper.svg?branch=master)](http://inch-ci.org/github/manuasir/nodejs-scraper)
 [![Code-Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com/)
-
+[![Coverage Status](https://coveralls.io/repos/github/manuasir/nodejs-scraper/badge.svg?branch=master)](https://coveralls.io/github/manuasir/nodejs-scraper?branch=master)
 # scrawler (scraper+crawler)
 
 This package works in two ways:
