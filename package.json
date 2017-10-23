@@ -8,7 +8,7 @@
   "main": "Gruntfile.js",
   "scripts": {
     "test": "mocha test/**/*.js",
-    "start": "nodemon bin/www"
+    "start": "node bin/www"
   },
   "dependencies": {
     "cheerio": "1.0.0-rc.2",
