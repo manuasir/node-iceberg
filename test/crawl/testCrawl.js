@@ -8,7 +8,7 @@ const expect = chai.expect
 const should = chai.should()
 const testServer = require('./testWebServer')
 const Crawler = require('../../lib/classes/crawler')
-const confs = require('../../lib/util/configurations')
+const confs = require('../../plugins/configurations')
 const assert = require('assert')
 
 chai.use(chaiHttp)
