@@ -13,8 +13,7 @@
   "dependencies": {
     "cheerio": "1.0.0-rc.2",
     "path": "^0.12.7",
-    "request": "^2.75.0",
-    "string.prototype.startswith": "^0.2.0"
+    "request": "^2.75.0"
   },
   "directories": {
     "doc": "docs",
