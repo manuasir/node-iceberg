@@ -7,8 +7,10 @@
   "description": "nodejs scrawler",
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "mocha test/**/*.js",
-    "start": "node bin/www"
+    "test": "mocha test/* test/**/*.js",
+    "start": "node bin/www",
+    "cover": "istanbul cover _mocha",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "cheerio": "1.0.0-rc.2",
@@ -32,8 +34,11 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "coveralls": "^3.0.0",
     "express": "^4.16.2",
+    "istanbul": "^0.4.5",
     "mocha": "^4.0.1",
+    "mocha-lcov-reporter": "^1.3.0",
     "standard": "^10.0.3"
   }
 }
