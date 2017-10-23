@@ -55,6 +55,5 @@ describe('Integration tests', function () {
         assert(Filter)
       })
     })
-
   })
 })
