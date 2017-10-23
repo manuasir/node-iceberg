@@ -30,7 +30,7 @@ describe('Integration tests', function () {
     describe('Create', function () {
       it('should create arbol correctly', function () {
         const tree = new Tree('Polopos')
-        assert.equal(tree.getRaiz().getData(), 'Polopos')
+        assert.equal(tree.getRoot().getData(), 'Polopos')
       })
     })
   })
@@ -44,7 +44,7 @@ describe('Integration tests', function () {
     describe('Create', function () {
       it('should create crawler correctly', function () {
         const crawl = new Crawler('http://prueba.com')
-        assert.equal(crawl.getUrlRaiz(), 'http://prueba.com')
+        assert.equal(crawl.getUrlRoot(), 'http://prueba.com')
       })
     })
   })
