@@ -5,6 +5,7 @@ const assert = require('assert')
 const Tree = require('../lib/classes/tree.js')
 const Node = require('../lib/classes/node.js')
 const Crawler = require('../lib/classes/crawler.js')
+const Filter = require('../lib/classes/filters.js')
 
 describe('Integration tests', function () {
   describe('Node', function () {
@@ -47,5 +48,13 @@ describe('Integration tests', function () {
         assert.equal(crawl.getUrlRoot(), 'http://prueba.com')
       })
     })
+  })
+  describe('Filter', function () {
+    describe('Load', function () {
+      it('filter should be loaded', function () {
+        assert(Filter)
+      })
+    })
+
   })
 })
