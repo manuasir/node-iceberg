@@ -3,38 +3,10 @@
 
 const assert = require('assert')
 const Tree = require('../../lib/classes/tree.js')
-const Node = require('../../lib/classes/node.js')
-const Crawler = require('../../lib/classes/crawler.js')
+const chai = require('chai')
+const expect = chai.expect
 
-describe('Module tests', function () {
-  describe('Node', function () {
-    describe('Load', function () {
-      it('a node should be loaded', function () {
-        assert(Node)
-      })
-    })
-    describe('Create', function () {
-      it('should create node correctly', function () {
-        const nodes = new Node('OK')
-        assert.equal(nodes.getData(), 'OK')
-      })
-    })
-    describe('Node functions', function () {
-      it('should add a child correctly', function () {
-        const father = new Node('father')
-        const child = new Node('imNew')
-        father.addChildren(child)
-        assert.equal(father.getAllChildren().length, 1)
-      })
-      it('should add a child correctly', function () {
-        const father = new Node('father')
-        const child = new Node('imNew')
-        father.addChildren(child)
-        assert.equal(father.getAllChildren().length, 1)
-      })
-    })
-  })
-
+describe('Class tests', function () {
   describe('Tree', function () {
     describe('Load', function () {
       it('tree should be loaded', function () {
@@ -43,22 +15,34 @@ describe('Module tests', function () {
     })
     describe('Create', function () {
       it('should create tree correctly', function () {
+        assert(new Tree('OK'))
+      })
+    })
+    describe('Tree methods', function () {
+      it('Create new Node', function () {
+        const tree = new Tree('OK')
+        expect(tree.createNode('newURL')).to.be.a('Object')
+      })
+      it('should get Root data correctly', function () {
         const tree = new Tree('OK')
         assert.equal(tree.getRoot().getData(), 'OK')
       })
-    })
-  })
-
-  describe('Crawler', function () {
-    describe('Load', function () {
-      it('crawler should be loaded', function () {
-        assert(Crawler)
+      it('should get Root Object', function () {
+        const tree = new Tree('OK')
+        expect(tree.getRoot()).to.be.a('Object')
       })
-    })
-    describe('Create', function () {
-      it('should create crawler correctly', function () {
-        const crawl = new Crawler('http://test.com')
-        assert.equal(crawl.getUrlRoot(), 'http://test.com')
+      it('should get Root Data', function () {
+        const tree = new Tree('OK')
+        expect(tree.getNodeData(tree.getRoot())).to.be.a('String')
+      })
+      it('should add children to any node in the tree', function () {
+        const tree = new Tree('OK')
+        const firstAmountOfChildren = tree.getRoot().getAllChildren().length
+        expect(firstAmountOfChildren).equal(0)
+
+        tree.addChildrenToNode(tree.getRoot(),tree.createNode('newChild'))
+        const secAmountOfChildren = tree.getRoot().getAllChildren().length
+        expect(secAmountOfChildren).equal(1)
       })
     })
   })
