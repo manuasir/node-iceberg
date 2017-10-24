@@ -10,6 +10,7 @@ const testServer = require('./testWebServer')
 const Crawler = require('../../lib/classes/crawler')
 const confs = require('../../plugins/configurations')
 const assert = require('assert')
+const Filter = require('../../lib/classes/filter.js')
 
 chai.use(chaiHttp)
 
@@ -36,10 +37,10 @@ describe('crawler feature tests', () => {
         let conf = confs.services('crawler')
         await crawl.start(1, conf)
         const wholeTree = crawl.treeToObject()
-        expect(wholeTree.nextUrls).to.be.a('Array')
-        wholeTree.nextUrls.should.have.lengthOf(2)
-        expect(wholeTree.nextUrls[0].nextUrls).to.be.a('Array')
-        wholeTree.nextUrls[0].nextUrls.should.have.lengthOf(0)
+        expect(wholeTree.children).to.be.a('Array')
+        wholeTree.children.should.have.lengthOf(2)
+        expect(wholeTree.children[0].children).to.be.a('Array')
+        wholeTree.children[0].children.should.have.lengthOf(0)
         return 0
       } catch (err) {
         throw err
@@ -51,10 +52,10 @@ describe('crawler feature tests', () => {
         let conf = confs.services('crawler')
         await crawl.start(1, conf)
         const wholeTree = crawl.treeToObject()
-        expect(wholeTree.nextUrls).to.be.a('Array')
-        wholeTree.nextUrls.should.have.lengthOf(2)
-        expect(wholeTree.nextUrls[0].nextUrls).to.be.a('Array')
-        wholeTree.nextUrls[0].nextUrls.should.have.lengthOf(0)
+        expect(wholeTree.children).to.be.a('Array')
+        wholeTree.children.should.have.lengthOf(2)
+        expect(wholeTree.children[0].children).to.be.a('Array')
+        wholeTree.children[0].children.should.have.lengthOf(0)
         return 0
       } catch (err) {
         throw err
@@ -67,10 +68,10 @@ describe('crawler feature tests', () => {
         await crawl.start(2, conf)
         const wholeTree = crawl.treeToObject()
         // testServer.closeServer()
-        expect(wholeTree.nextUrls).to.be.a('Array')
-        wholeTree.nextUrls.should.have.lengthOf(2)
-        expect(wholeTree.nextUrls[0].nextUrls).to.be.a('Array')
-        wholeTree.nextUrls[0].nextUrls.should.have.lengthOf(2)
+        expect(wholeTree.children).to.be.a('Array')
+        wholeTree.children.should.have.lengthOf(2)
+        expect(wholeTree.children[0].children).to.be.a('Array')
+        wholeTree.children[0].children.should.have.lengthOf(2)
         return 0
       } catch (err) {
         throw err
@@ -83,10 +84,10 @@ describe('crawler feature tests', () => {
         await crawl.start(2, conf)
         const wholeTree = crawl.treeToObject()
         // testServer.closeServer()
-        expect(wholeTree.nextUrls).to.be.a('Array')
-        wholeTree.nextUrls.should.have.lengthOf(2)
-        expect(wholeTree.nextUrls[0].nextUrls).to.be.a('Array')
-        wholeTree.nextUrls[0].nextUrls[0].nextUrls.should.have.lengthOf(0)
+        expect(wholeTree.children).to.be.a('Array')
+        wholeTree.children.should.have.lengthOf(2)
+        expect(wholeTree.children[0].children).to.be.a('Array')
+        wholeTree.children[0].children[0].children.should.have.lengthOf(0)
         return 0
       } catch (err) {
         console.error(err)
@@ -100,10 +101,10 @@ describe('crawler feature tests', () => {
         await crawl.start(3, conf)
         const wholeTree = crawl.treeToObject()
         // testServer.closeServer()
-        expect(wholeTree.nextUrls).to.be.a('Array')
-        wholeTree.nextUrls.should.have.lengthOf(2)
-        expect(wholeTree.nextUrls[0].nextUrls).to.be.a('Array')
-        wholeTree.nextUrls[0].nextUrls[0].nextUrls.should.have.lengthOf(2)
+        expect(wholeTree.children).to.be.a('Array')
+        wholeTree.children.should.have.lengthOf(2)
+        expect(wholeTree.children[0].children).to.be.a('Array')
+        wholeTree.children[0].children[0].children.should.have.lengthOf(2)
         return 0
       } catch (err) {
         console.error(err)
@@ -114,19 +115,49 @@ describe('crawler feature tests', () => {
   describe('Integrity tests', () => {
     it('duplicated entries', async () => {
       try {
-        const crawl = new Crawler('http://localhost:8081/index.html', 1)
+        const crawl = new Crawler('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
         await crawl.start(24, conf)
         const wholeTree = crawl.treeToObject()
-        testServer.closeServer()
-        expect(wholeTree.nextUrls).to.be.a('Array')
-        wholeTree.nextUrls.should.have.lengthOf(2)
-        expect(wholeTree.nextUrls[0].nextUrls).to.be.a('Array')
-        wholeTree.nextUrls[0].nextUrls.should.have.lengthOf(2)
+        expect(wholeTree.children).to.be.a('Array')
+        wholeTree.children.should.have.lengthOf(2)
+        expect(wholeTree.children[0].children).to.be.a('Array')
+        wholeTree.children[0].children.should.have.lengthOf(2)
         return 0
       } catch (err) {
         throw err
       }
+    })
+    describe('Testing filter', function () {
+      describe('Create filter', function () {
+        it('filter should be loaded', function () {
+          assert(Filter)
+        })
+      })
+      describe('Load new filter instance', function () {
+        it('should create filter correctly', async function () {
+          try {
+            const crawl = new Crawler()
+            const DOM = await crawl.getDocumentData('http://localhost:8081/index.html')
+            const filter = new Filter(DOM)
+            assert(filter)
+          } catch (err) {
+            throw err
+          }
+        })
+      })
+      describe('Load new filter instance', function () {
+        it('should create filter correctly', async function () {
+          try {
+            const crawl = new Crawler()
+            const DOM = await crawl.getDocumentData('http://localhost:8081/index.html')
+            const filter = new Filter(DOM)
+            assert(filter)
+          } catch (err) {
+            throw err
+          }
+        })
+      })
     })
   })
   describe('closing server', () => {
