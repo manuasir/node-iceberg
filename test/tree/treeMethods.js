@@ -40,7 +40,7 @@ describe('Class tests', function () {
         const firstAmountOfChildren = tree.getRoot().getAllChildren().length
         expect(firstAmountOfChildren).equal(0)
 
-        tree.addChildrenToNode(tree.getRoot(),tree.createNode('newChild'))
+        tree.addChildrenToNode(tree.getRoot(), tree.createNode('newChild'))
         const secAmountOfChildren = tree.getRoot().getAllChildren().length
         expect(secAmountOfChildren).equal(1)
       })

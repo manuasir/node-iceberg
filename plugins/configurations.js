@@ -10,7 +10,7 @@ const domainsToFilter = ['adf', 'paypal', 'mediafire', 'dropbox', 'box']
  */
 exports.services = function (srv) {
   switch (srv) {
-    case 'blogspot' : return { nextIteration: { element: 'a', cssClass: 'blog-pager-older-link' }, payload: { element: 'a', attrib: 'href', substrings: domainsToFilter } }
-    case 'crawler' : return { nextIteration: {element: 'a'} }
+    case 'blogspot' : return { iteratorElement: { element: 'a', cssClass: 'blog-pager-older-link' }, payload: { element: 'a', attrib: 'href', substrings: domainsToFilter } }
+    case 'crawler' : return { iteratorElement: {element: 'a'} }
   }
 }
