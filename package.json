@@ -1,8 +1,8 @@
 {
   "name": "Iceberg",
-  "version": "2.0.1",
+  "version": "1.0.0",
   "engines": {
-    "node": "8.7.0"
+    "node": ">=8.7.0"
   },
   "description": "nodejs lightweight scraper/crawler",
   "main": "./lib/class/iceberg.js",
