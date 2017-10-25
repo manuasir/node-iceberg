@@ -14,39 +14,40 @@
 
 Lightweight Node.js crawler/scraper, allows to get filtered DOM data from custom iterators. This package works in two ways:
 
-- *Scraper mode*:  load a filter or create your custom one.
+- *Scraper mode*:  Get custom data from a loaded filter or .
 
 ```c
 // gets all download links from a Blogspot URL
 
-const Scrawler = require('iceberg')
+const Iceberg = require('iceberg')
 const domainsToFilter = ['mediafire','mega','ad.fly']
 const conf = {
-	// iterator, it will be the next element to process
+	// Iterator: Element that gets you to the next URL to process.
 	iteratorElement: { element: 'a', cssClass: 'blog-pager-older-link' },
-	// desired data to get extracted from the DOM
+	// Desired data to get extracted from the DOM. Example: Download links in certain domains
 	payload: { element: 'a', attrib: 'href', substrings: domainsToFilter }
 }
-
+// Max Level Depth to explore
 const maxLevelDepth = 10
-const crawler = new Scrawler("http://someblog.blogspot.com",conf)
+const crawler = new Iceberg("http://someblog.blogspot.com",conf)
 const results = await crawler.start(maxLevelDepth)
 
-// or load a default one
+// or load the filter
 
-const Scrawler = require('iceberg')
+const Iceberg = require('iceberg')
 const confs = require('./plugins/configurations')
 const conf = confs.services('blogspot')
 const maxLevelDepth = 10
-const crawler = new Scrawler("http://someblog.blogspot.com",conf )
+const crawler = new Iceberg("http://someblog.blogspot.com",conf )
 const results = await crawler.start(maxLevelDepth)
 ```
 - *Crawler mode*:  Explores ALL links from a URL until the depth threshold is reached
 
 ```c
-const crawler = require('nodejs-scraper')
+const Iceberg = require('iceberg')
 const confs = require('./plugins/configurations')
-const configuration = confs.services('crawler')
+const crawler = new Iceberg('http://reddit.com')
+const conf = confs.services('crawler')
 const maxLevelDepth = 2
-crawler.start(maxLevelDepth)
+crawler.start(maxLevelDepth,conf)
 ```

@@ -7,7 +7,7 @@ const chaiHttp = require('chai-http')
 const expect = chai.expect
 const should = chai.should()
 const testServer = require('./testWebServer')
-const Crawler = require('../../lib/classes/crawler')
+const Iceberg = require('../../lib/classes/Iceberg')
 const confs = require('../../plugins/configurations')
 const assert = require('assert')
 const Filter = require('../../lib/classes/filter.js')
@@ -33,7 +33,7 @@ describe('crawler feature tests', () => {
   describe('testing crawler levels', () => {
     it('level 1', async () => {
       try {
-        const crawl = new Crawler('http://localhost:8081/index.html')
+        const crawl = new Iceberg('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
         await crawl.start(1, conf)
         const wholeTree = crawl.treeToObject()
@@ -48,7 +48,7 @@ describe('crawler feature tests', () => {
     })
     it('level 1 with altered URL (no http header)', async () => {
       try {
-        const crawl = new Crawler('http://localhost:8081/index.html')
+        const crawl = new Iceberg('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
         await crawl.start(1, conf)
         const wholeTree = crawl.treeToObject()
@@ -63,7 +63,7 @@ describe('crawler feature tests', () => {
     })
     it('level 2', async () => {
       try {
-        const crawl = new Crawler('http://localhost:8081/index.html')
+        const crawl = new Iceberg('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
         await crawl.start(2, conf)
         const wholeTree = crawl.treeToObject()
@@ -79,7 +79,7 @@ describe('crawler feature tests', () => {
     })
     it('level 2 failed', async () => {
       try {
-        const crawl = new Crawler('http://localhost:8081/index.html')
+        const crawl = new Iceberg('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
         await crawl.start(2, conf)
         const wholeTree = crawl.treeToObject()
@@ -96,7 +96,7 @@ describe('crawler feature tests', () => {
     })
     it('level 3 ok', async () => {
       try {
-        const crawl = new Crawler('http://localhost:8081/index.html')
+        const crawl = new Iceberg('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
         await crawl.start(3, conf)
         const wholeTree = crawl.treeToObject()
@@ -115,7 +115,7 @@ describe('crawler feature tests', () => {
   describe('Integrity tests', () => {
     it('duplicated entries', async () => {
       try {
-        const crawl = new Crawler('http://localhost:8081/index.html')
+        const crawl = new Iceberg('http://localhost:8081/index.html')
         let conf = confs.services('crawler')
         await crawl.start(24, conf)
         const wholeTree = crawl.treeToObject()
@@ -137,7 +137,7 @@ describe('crawler feature tests', () => {
       describe('Load new filter instance', function () {
         it('should create filter correctly', async function () {
           try {
-            const crawl = new Crawler()
+            const crawl = new Iceberg()
             const DOM = await crawl.getDocumentData('http://localhost:8081/index.html')
             const filter = new Filter(DOM)
             assert(filter)
@@ -149,7 +149,7 @@ describe('crawler feature tests', () => {
       describe('Load new filter instance', function () {
         it('should create filter correctly', async function () {
           try {
-            const crawl = new Crawler()
+            const crawl = new Iceberg()
             const DOM = await crawl.getDocumentData('http://localhost:8081/index.html')
             const filter = new Filter(DOM)
             assert(filter)

@@ -1,14 +1,13 @@
 {
-  "name": "scrawler",
-  "version": "1.1.0",
+  "name": "Iceberg",
+  "version": "1.0",
   "engines": {
     "node": "8.7.0"
   },
-  "description": "nodejs scrawler",
-  "main": "Gruntfile.js",
+  "description": "nodejs lightweight scraper/crawler",
+  "main": "./lib/class/iceberg.js",
   "scripts": {
     "test": "mocha test/* test/**/*.js",
-    "start": "node bin/www",
     "cover": "istanbul cover _mocha test/*",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
@@ -18,19 +17,18 @@
     "request": "^2.75.0"
   },
   "directories": {
-    "doc": "docs",
     "test": "test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/manuasir/NodeJS-WebCrawler.git"
+    "url": "git+https://github.com/manuasir/iceberg.git"
   },
   "author": "Manuel Jiménez Bernal",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/manuasir/nodejs-scraper/issues"
+    "url": "https://github.com/manuasir/iceberg/issues"
   },
-  "homepage": "https://github.com/manuasir/nodejs-scraper",
+  "homepage": "https://github.com/manuasir/iceberg",
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",

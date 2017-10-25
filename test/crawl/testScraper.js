@@ -5,11 +5,11 @@
 const chai = require('chai')
 const expect = chai.expect
 const should = chai.should()
-const Crawler = require('../../lib/classes/crawler')
+const Crawler = require('../../lib/classes/Iceberg')
 const confs = require('../../plugins/configurations')
 const assert = require('assert')
 describe('Scraper feature tests', () => {
-  describe('testing scraper', () => {
+  describe('testing scraper', async () => {
     it('level 1', async () => {
       try {
         assert(should)
