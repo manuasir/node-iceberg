@@ -15,9 +15,10 @@ describe('Scraper feature tests', () => {
         assert(should)
         const url = 'http://estacion-katowice.blogspot.com'
         const level = 4
-        const crawl = new Crawler(url, level)
         let conf = confs.services('blogspot')
-        await crawl.start(level, conf)
+        const crawl = new Crawler(url)
+
+        await crawl.start(level,conf)
         const wholeTree = crawl.treeToObject()
         expect(wholeTree).to.be.a('Object')
         // const wholeTree = crawl.treeToObject()
