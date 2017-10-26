@@ -9,7 +9,7 @@ const Crawler = require('../../lib/classes/Iceberg')
 const confs = require('../../plugins/configurations')
 const assert = require('assert')
 describe('Scraper feature tests', () => {
-  describe('testing scraper', async () => {
+  describe('testing scraper', () => {
     it('level 1', async () => {
       try {
         assert(should)
@@ -17,8 +17,7 @@ describe('Scraper feature tests', () => {
         const level = 4
         let conf = confs.services('blogspot')
         const crawl = new Crawler(url)
-
-        await crawl.start(level,conf)
+        await crawl.start(level, conf)
         const wholeTree = crawl.treeToObject()
         expect(wholeTree).to.be.a('Object')
         // const wholeTree = crawl.treeToObject()
