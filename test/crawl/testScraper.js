@@ -20,7 +20,6 @@ describe('Scraper feature tests', () => {
         await crawl.start(level, conf)
         const wholeTree = crawl.treeToObject()
         expect(wholeTree).to.be.a('Object')
-        // const wholeTree = crawl.treeToObject()
         expect(wholeTree.children).to.be.a('Array')
         wholeTree.children.should.have.lengthOf(1)
         expect(wholeTree.children[0].children).to.be.a('Array')

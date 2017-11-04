@@ -6,7 +6,7 @@ const Tree = require('../../lib/classes/tree.js')
 const chai = require('chai')
 const expect = chai.expect
 
-describe('Class tests', function () {
+describe('Tree method tests', function () {
   describe('Tree', function () {
     describe('Load', function () {
       it('tree should be loaded', function () {
@@ -20,8 +20,7 @@ describe('Class tests', function () {
     })
     describe('Tree methods', function () {
       it('Create new Node', function () {
-        const tree = new Tree('OK')
-        expect(tree.createNode('newURL')).to.be.a('Object')
+        expect(Tree.createNode('newURL')).to.be.a('Object')
       })
       it('should get Root data correctly', function () {
         const tree = new Tree('OK')
@@ -33,14 +32,13 @@ describe('Class tests', function () {
       })
       it('should get Root Data', function () {
         const tree = new Tree('OK')
-        expect(tree.getNodeData(tree.getRoot())).to.be.a('String')
+        expect(Tree.getNodeData(tree.getRoot())).to.be.a('String')
       })
       it('should add children to any node in the tree', function () {
         const tree = new Tree('OK')
         const firstAmountOfChildren = tree.getRoot().getAllChildren().length
         expect(firstAmountOfChildren).equal(0)
-
-        tree.addChildrenToNode(tree.getRoot(), tree.createNode('newChild'))
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('newChild'))
         const secAmountOfChildren = tree.getRoot().getAllChildren().length
         expect(secAmountOfChildren).equal(1)
       })

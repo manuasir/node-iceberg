@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "cheerio": "1.0.0-rc.2",
+    "lodash": "^4.17.4",
     "path": "^0.12.7",
     "request": "^2.75.0"
   },

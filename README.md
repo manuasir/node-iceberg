@@ -10,9 +10,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/manuasir/nodejs-scraper/badge.svg?branch=develop)](https://coveralls.io/github/manuasir/nodejs-scraper?branch=develop)
 
 
-## ? Installation
+## Installation
 
-Download and install via [npm package manager](https://www.npmjs.com/package/telebot) (stable):
+Download and install via [npm package manager](https://www.npmjs.com/package/iceberg.io) (stable):
 
 ```
 npm install iceberg.io --save
@@ -66,4 +66,11 @@ const crawler = new Iceberg('http://reddit.com')
 const conf = confs.services('crawler')
 const maxLevelDepth = 2
 crawler.start(maxLevelDepth,conf)
+```
+## Test
+
+If you downloaded this from NPM,it's already testes. Otherwise you can test it like this:
+
+```c
+npm test
 ```

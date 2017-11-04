@@ -6,7 +6,7 @@ const Node = require('../../lib/classes/node.js')
 const chai = require('chai')
 const expect = chai.expect
 
-describe('Class tests', function () {
+describe('Node method tests', function () {
   describe('Node', function () {
     describe('Load', function () {
       it('a node should be loaded', function () {
