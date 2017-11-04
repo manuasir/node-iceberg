@@ -10,7 +10,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/manuasir/nodejs-scraper/badge.svg?branch=develop)](https://coveralls.io/github/manuasir/nodejs-scraper?branch=develop)
 
 
-## ? Installation
+## Installation
 
 Download and install via [npm package manager](https://www.npmjs.com/package/telebot) (stable):
 
@@ -26,7 +26,7 @@ cd iceberg
 npm install
 ```
 
-## ? Usage
+## Usage
 
 This package allows to get filtered DOM elements from URLs throw custom iterators, and it works mainly in two ways:
 
@@ -67,7 +67,7 @@ const conf = confs.services('crawler')
 const maxLevelDepth = 2
 crawler.start(maxLevelDepth,conf)
 ```
-## ? Test
+## Test
 If you downloaded this package from NPM, it's already testes.
 Otherwise you can test it like this:
 
