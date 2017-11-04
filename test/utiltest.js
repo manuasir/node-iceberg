@@ -6,16 +6,6 @@ const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 
 /**
- * Perform an async/await HTTP request
- * @param {string}route
- * @param {?object}header
- * @param {?object}body
- */
-const getChaiHttp = async (route, header, body) => {
-  return callRoute(route, header, body)
-}
-
-/**
  * Perform async/await get or post
  * @param route
  * @param header
@@ -46,6 +36,17 @@ const callRoute = async (route, header, body) => {
         })
     }
   })
+}
+
+
+/**
+ * Perform an async/await HTTP request
+ * @param {string}route
+ * @param {?object}header
+ * @param {?object}body
+ */
+const getChaiHttp = async (route, header, body) => {
+  return callRoute(route, header, body)
 }
 
 module.exports = getChaiHttp
