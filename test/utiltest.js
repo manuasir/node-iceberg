@@ -38,7 +38,6 @@ const callRoute = async (route, header, body) => {
   })
 }
 
-
 /**
  * Perform an async/await HTTP request
  * @param {string}route
