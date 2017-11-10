@@ -6,10 +6,12 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/manuasir/nodejs-scraper/badge.svg)](https://snyk.io/test/github/manuasir/nodejs-scraper)
 [![Coverage Status](https://coveralls.io/repos/github/manuasir/nodejs-scraper/badge.svg?branch=develop)](https://coveralls.io/github/manuasir/nodejs-scraper?branch=develop)
 
+## iceberg
+A lightweight Node.js tree-based scraper/crawler. No more callbacks! Just async/await.
 
 ## Installation
 
-Download and install via [npm package manager](https://www.npmjs.com/package/telebot) (stable):
+Download and install via [npm package manager](https://www.npmjs.com/package/iceberg.io) (stable):
 
 ```
 npm install iceberg.io --save
@@ -27,26 +29,25 @@ npm install
 
 This package allows to get filtered DOM elements from URLs throw custom iterators, and it works mainly in two ways:
 
-- *Scraper mode*:  Get certain elements from a loaded filter or .
+- *Scraper mode*:  Get elements with a filter.
 
 ```c
-// all download links from a Blogspot URL
+// Example: download all links from a Blogspot URL
 
 const Iceberg = require('iceberg.io')
-const domainsToFilter = ['mediafire','mega','ad.fly']
+const getThisDomains = ['mediafire','mega','ad.fly']
 const conf = {
-	// Iterator: Element that gets you to the next URL to process.
+	// Iterator: Element that gets you to the next URL to process in blogspot
 	iteratorElement: { element: 'a', cssClass: 'blog-pager-older-link' },
-	// Desired data to get extracted from the DOM. Example: Download domains links
-	payload: { element: 'a', attrib: 'href', substrings: domainsToFilter }
+	// Desired data to get extracted from the DOM. Example: Download links
+	payload: { element: 'a', attrib: 'href', substrings: getThisDomains }
 }
-// Max Level Depth to explore
+// Max Level Depth to explore: max blog pages
 const maxLevelDepth = 10
 const crawler = new Iceberg("http://someblog.blogspot.com",conf)
 const results = await crawler.start(maxLevelDepth)
 
 // or load the filter
-
 const Iceberg = require('iceberg')
 const confs = require('./plugins/configurations')
 const conf = confs.services('blogspot')
@@ -54,7 +55,7 @@ const maxLevelDepth = 10
 const crawler = new Iceberg("http://someblog.blogspot.com",conf )
 const results = await crawler.start(maxLevelDepth)
 ```
-- *Crawler mode*:  Explores ALL links from a URL until the depth threshold is reached
+- *Crawler mode*:  Explores ALL links from a URL until the depth threshold is reached. Generates a tree from crawled data. Already explored ways are included only once.
 
 ```c
 const Iceberg = require('iceberg')
