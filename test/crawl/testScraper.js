@@ -24,7 +24,7 @@ describe('Scraper feature tests', () => {
         expect(wholeTree.children[0].children).to.be.a('Array')
         wholeTree.children[0].children.should.have.lengthOf(1)
         wholeTree.children[0].children[0].children.should.have.lengthOf(1)
-        wholeTree.children[0].payload.should.have.lengthOf(7)
+        wholeTree.children[0].selector.should.have.lengthOf(7)
         return 0
       } catch (err) {
         console.error('el err ', err)
@@ -36,7 +36,7 @@ describe('Scraper feature tests', () => {
         assert(should)
         const url = 'http://www.insecam.org/en/byrating/'
         const level = 4
-        let conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 5 }, payload: { element: 'img', attrib: 'src' } }
+        let conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 5 }, selector: { element: 'img', attrib: 'src' } }
 
         const crawl = new Crawler(url)
         await crawl.start(level, conf)
@@ -45,7 +45,7 @@ describe('Scraper feature tests', () => {
         expect(wholeTree.children).to.be.a('Array')
         wholeTree.children.should.have.lengthOf(4)
         expect(wholeTree.children[0].children).to.be.a('Array')
-        wholeTree.children[0].payload.should.have.lengthOf(6)
+        wholeTree.children[0].selector.should.have.lengthOf(6)
         return 0
       } catch (err) {
         console.error('el err ', err)

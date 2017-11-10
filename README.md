@@ -40,7 +40,7 @@ const conf = {
 	// Iterator: Element that gets you to the next URL to process in blogspot
 	iteratorElement: { element: 'a', cssClass: 'blog-pager-older-link' },
 	// Desired data to get extracted from the DOM. Example: Download links
-	payload: { element: 'a', attrib: 'href', substrings: getThisDomains }
+	selector: { element: 'a', attrib: 'href', values: getThisDomains }
 }
 // Max Level Depth to explore: max blog pages
 const maxLevelDepth = 10

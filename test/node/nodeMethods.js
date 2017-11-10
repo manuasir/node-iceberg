@@ -26,7 +26,7 @@ describe('Node method tests', function () {
         father.addChildren(child)
         assert.equal(father.getAllChildren().length, 1)
       })
-      it('should set payload correctly', function () {
+      it('should set selector correctly', function () {
         const father = new Node('father')
         father.setPayload({a: 'href'})
         expect(father.getPayload()).to.be.a('Object')
