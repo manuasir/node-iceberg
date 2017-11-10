@@ -6,7 +6,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/manuasir/nodejs-scraper/badge.svg)](https://snyk.io/test/github/manuasir/nodejs-scraper)
 [![Coverage Status](https://coveralls.io/repos/github/manuasir/nodejs-scraper/badge.svg?branch=develop)](https://coveralls.io/github/manuasir/nodejs-scraper?branch=develop)
 
-## iceberg
+## node-iceberg
 A lightweight Node.js tree-based scraper/crawler. No more callbacks! Just async/await.
 
 ## Installation
