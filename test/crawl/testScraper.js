@@ -1,7 +1,6 @@
 /* global describe it */
 
 'use strict'
-
 const chai = require('chai')
 const expect = chai.expect
 const should = chai.should()
@@ -10,7 +9,7 @@ const confs = require('../../plugins/configurations')
 const assert = require('assert')
 describe('Scraper feature tests', () => {
   describe('testing scraper', () => {
-    it('level 1', async () => {
+    it('Example with website, unknown iteration (getting from inside)', async () => {
       try {
         assert(should)
         const url = 'http://estacion-katowice.blogspot.com'
@@ -26,6 +25,27 @@ describe('Scraper feature tests', () => {
         wholeTree.children[0].children.should.have.lengthOf(1)
         wholeTree.children[0].children[0].children.should.have.lengthOf(1)
         wholeTree.children[0].payload.should.have.lengthOf(7)
+        return 0
+      } catch (err) {
+        console.error('el err ', err)
+        throw err
+      }
+    })
+    it('Example with website, already known iteration (getting from outside)', async () => {
+      try {
+        assert(should)
+        const url = 'http://www.insecam.org/en/byrating/'
+        const level = 4
+        let conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 5 }, payload: { element: 'img', attrib: 'src' } }
+
+        const crawl = new Crawler(url)
+        await crawl.start(level, conf)
+        const wholeTree = crawl.treeToObject()
+        expect(wholeTree).to.be.a('Object')
+        expect(wholeTree.children).to.be.a('Array')
+        wholeTree.children.should.have.lengthOf(4)
+        expect(wholeTree.children[0].children).to.be.a('Array')
+        wholeTree.children[0].payload.should.have.lengthOf(6)
         return 0
       } catch (err) {
         console.error('el err ', err)
