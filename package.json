@@ -1,11 +1,11 @@
 {
-  "name": "iceberg",
+  "name": "node-iceberg",
   "version": "1.0.0",
   "engines": {
     "node": ">=8.7.0"
   },
   "description": "nodejs lightweight scraper/crawler",
-  "main": "./lib/class/iceberg.js",
+  "main": "./index.js",
   "scripts": {
     "test": "mocha test/* test/**/*.js",
     "cover": "istanbul cover _mocha test/*",
@@ -22,14 +22,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/manuasir/iceberg.git"
+    "url": "git+https://github.com/manuasir/node-iceberg.git"
   },
-  "author": "Manuel Jiménez Bernal",
+  "author": "Manuel J. Bernal",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/manuasir/iceberg/issues"
+    "url": "https://github.com/manuasir/node-iceberg/issues"
   },
-  "homepage": "https://github.com/manuasir/iceberg",
+  "homepage": "https://github.com/manuasir/node-iceberg",
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
