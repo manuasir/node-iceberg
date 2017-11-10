@@ -11,17 +11,17 @@ A lightweight Node.js tree-based scraper/crawler. No more callbacks! Just async/
 
 ## Installation
 
-Download and install via [npm package manager](https://www.npmjs.com/package/iceberg.io) (stable):
+Download and install via [npm package manager](https://www.npmjs.com/package/node-iceberg) (stable):
 
 ```
-npm install iceberg.io --save
+npm install node-iceberg --save
 ```
 
 Or clone fresh code directly from git:
 
 ```
-git clone https://github.com/manuasir/iceberg.git
-cd iceberg
+git clone https://github.com/manuasir/node-iceberg.git
+cd node-iceberg
 npm install
 ```
 
@@ -34,7 +34,7 @@ This package allows to get filtered DOM elements from URLs throw custom iterator
 ```c
 // Example: download all links from a Blogspot URL
 
-const Iceberg = require('iceberg.io')
+const Iceberg = require('node-iceberg')
 const getThisDomains = ['mediafire','mega','ad.fly']
 const conf = {
 	// Iterator: Element that gets you to the next URL to process in blogspot
@@ -48,7 +48,7 @@ const crawler = new Iceberg("http://someblog.blogspot.com",conf)
 const results = await crawler.start(maxLevelDepth)
 
 // or load the filter
-const Iceberg = require('iceberg')
+const Iceberg = require('node-iceberg')
 const confs = require('./plugins/configurations')
 const conf = confs.services('blogspot')
 const maxLevelDepth = 10
@@ -58,7 +58,7 @@ const results = await crawler.start(maxLevelDepth)
 - *Crawler mode*:  Explores ALL links from a URL until the depth threshold is reached. Generates a tree from crawled data. Already explored ways are included only once.
 
 ```c
-const Iceberg = require('iceberg')
+const Iceberg = require('node-iceberg')
 const confs = require('./plugins/configurations')
 const crawler = new Iceberg('http://reddit.com')
 const conf = confs.services('crawler')
