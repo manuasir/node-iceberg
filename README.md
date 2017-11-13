@@ -44,17 +44,28 @@ const conf = {
 }
 // Max Level Depth to explore: max blog pages
 const maxLevelDepth = 10
-const crawler = new Iceberg("http://someblog.blogspot.com",conf)
-const results = await crawler.start(maxLevelDepth)
-
-// or load the filter
-const Iceberg = require('node-iceberg')
+const scraper= new Iceberg("http://someblog.blogspot.com")
+const results = await crawler.start(maxLevelDepth,conf)
+// or load a filter:
 const confs = require('./plugins/configurations')
 const conf = confs.services('blogspot')
 const maxLevelDepth = 10
-const crawler = new Iceberg("http://someblog.blogspot.com",conf )
-const results = await crawler.start(maxLevelDepth)
+const scraper= new Iceberg("http://someblog.blogspot.com")
+const results = await crawler.start(maxLevelDepth,conf)
 ```
+Some websites are allowed to paginate directly from the URL using parameters. Ej: http://url?page=1,2,3...
+In that case use it like this, passing only the conf and setting max page in that object:
+
+```c
+// Example: get insecure cameras: insecam.org
+const Iceberg = require('node-iceberg')
+const conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 5 }, selector: { element: 'img', attrib: 'src' } }
+
+const scraper = new Iceberg("http://insecam.org")
+const results = await crawler.start(conf)
+```
+
+
 - *Crawler mode*:  Explores ALL links from a URL until the depth threshold is reached. Generates a tree from crawled data. Already explored ways are included only once.
 
 ```c
