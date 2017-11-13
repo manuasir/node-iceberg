@@ -35,11 +35,10 @@ describe('Scraper feature tests', () => {
       try {
         assert(should)
         const url = 'http://www.insecam.org/en/byrating/'
-        const level = 4
         let conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 5 }, selector: { element: 'img', attrib: 'src' } }
 
         const crawl = new Crawler(url)
-        await crawl.start(level, conf)
+        await crawl.start(conf)
         const wholeTree = crawl.treeToObject()
         expect(wholeTree).to.be.a('Object')
         expect(wholeTree.children).to.be.a('Array')

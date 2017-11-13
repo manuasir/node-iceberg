@@ -2,4 +2,4 @@
  * Export cheerio (with )
  */
 
-exports = module.exports = require('./lib/classes/iceberg');
+exports = module.exports = require('./lib/classes/iceberg')
