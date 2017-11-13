@@ -5,7 +5,7 @@ build_environment: Ubuntu 16.04
 language: node_js
 # version numbers, testing against two versions of node
 node_js:
- - "8.7.0"
+ - "8.9.1"
 
 # npm install runs by default but shown here for illustrative purposes
 before_install:
