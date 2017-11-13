@@ -4,7 +4,7 @@
 [![Code-Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com/)
 [![Dependency Status](https://gemnasium.com/badges/github.com/manuasir/node-iceberg.svg)](https://gemnasium.com/github.com/manuasir/node-iceberg)
 [![Known Vulnerabilities](https://snyk.io/test/github/manuasir/node-iceberg/badge.svg)](https://snyk.io/test/github/manuasir/node-iceberg)
-[![Coverage Status](https://coveralls.io/repos/github/manuasir/node-iceberg/badge.svg?branch=develop)](https://coveralls.io/github/manuasir/node-iceberg?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/manuasir/node-iceberg/badge.svg?branch=master)](https://coveralls.io/github/manuasir/node-iceberg?branch=master)
 
 ## node-iceberg
 A lightweight Node.js tree-based scraper/crawler. No more callbacks! Just async/await.
