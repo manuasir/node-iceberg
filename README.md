@@ -27,13 +27,12 @@ npm install
 
 ## Usage
 
-This package allows to get filtered DOM elements from URLs throw custom iterators, and it works mainly in two ways:
+This package allows to get filtered DOM elements from URLs throw customized iterators, and it works mainly in two ways:
 
-- *Scraper mode*:  Get elements with a filter.
+- *Scraper mode*:  Get elements using customized selectors.
 
 ```c
-// Example: download all links from a Blogspot URL
-
+// Example: download all links from a Blogspot URL. Use inside an 'async' function
 const Iceberg = require('node-iceberg')
 const getThisDomains = ['mediafire','mega','ad.fly']
 const conf = {
@@ -45,41 +44,39 @@ const conf = {
 // Max Level Depth to explore: max blog pages
 const maxLevelDepth = 10
 const scraper= new Iceberg("http://someblog.blogspot.com")
-const results = await crawler.start(maxLevelDepth,conf)
+const results = await scraper.start(maxLevelDepth,conf)
 // or load a filter:
 const confs = require('./plugins/configurations')
 const conf = confs.services('blogspot')
 const maxLevelDepth = 10
 const scraper= new Iceberg("http://someblog.blogspot.com")
-const results = await crawler.start(maxLevelDepth,conf)
+const results = await scraper.start(maxLevelDepth,conf)
 ```
 Some websites are allowed to paginate directly from the URL using parameters. Ej: http://url?page=1,2,3...
-In that case use it like this, passing only the conf and setting max page in that object:
+In that case, use it like this: pass only the configuration object and set max page within it:
 
 ```c
 // Example: get insecure cameras: insecam.org
 const Iceberg = require('node-iceberg')
 const conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 5 }, selector: { element: 'img', attrib: 'src' } }
 const scraper = new Iceberg("http://insecam.org")
-const results = await scraper.start(conf)
+const results = scraper.start(conf).then((results) => { console.log(results) }).catch((err)=>{ throw err })
 ```
-
 
 - *Crawler mode*:  Explores ALL links from a URL until the depth threshold is reached. Generates a tree from crawled data. Already explored ways are included only once.
 
 ```c
+// Warning! this can become very costful task
 const Iceberg = require('node-iceberg')
 const confs = require('./plugins/configurations')
 const crawler = new Iceberg('http://reddit.com')
 const conf = confs.services('crawler')
 const maxLevelDepth = 2
-crawler.start(maxLevelDepth,conf)
+const results = crawler.start(maxLevelDepth,conf)then((results) => { console.log(results) }).catch((err)=>{ throw err })
 ```
 ## Test
-If you downloaded this package from NPM, it's already testes.
+If you downloaded this package from NPM, it's already tested.
 Otherwise you can test it like this:
-
-
 ```c
 npm test
 ```
