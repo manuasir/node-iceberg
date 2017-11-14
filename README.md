@@ -60,9 +60,8 @@ In that case use it like this, passing only the conf and setting max page in tha
 // Example: get insecure cameras: insecam.org
 const Iceberg = require('node-iceberg')
 const conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 5 }, selector: { element: 'img', attrib: 'src' } }
-
 const scraper = new Iceberg("http://insecam.org")
-const results = await crawler.start(conf)
+const results = await scraper.start(conf)
 ```
 
 

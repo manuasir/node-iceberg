@@ -4,7 +4,7 @@
 const chai = require('chai')
 const expect = chai.expect
 const should = chai.should()
-const Crawler = require('../../lib/classes/iceberg')
+const scraperer = require('../../lib/classes/iceberg')
 const confs = require('../../plugins/configurations')
 const assert = require('assert')
 describe('Scraper feature tests', () => {
@@ -15,9 +15,9 @@ describe('Scraper feature tests', () => {
         const url = 'http://estacion-katowice.blogspot.com'
         const level = 4
         let conf = confs.services('blogspot')
-        const crawl = new Crawler(url)
-        await crawl.start(level, conf)
-        const wholeTree = crawl.treeToObject()
+        const scraper = new scraperer(url)
+        await scraper.start(level, conf)
+        const wholeTree = scraper.treeToObject()
         expect(wholeTree).to.be.a('Object')
         expect(wholeTree.children).to.be.a('Array')
         wholeTree.children.should.have.lengthOf(1)
@@ -37,9 +37,8 @@ describe('Scraper feature tests', () => {
         const url = 'http://www.insecam.org/en/byrating/'
         let conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 5 }, selector: { element: 'img', attrib: 'src' } }
 
-        const crawl = new Crawler(url)
-        await crawl.start(conf)
-        const wholeTree = crawl.treeToObject()
+        const scraper = new scraperer(url)
+        const wholeTree = await scraper.start(conf)
         expect(wholeTree).to.be.a('Object')
         expect(wholeTree.children).to.be.a('Array')
         wholeTree.children.should.have.lengthOf(4)
@@ -50,6 +49,21 @@ describe('Scraper feature tests', () => {
         console.error('el err ', err)
         throw err
       }
+    })
+    it('No need to IIFE, trying to then() and catch() )', (done) => {
+      const url = 'http://www.insecam.org/en/byrating/'
+      let conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 2 }, selector: { element: 'img', attrib: 'src' } }
+      const scraper = new scraperer(url)
+      scraper.start(conf).then((json)=>{
+        console.log(json)
+        const wholeTree = json
+        expect(wholeTree).to.be.a('Object')
+        expect(wholeTree.children).to.be.a('Array')
+        wholeTree.children.should.have.lengthOf(1)
+        expect(wholeTree.children[0].children).to.be.a('Array')
+        wholeTree.children[0].selector.should.have.lengthOf(6)
+        done()
+      }).catch((err) => {done(err)})
     })
   })
 })
