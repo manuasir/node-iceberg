@@ -13,7 +13,7 @@ chai.use(chaiHttp)
  * @return {Promise}
  */
 const callRoute = async (route, header, body) => {
-  return new Promise( (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     header = header || {}
     if (!body) {
       // console.log("GET REQUEST!",header);
