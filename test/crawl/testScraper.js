@@ -55,13 +55,27 @@ describe('Scraper feature tests', () => {
       let conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 2 }, selector: { element: 'img', attrib: 'src' } }
       const scraper = new Iceberg(url)
       scraper.start(conf).then((json) => {
-        console.log(json)
-        const wholeTree = json
-        expect(wholeTree).to.be.a('Object')
-        expect(wholeTree.children).to.be.a('Array')
-        wholeTree.children.should.have.lengthOf(1)
-        expect(wholeTree.children[0].children).to.be.a('Array')
-        wholeTree.children[0].selector.should.have.lengthOf(6)
+        expect(json).to.be.a('Object')
+        expect(json.children).to.be.a('Array')
+        json.children.should.have.lengthOf(1)
+        expect(json.children[0].children).to.be.a('Array')
+        json.children[0].selector.should.have.lengthOf(6)
+        done()
+      }).catch((err) => { done(err) })
+    })
+    it('Ensuring the results', (done) => {
+      const url = 'http://www.insecam.org/en/byrating/'
+      let conf = { iteratorElement: { url: url, iterator: '?page=', maxPage: 4 }, selector: { element: 'img', attrib: 'src' } }
+      const scraper = new Iceberg(url)
+      scraper.start(conf).then((json) => {
+        expect(json).to.be.a('Object')
+        expect(json.children).to.be.a('Array')
+        json.children.should.have.lengthOf(3)
+        expect(json.children[0].children).to.be.a('Array')
+       // json.selector.should.have.lengthOf(6)
+        for (let i = 0; i < conf.iteratorElement.maxPage - 1; i++) {
+          json.children[i].selector.should.have.lengthOf(6)
+        }
         done()
       }).catch((err) => { done(err) })
     })
