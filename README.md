@@ -1,4 +1,6 @@
 
+[![NPM](https://nodei.co/npm/node-iceberg.png)](https://nodei.co/npm/node-iceberg/)
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ac81eec87f874af4a205ce76fdab981c)](https://www.codacy.com/app/manuasir/node-iceberg?utm_source=github.com&utm_medium=referral&utm_content=manuasir/node-iceberg&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/manuasir/node-iceberg.svg?branch=master)](https://travis-ci.org/manuasir/node-iceberg)
 [![Code-Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com/)
