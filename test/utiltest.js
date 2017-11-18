@@ -20,7 +20,7 @@ const callRoute = async (route, header, body) => {
       chai.request('http://localhost:8081')
         .get(route)
         .set(header)
-        .end(function (err, res) {
+        .end((err, res) => {
           if (err) reject(err)
           resolve(res)
         })

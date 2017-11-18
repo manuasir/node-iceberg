@@ -126,14 +126,14 @@ describe('crawler feature tests', () => {
         throw err
       }
     })
-    describe('Testing filter', function () {
-      describe('Create filter', function () {
-        it('filter should be loaded', function () {
+    describe('Testing filter', () => {
+      describe('Create filter', () => {
+        it('filter should be loaded', () => {
           assert(Filter)
         })
       })
-      describe('Load new filter instance', function () {
-        it('should create filter correctly', async function () {
+      describe('Load new filter instance', () => {
+        it('should create filter correctly', async () => {
           try {
             const crawl = new Iceberg()
             const DOM = await crawl.getDocumentData('http://localhost:8081/index.html')
@@ -144,8 +144,8 @@ describe('crawler feature tests', () => {
           }
         })
       })
-      describe('Load new filter instance', function () {
-        it('should create filter correctly', async function () {
+      describe('Load new filter instance', () => {
+        it('should create filter correctly', async () => {
           try {
             const crawl = new Iceberg()
             const DOM = await crawl.getDocumentData('http://localhost:8081/index.html')

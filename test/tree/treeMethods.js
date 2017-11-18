@@ -6,35 +6,35 @@ const Tree = require('../../lib/classes/tree.js')
 const chai = require('chai')
 const expect = chai.expect
 
-describe('Tree method tests', function () {
-  describe('Tree', function () {
-    describe('Load', function () {
-      it('tree should be loaded', function () {
+describe('Tree method tests', () => {
+  describe('Tree', () => {
+    describe('Load', () => {
+      it('tree should be loaded', () => {
         assert(Tree)
       })
     })
-    describe('Create', function () {
-      it('should create tree correctly', function () {
+    describe('Create', () => {
+      it('should create tree correctly', () => {
         assert(new Tree('OK'))
       })
     })
-    describe('Tree methods', function () {
-      it('Create new Node', function () {
+    describe('Tree methods', () => {
+      it('Create new Node', () => {
         expect(Tree.createNode('newURL')).to.be.a('Object')
       })
-      it('should get Root data correctly', function () {
+      it('should get Root data correctly', () => {
         const tree = new Tree('OK')
         assert.equal(tree.getRoot().getData(), 'OK')
       })
-      it('should get Root Object', function () {
+      it('should get Root Object', () => {
         const tree = new Tree('OK')
         expect(tree.getRoot()).to.be.a('Object')
       })
-      it('should get Root Data', function () {
+      it('should get Root Data', () => {
         const tree = new Tree('OK')
         expect(Tree.getNodeData(tree.getRoot())).to.be.a('String')
       })
-      it('should add children to any node in the tree', function () {
+      it('should add children to any node in the tree', () => {
         const tree = new Tree('OK')
         const firstAmountOfChildren = tree.getRoot().getAllChildren().length
         expect(firstAmountOfChildren).equal(0)
