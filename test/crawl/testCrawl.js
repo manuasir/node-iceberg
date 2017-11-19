@@ -169,36 +169,33 @@ describe('crawler feature tests', () => {
       }
     })
   })
-  describe('Crawling a site level 1', () => {
-    it('should create filter correctly', async () => {
+  describe('Crawling a site level ', () => {
+    it('level 1', async () => {
       try {
         const crawl = new Iceberg('http://github.com/manuasir')
         let conf = confs.services('crawler')
         await crawl.start(1, conf)
         const wholeTree = crawl.treeToObject()
-        // testServer.closeServer()
         expect(wholeTree.children).to.be.a('Array')
-        wholeTree.children.should.have.lengthOf(51)
+        wholeTree.children.should.have.lengthOf(50)
         return 0
       } catch (err) {
         throw err
       }
     })
   })
-  describe('Crawling a site level 2', () => {
-    it('should create filter correctly', async () => {
-      try {
-        const crawl = new Iceberg('http://github.com/manuasir')
-        let conf = confs.services('crawler')
-        await crawl.start(2, conf)
-        const wholeTree = crawl.treeToObject()
-        expect(wholeTree.children).to.be.a('Array')
-        wholeTree.children.should.have.lengthOf(7)
-        // console.log(wholeTree.children)
-        return 0
-      } catch (err) {
-        throw err
-      }
-    })
+  it('level 2', async () => {
+    try {
+      const crawl = new Iceberg('http://github.com/manuasir')
+      let conf = confs.services('crawler')
+      await crawl.start(2, conf)
+      const wholeTree = crawl.treeToObject()
+      expect(wholeTree.children).to.be.a('Array')
+      wholeTree.children.should.have.lengthOf(50)
+      // wholeTree.children[0].children.should.have.lengthOf(50)
+      return 0
+    } catch (err) {
+      throw err
+    }
   })
 })

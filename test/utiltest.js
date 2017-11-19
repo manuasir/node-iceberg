@@ -24,7 +24,6 @@ const callRoute = async (route, header, body) => {
           resolve(res)
         })
     } else {
-      // console.log("POST REQUEST!");
       chai.request('http://localhost:8081')
         .post(route)
         .set(header)
