@@ -162,11 +162,42 @@ describe('crawler feature tests', () => {
     it(' successful closed server :)', async () => {
       try {
         testServer.closeServer()
-        console.log('closed server')
         await getChaiHttp('/index.html')
         return 0
       } catch (err) {
         expect(err.code).to.equal('ECONNREFUSED')
+      }
+    })
+  })
+  describe('Crawling a site level 1', () => {
+    it('should create filter correctly', async () => {
+      try {
+        const crawl = new Iceberg('http://github.com/manuasir')
+        let conf = confs.services('crawler')
+        await crawl.start(1, conf)
+        const wholeTree = crawl.treeToObject()
+        // testServer.closeServer()
+        expect(wholeTree.children).to.be.a('Array')
+        wholeTree.children.should.have.lengthOf(51)
+        return 0
+      } catch (err) {
+        throw err
+      }
+    })
+  })
+  describe('Crawling a site level 2', () => {
+    it('should create filter correctly', async () => {
+      try {
+        const crawl = new Iceberg('http://github.com/manuasir')
+        let conf = confs.services('crawler')
+        await crawl.start(1, conf)
+        const wholeTree = crawl.treeToObject()
+        // testServer.closeServer()
+        expect(wholeTree.children).to.be.a('Array')
+        wholeTree.children.should.have.lengthOf(50)
+        return 0
+      } catch (err) {
+        throw err
       }
     })
   })

@@ -13,9 +13,15 @@ describe('testing functions', () => {
     done()
   })
   it(' returns a url starting with http://', (done) => {
-    const validUrl = utils.validUrl('www.localhost.es')
+    const validUrl = utils.validUrl('www.localhost.es', 'www.localhost.es')
     expect(validUrl).to.be.a('string')
     assert.equal(validUrl, 'http://www.localhost.es')
+    done()
+  })
+  it(' returns a url starting with /', (done) => {
+    const validUrl = utils.validUrl('/pricing', 'www.localhost.es')
+    expect(validUrl).to.be.a('string')
+    assert.equal(validUrl, 'http://www.localhost.es/pricing')
     done()
   })
 })

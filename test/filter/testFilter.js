@@ -28,7 +28,6 @@ describe('testing functions', () => {
       expect(pay).to.be.a('array')
       pay.should.have.lengthOf(7)
       let theHrefs = filter.getFilteredHrefsWithAttribs(conf.iteratorElement)
-      console.log(theHrefs)
       expect(theHrefs).to.be.a('object')
     } catch (err) {
       throw err
