@@ -13,6 +13,7 @@ const confs = require('../../plugins/configurations')
 describe('testing functions', () => {
   it('load module', (done) => {
     assert(Filter)
+    assert(should)
     done()
   })
   it(' filtering payload', async () => {
