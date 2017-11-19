@@ -36,7 +36,7 @@ This package allows to get filtered DOM elements from URLs throw customized iter
 ```c
 // Example: download all links from a Blogspot URL. Use inside an 'async' function
 const Iceberg = require('node-iceberg')
-const getThisDomains = ['mediafire','mega','ad.fly']
+const getThisDomains = ['mediafire','mega','adf.ly']
 const conf = {
 	// Iterator: Element that gets you to the next URL to process in blogspot
 	iteratorElement: { element: 'a', cssClass: 'blog-pager-older-link' },

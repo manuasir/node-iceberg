@@ -3,6 +3,7 @@
 'use strict'
 
 const chai = require('chai')
+const should = chai.should()
 const expect = chai.expect
 const Filter = require('../../lib/classes/filter')
 const assert = require('assert')
@@ -21,10 +22,14 @@ describe('testing functions', () => {
 
       let DOM = await scraper.getDocumentData('https://estacion-katowice.blogspot.com')
       const filter = new Filter(DOM)
+      assert(filter)
       expect(filter).to.be.a('object')
       let pay = filter.getElementsByFilter(conf.selector)
       expect(pay).to.be.a('array')
-      expect(filter.getFilteredHrefsWithAttribs(conf.iteratorElement)).to.be.a('object')
+      pay.should.have.lengthOf(7)
+      let theHrefs = filter.getFilteredHrefsWithAttribs(conf.iteratorElement)
+      console.log(theHrefs)
+      expect(theHrefs).to.be.a('object')
     } catch (err) {
       throw err
     }
@@ -39,6 +44,7 @@ describe('testing functions', () => {
       expect(filter).to.be.a('object')
       let pay = filter.getElementsByFilter()
       expect(pay).to.be.a('array')
+      expect(filter.getFilteredHrefsWithAttribs(conf.iteratorElement)).to.be.a('object')
       expect(filter.getFilteredHrefsWithAttribs(conf.iteratorElement)).to.be.a('object')
     } catch (err) {
       throw err
