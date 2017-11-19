@@ -178,7 +178,7 @@ describe('crawler feature tests', () => {
         const wholeTree = crawl.treeToObject()
         // testServer.closeServer()
         expect(wholeTree.children).to.be.a('Array')
-        wholeTree.children.should.have.lengthOf(51)
+        wholeTree.children.should.have.lengthOf(7)
         return 0
       } catch (err) {
         throw err
@@ -190,11 +190,11 @@ describe('crawler feature tests', () => {
       try {
         const crawl = new Iceberg('http://github.com/manuasir')
         let conf = confs.services('crawler')
-        await crawl.start(1, conf)
+        await crawl.start(2, conf)
         const wholeTree = crawl.treeToObject()
         // testServer.closeServer()
         expect(wholeTree.children).to.be.a('Array')
-        wholeTree.children.should.have.lengthOf(50)
+        wholeTree.children.should.have.lengthOf(51)
         return 0
       } catch (err) {
         throw err

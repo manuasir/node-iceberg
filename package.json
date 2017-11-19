@@ -7,7 +7,7 @@
   "description": "nodejs lightweight scraper/crawler",
   "main": "./index.js",
   "scripts": {
-    "test": "mocha test/* test/**/*.js",
+    "test": "mocha --timeout 5000000 test/* test/**/*.js",
     "cover": "istanbul cover _mocha test/**/*.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
