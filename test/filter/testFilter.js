@@ -29,4 +29,19 @@ describe('testing functions', () => {
       throw err
     }
   })
+  it('passing no filter', async () => {
+    try {
+      const scraper = new Iceberg('https://estacion-katowice.blogspot.com')
+      let conf = confs.services('blogspot')
+
+      let DOM = await scraper.getDocumentData('https://estacion-katowice.blogspot.com')
+      const filter = new Filter(DOM)
+      expect(filter).to.be.a('object')
+      let pay = filter.getElementsByFilter()
+      expect(pay).to.be.a('array')
+      expect(filter.getFilteredHrefsWithAttribs(conf.iteratorElement)).to.be.a('object')
+    } catch (err) {
+      throw err
+    }
+  })
 })
