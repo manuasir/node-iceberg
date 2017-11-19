@@ -42,6 +42,21 @@ describe('Tree method tests', () => {
         const secAmountOfChildren = tree.getRoot().getAllChildren().length
         expect(secAmountOfChildren).equal(1)
       })
+      it('should not add duplicate entries', () => {
+        const tree = new Tree('1')
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('12'))
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('13'))
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('14'))
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('14'))
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('14'))
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('14'))
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('12'))
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('12'))
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('13'))
+        tree.addChildrenToNode(tree.getRoot(), Tree.createNode('15'))
+        const secAmountOfChildren = tree.getRoot().getAllChildren().length
+        expect(secAmountOfChildren).equal(4)
+      })
     })
   })
 })
