@@ -194,7 +194,7 @@ describe('crawler feature tests', () => {
         const wholeTree = crawl.treeToObject()
         expect(wholeTree.children).to.be.a('Array')
         wholeTree.children.should.have.lengthOf(7)
-        //console.log(wholeTree.children)
+        // console.log(wholeTree.children)
         return 0
       } catch (err) {
         throw err
