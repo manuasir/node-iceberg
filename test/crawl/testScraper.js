@@ -26,6 +26,8 @@ describe('Scraper feature tests', () => {
         wholeTree.children[0].children.should.have.lengthOf(1)
         wholeTree.children[0].children[0].children.should.have.lengthOf(1)
         wholeTree.children[0].selector.should.have.lengthOf(7)
+        expect(scraper.getNodeAmount()).equal(5)
+        expect(scraper.getDataAmount()).equal(27)
 
         return 0
       } catch (err) {

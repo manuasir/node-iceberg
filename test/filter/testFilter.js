@@ -10,7 +10,7 @@ const assert = require('assert')
 const Iceberg = require('../../lib/classes/iceberg')
 const confs = require('../../plugins/configurations')
 
-describe('testing functions', () => {
+describe('testing Filter class', () => {
   it('load module', (done) => {
     assert(Filter)
     assert(should)
@@ -44,7 +44,6 @@ describe('testing functions', () => {
       expect(filter).to.be.a('object')
       let pay = filter.getElementsByFilter()
       expect(pay).to.be.a('array')
-      expect(filter.getFilteredHrefsWithAttribs(conf.iteratorElement)).to.be.a('object')
       expect(filter.getFilteredHrefsWithAttribs(conf.iteratorElement)).to.be.a('object')
     } catch (err) {
       throw err

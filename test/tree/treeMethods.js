@@ -68,6 +68,7 @@ describe('Tree method tests', () => {
         expect(secAmountOfChildren).equal(3)
         const secAmountOfFirstChildsChildren = tree.getRoot().getAllChildren()[0].getAllChildren().length
         expect(secAmountOfFirstChildsChildren).equal(1)
+        expect(tree.getNodeAmount()).equal(5)
       })
     })
   })
