@@ -20,15 +20,14 @@ describe('Scraper feature tests', () => {
         const wholeTree = scraper.treeToObject()
         expect(wholeTree).to.be.a('Object')
         expect(wholeTree.children).to.be.a('Array')
-
         wholeTree.children.should.have.lengthOf(1)
         expect(wholeTree.children[0].children).to.be.a('Array')
+        console.log(wholeTree.children[0].children)
         wholeTree.children[0].children.should.have.lengthOf(1)
         wholeTree.children[0].children[0].children.should.have.lengthOf(1)
         wholeTree.children[0].selector.should.have.lengthOf(7)
         expect(scraper.getNodeAmount()).equal(5)
         expect(scraper.getDataAmount()).equal(27)
-
         return 0
       } catch (err) {
         console.error('el err ', err)
