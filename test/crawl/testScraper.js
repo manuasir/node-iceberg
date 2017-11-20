@@ -9,15 +9,14 @@ const confs = require('../../plugins/configurations')
 const assert = require('assert')
 describe('Scraper feature tests', () => {
   describe('testing scraper', () => {
-
+    /*
     it('Example with website, unknown iteration (getting from inside)', async () => {
       try {
         assert(should)
         const url = 'http://estacion-katowice.blogspot.com'
         const level = 4
+        let conf = confs.services('blogspot')
         const scraper = new Iceberg(url)
-        let conf = scraper.service('blogspot')
-
         await scraper.start(level, conf)
         const wholeTree = scraper.treeToObject()
         expect(wholeTree).to.be.a('Object')
@@ -36,7 +35,7 @@ describe('Scraper feature tests', () => {
         throw err
       }
     })
-
+    */
     it('Example with website, already known iteration (getting from outside)', async () => {
       try {
         assert(should)
