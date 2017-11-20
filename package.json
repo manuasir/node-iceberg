@@ -1,6 +1,6 @@
 {
   "name": "node-iceberg",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "engines": {
     "node": ">=8.9.1"
   },
