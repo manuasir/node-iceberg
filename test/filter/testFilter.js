@@ -27,7 +27,7 @@ describe('testing Filter class', () => {
       expect(filter).to.be.a('object')
       let pay = filter.getElementsByFilter(conf.selector)
       expect(pay).to.be.a('array')
-      pay.should.have.lengthOf(7)
+      pay.should.have.lengthOf(3)
       let theHrefs = filter.getFilteredHrefsWithAttribs(conf.iteratorElement)
       expect(theHrefs).to.be.a('object')
     } catch (err) {

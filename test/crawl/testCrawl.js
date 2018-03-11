@@ -177,7 +177,7 @@ describe('crawler feature tests', () => {
         await crawl.start(1, conf)
         const wholeTree = crawl.treeToObject()
         expect(wholeTree.children).to.be.a('Array')
-        wholeTree.children.should.have.lengthOf(50)
+        wholeTree.children.should.have.lengthOf(53)
         return 0
       } catch (err) {
         throw err
@@ -191,7 +191,7 @@ describe('crawler feature tests', () => {
       await crawl.start(2, conf)
       const wholeTree = crawl.treeToObject()
       expect(wholeTree.children).to.be.a('Array')
-      wholeTree.children.should.have.lengthOf(50)
+      wholeTree.children.should.have.lengthOf(53)
       // wholeTree.children[0].children.should.have.lengthOf(50)
       return 0
     } catch (err) {
