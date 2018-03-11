@@ -1,6 +1,6 @@
 'use strict'
 
-const domainsToFilter = ['adf', 'paypal', 'mediafire', 'dropbox', 'box']
+const domainsToFilter = ['adf', 'paypal', 'mediafire', 'dropbox', 'box', 'yamechanic', 'microify']
 
 /**
  * Class Configuration: Default Configuration Sheets for filtering content.
