@@ -15,7 +15,7 @@
     "cheerio": "1.0.0-rc.2",
     "colors": "^1.2.0",
     "lodash": "^4.17.5",
-    "request": "^2.83.0"
+    "request": "^2.84.0"
   },
   "directories": {
     "test": "test"
