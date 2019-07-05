@@ -9,13 +9,16 @@
   "scripts": {
     "test": "mocha --timeout 5000000 test/* test/**/*.js",
     "cover": "istanbul cover _mocha test/**/*.js",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "cheerio": "1.0.0-rc.2",
     "colors": "^1.2.0",
     "lodash": "^4.17.11",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "snyk": "^1.192.0"
   },
   "directories": {
     "test": "test"
@@ -49,5 +52,6 @@
     "es8",
     "data-mining",
     "data"
-  ]
+  ],
+  "snyk": true
 }
